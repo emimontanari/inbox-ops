@@ -2,7 +2,7 @@
 
 AI-assisted support inbox for an online store. For each customer request it suggests a category, a short summary and the data that is missing; a person accepts or corrects the suggestion. It never sends emails or changes orders.
 
-> Status: step 6 of 7 — review inbox (domain, API, ticket list and review panel done; request import and metrics next). See the roadmap at the end of this file.
+> Status: step 6 of 7 done — review inbox. Next: architecture notes and demo. See the roadmap at the end of this file.
 
 ## Quick start
 
@@ -16,13 +16,14 @@ npm run eval    # scores the real model on the dev split
 npm run serve   # HTTP API on http://127.0.0.1:3000
 ```
 
-Web app, in a second terminal while `npm run serve` is running:
+Full app (API and web inbox on one port):
 
 ```bash
-cd web
-npm install
-npm run dev     # http://localhost:5173, proxies /api to the API
+npm --prefix web install
+npm run demo    # builds web/ and serves everything on http://127.0.0.1:3000
 ```
+
+For frontend work with hot reload, run `npm run serve` and, in a second terminal, `npm --prefix web run dev` (http://localhost:5173, proxies `/api` to the API).
 
 ## Configuration
 
@@ -45,7 +46,9 @@ npm run dev     # http://localhost:5173, proxies /api to the API
 | Script | What it does |
 |---|---|
 | `npm run triage -- "<text>"` | Triages one request with the real model and prints the result as JSON; exits 1 on error |
-| `npm run serve` | Starts the HTTP API with SQLite storage and the Groq classifier |
+| `npm run serve` | Starts the HTTP API with SQLite storage and the Groq classifier; also serves `web/dist` when it exists |
+| `npm run build:web` | Builds the web app into `web/dist` |
+| `npm run demo` | `build:web`, then `serve`: the whole app on one port |
 | `npm run eval -- [--split=dev\|holdout\|all]` | Runs the real pipeline over the labeled dataset, prints the report and saves it to `eval/results/`; default split is `dev` |
 | `npm run typecheck` | Type-checks sources and tests without emitting files |
 | `npm test` | Runs the test suite once with Vitest |
@@ -132,13 +135,16 @@ The triage use case:
 - **Typed API client.** `web/src/api.ts` only calls paths under `/api/`, enforced by its type and at runtime, and turns error responses into an `ApiError` with the HTTP status and the API's error code.
 - **Injected client.** `App` receives the API client as a prop, so component tests run without a server.
 - **Review panel.** Shows the customer message next to the model's suggestion. A person accepts it, corrects category, order number and return reason, or triages manually when the model failed. While correcting, the panel previews the missing data with `findMissingFields`, the same pure domain function the server uses, so the preview cannot drift from the saved result.
+- **Adding requests.** Type one message, or import a CSV with a `body` column and an optional `id` column. A small RFC 4180 parser keeps commas, quotes and line breaks inside messages. Files over 200 rows are sent in batches of 200, the API limit; rejected rows are listed with their reason.
+- **Triage on demand.** "Run triage" classifies new tickets and "Retry failed" retries the failed ones. Triage never runs on page load because it spends provider tokens.
+- **Review stats.** Acceptance rate, suggestions accepted and corrected, and manual triage, computed by `summarizeReviews` in the domain. The acceptance rate is accepted / (accepted + corrected): manual triage is left out because the model gave no suggestion to accept.
 - **Server as source of truth.** After a review the UI replaces the ticket with the one the API returned, and API errors (for example a ticket already reviewed) are shown without changing the ticket.
 
 | Script, inside `web/` | What it does |
 |---|---|
 | `npm run dev` | Vite dev server; `/api` is proxied to `http://127.0.0.1:3000` |
+| `npm run build` | Production build in `web/dist/`, served by `npm run serve` |
 | `npm run check` | Typecheck and tests (Vitest with jsdom and Testing Library) |
-| `npm run build` | Production build in `web/dist/` |
 
 The UI copy is in English; ticket summaries stay in Spanish because the support team reads Spanish.
 
@@ -153,6 +159,8 @@ All bodies are JSON. Input shapes are validated at the boundary (`400 invalid_bo
 | `POST /api/triage` | optional `{ retryFailed: true }` | `200 { triaged, failed }` | `400 invalid_body` |
 | `POST /api/tickets/:id/accept` | — | `200 { ticket }` | `404 not_found`, `409 not_reviewable` |
 | `POST /api/tickets/:id/correct` | `{ category, extracted: { orderNumber?, returnReason? } }` | `200 { ticket }` | `400 invalid_body` or `invalid_category`, `404 not_found`, `409 not_reviewable` |
+
+When `web/dist` exists the same server serves the web app; other non-API paths fall back to `index.html`. An unknown `/api/...` path always answers `404 { error: "not_found" }` in JSON, never the app's HTML.
 
 Other protections: request bodies over 1 MB are rejected, unexpected errors return `500 { error: "internal_error" }` without internal details, and blank `extracted` fields count as not provided.
 
@@ -215,5 +223,5 @@ What the results files show:
 3. Triage use case behind a classifier port, tested with a fake — done
 4. AI SDK adapter with structured output — done
 5. Labeled dataset and evaluation (errors, latency, cost) — done
-6. Review inbox: accept or correct suggestions — in progress (domain, API, ticket list and review panel done)
+6. Review inbox: accept or correct suggestions — done
 7. Architecture notes, decisions and demo

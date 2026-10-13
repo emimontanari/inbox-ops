@@ -11,6 +11,8 @@
     "triage": "tsx --env-file-if-exists=.env src/main.ts",
     "eval": "tsx --env-file-if-exists=.env src/evaluation/run-eval.ts",
     "serve": "tsx --env-file-if-exists=.env src/server.ts",
+    "build:web": "npm --prefix web run build",
+    "demo": "npm run build:web && npm run serve",
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

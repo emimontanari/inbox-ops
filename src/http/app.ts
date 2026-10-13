@@ -1,3 +1,4 @@
+import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono, type Context } from "hono";
 import { bodyLimit } from "hono/body-limit";
 import { z } from "zod";
@@ -37,6 +38,8 @@ export function createApp(deps: {
   inbox: Inbox;
   generateId: () => string;
   logError?: (error: unknown) => void;
+  // Folder with the built web app (web/dist). Without it only the API is served.
+  webRoot?: string;
 }): Hono {
   const { inbox } = deps;
   const app = new Hono();
@@ -83,6 +86,15 @@ export function createApp(deps: {
       ? c.json({ ticket: result.value })
       : c.json({ error: result.error }, REVIEW_ERROR_STATUS[result.error]);
   });
+
+  // A mistyped API path must fail as an API error, never return the web app's HTML.
+  app.all("/api/*", (c) => c.json({ error: "not_found" }, 404));
+
+  if (deps.webRoot !== undefined) {
+    app.use("/*", serveStatic({ root: deps.webRoot }));
+    // Single-page app: unknown non-API paths load index.html and the client decides what to show.
+    app.get("*", serveStatic({ root: deps.webRoot, path: "index.html" }));
+  }
 
   return app;
 }

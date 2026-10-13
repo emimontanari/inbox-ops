@@ -1,8 +1,9 @@
-// Composition root for the web inbox: SQLite storage, Groq classifier and the HTTP API.
-// Usage: npm run serve
-import { mkdirSync } from "node:fs";
-import { dirname } from "node:path";
+// Composition root for the web inbox: SQLite storage, Groq classifier, HTTP API and the built web app.
+// Usage: npm run serve (API only until the web app is built), or npm run demo (builds it first)
+import { existsSync, mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { randomUUID } from "node:crypto";
+import { fileURLToPath } from "node:url";
 import { serve } from "@hono/node-server";
 import { createAiSdkClassifier } from "./adapters/ai-sdk-classifier.js";
 import { createGroqModelFromEnv } from "./adapters/groq-model.js";
@@ -16,6 +17,7 @@ const DEFAULT_PORT = 3000;
 // listens on this machine unless HOST says otherwise.
 const DEFAULT_HOST = "127.0.0.1";
 const DEFAULT_DB_PATH = "data/inbox.db";
+const WEB_ROOT = fileURLToPath(new URL("../web/dist", import.meta.url));
 
 function main(): number {
   const config = createGroqModelFromEnv(process.env);
@@ -36,18 +38,21 @@ function main(): number {
   const repository = SqliteTicketRepository.open(dbPath);
   const classifier = createAiSdkClassifier({
     model: config.value.model,
+    // Constant format string: request ids come from users and must not be read as format specifiers.
     onError: (requestId, error) =>
-      console.error(`Triage failed for ${requestId}:`, error instanceof Error ? error.name : "UnknownError"),
+      console.error("Triage failed for %s: %s", JSON.stringify(requestId), error instanceof Error ? error.name : "UnknownError"),
   });
   const inbox = createInbox({
     repository,
     triageRequest: createTriageRequest({ classifier }),
     now: () => new Date().toISOString(),
   });
-  const app = createApp({ inbox, generateId: randomUUID });
+  const webBuilt = existsSync(join(WEB_ROOT, "index.html"));
+  const app = createApp({ inbox, generateId: randomUUID, ...(webBuilt && { webRoot: WEB_ROOT }) });
 
   const server = serve({ fetch: app.fetch, port, hostname }, () => {
-    console.log(`InboxOps API on http://${hostname}:${port} (database: ${dbPath}, model: ${config.value.modelId})`);
+    console.log(`InboxOps on http://${hostname}:${port} (database: ${dbPath}, model: ${config.value.modelId})`);
+    if (!webBuilt) console.log("Web app not built: serving the API only. Run npm run build:web to include it.");
   });
 
   const shutdown = () => {
