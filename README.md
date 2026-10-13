@@ -2,7 +2,7 @@
 
 AI-assisted support inbox for an online store. For each customer request it suggests a category, a short summary and the data that is missing; a person accepts or corrects the suggestion. It never sends emails or changes orders.
 
-> Status: step 6 of 7 — review inbox (domain, API and the web ticket list done; review panel next). See the roadmap at the end of this file.
+> Status: step 6 of 7 — review inbox (domain, API, ticket list and review panel done; request import and metrics next). See the roadmap at the end of this file.
 
 ## Quick start
 
@@ -131,6 +131,8 @@ The triage use case:
 - **Shared types, no copies.** The app imports `Ticket`, `Category` and the inbox result types straight from `src/domain` and `src/application` as type-only imports. A change in the backend contract breaks the web build instead of failing at runtime.
 - **Typed API client.** `web/src/api.ts` only calls paths under `/api/`, enforced by its type and at runtime, and turns error responses into an `ApiError` with the HTTP status and the API's error code.
 - **Injected client.** `App` receives the API client as a prop, so component tests run without a server.
+- **Review panel.** Shows the customer message next to the model's suggestion. A person accepts it, corrects category, order number and return reason, or triages manually when the model failed. While correcting, the panel previews the missing data with `findMissingFields`, the same pure domain function the server uses, so the preview cannot drift from the saved result.
+- **Server as source of truth.** After a review the UI replaces the ticket with the one the API returned, and API errors (for example a ticket already reviewed) are shown without changing the ticket.
 
 | Script, inside `web/` | What it does |
 |---|---|
@@ -213,5 +215,5 @@ What the results files show:
 3. Triage use case behind a classifier port, tested with a fake — done
 4. AI SDK adapter with structured output — done
 5. Labeled dataset and evaluation (errors, latency, cost) — done
-6. Review inbox: accept or correct suggestions — in progress (domain, API and ticket list done)
+6. Review inbox: accept or correct suggestions — in progress (domain, API, ticket list and review panel done)
 7. Architecture notes, decisions and demo
