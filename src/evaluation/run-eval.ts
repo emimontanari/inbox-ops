@@ -8,17 +8,29 @@ import { createTriageRequest } from "../application/triage-request.js";
 import { loadDataset } from "./dataset.js";
 import { describeError, type ErrorCause } from "./error-cause.js";
 import { createMeteredClassifier } from "./metered-classifier.js";
+import { createTokenRateLimiter } from "./token-rate-limiter.js";
 import { scoreCase, summarize, type CaseScore } from "./score.js";
 
 const DATASET_PATH = fileURLToPath(new URL("../../eval/dataset.json", import.meta.url));
 const RESULTS_DIR = fileURLToPath(new URL("../../eval/results/", import.meta.url));
 const SPLITS = ["dev", "holdout", "all"] as const;
+// Groq's on-demand limit for openai/gpt-oss-20b; the provider budgets each request
+// by its own estimate (about 1,900 tokens here), not by the tokens finally used.
+const DEFAULT_TOKENS_PER_MINUTE = 8000;
+const DEFAULT_REQUEST_TOKEN_ESTIMATE = 2000;
 
 type SplitOption = (typeof SPLITS)[number];
 
 function parseSplit(args: readonly string[]): SplitOption | null {
   const value = args.find((arg) => arg.startsWith("--split="))?.slice("--split=".length) ?? "dev";
   return (SPLITS as readonly string[]).includes(value) ? (value as SplitOption) : null;
+}
+
+function readPositiveInt(name: string, fallback: number): number | null {
+  const raw = process.env[name];
+  if (raw === undefined || raw === "") return fallback;
+  const value = Number(raw);
+  return Number.isInteger(value) && value > 0 ? value : null;
 }
 
 async function main(): Promise<number> {
@@ -34,6 +46,14 @@ async function main(): Promise<number> {
     return 1;
   }
 
+  const tokensPerMinute = readPositiveInt("EVAL_TOKENS_PER_MINUTE", DEFAULT_TOKENS_PER_MINUTE);
+  const requestTokenEstimate = readPositiveInt("EVAL_REQUEST_TOKEN_ESTIMATE", DEFAULT_REQUEST_TOKEN_ESTIMATE);
+  if (tokensPerMinute === null || requestTokenEstimate === null) {
+    console.error("EVAL_TOKENS_PER_MINUTE and EVAL_REQUEST_TOKEN_ESTIMATE must be positive integers.");
+    return 1;
+  }
+  const limiter = createTokenRateLimiter({ tokensPerMinute });
+
   const cases = (await loadDataset(DATASET_PATH)).filter((c) => split === "all" || c.split === split);
   const errorCauses: Record<string, ErrorCause> = {};
   const metered = createMeteredClassifier(
@@ -44,10 +64,14 @@ async function main(): Promise<number> {
   );
   const triageRequest = createTriageRequest({ classifier: metered.classifier });
 
-  // Sequential on purpose: keeps latency numbers clean and stays under provider rate limits.
+  // Sequential and paced: keeps latency numbers clean and stays under the provider's
+  // tokens-per-minute limit, so rate limiting is not mistaken for a quality failure.
   const scores: CaseScore[] = [];
   for (const evalCase of cases) {
+    await limiter.waitForCapacity(requestTokenEstimate);
     const result = await triageRequest({ id: evalCase.id, body: evalCase.body });
+    const usage = metered.measurements.at(-1)?.usage;
+    limiter.record(usage ? usage.inputTokens + usage.outputTokens : 0);
     scores.push(scoreCase(evalCase, result));
     process.stdout.write(".");
   }

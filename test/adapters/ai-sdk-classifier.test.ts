@@ -1,3 +1,4 @@
+import { APICallError } from "ai";
 import { MockLanguageModelV4 } from "ai/test";
 import { describe, expect, it } from "vitest";
 import { createAiSdkClassifier } from "../../src/adapters/ai-sdk-classifier.js";
@@ -15,6 +16,14 @@ function modelAnswering(text: string): MockLanguageModelV4 {
       },
       warnings: [],
     }),
+  });
+}
+
+function modelThrowing(error: Error): MockLanguageModelV4 {
+  return new MockLanguageModelV4({
+    doGenerate: async () => {
+      throw error;
+    },
   });
 }
 
@@ -91,6 +100,39 @@ describe("AiSdkClassifier", () => {
         throw new Error("connection refused");
       },
     });
+
+    const result = await createAiSdkClassifier({ model }).classify(request);
+
+    expect(result).toEqual({ ok: false, error: "unavailable" });
+  });
+
+  it("reports a provider-side JSON validation failure as invalid output", async () => {
+    const model = modelThrowing(
+      new APICallError({
+        message: "Failed to generate JSON. Please adjust your prompt. See 'failed_generation' for more details.",
+        url: "https://api.groq.com/openai/v1/chat/completions",
+        requestBodyValues: {},
+        statusCode: 400,
+        responseBody: '{"error":{"code":"json_validate_failed"}}',
+        isRetryable: false,
+      }),
+    );
+
+    const result = await createAiSdkClassifier({ model }).classify(request);
+
+    expect(result).toEqual({ ok: false, error: "invalid_output" });
+  });
+
+  it("keeps any other bad request as unavailable", async () => {
+    const model = modelThrowing(
+      new APICallError({
+        message: "Invalid API parameter",
+        url: "https://api.groq.com/openai/v1/chat/completions",
+        requestBodyValues: {},
+        statusCode: 400,
+        isRetryable: false,
+      }),
+    );
 
     const result = await createAiSdkClassifier({ model }).classify(request);
 

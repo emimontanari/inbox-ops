@@ -2,7 +2,7 @@
 
 AI-assisted support inbox for an online store. For each customer request it suggests a category, a short summary and the data that is missing; a person accepts or corrects the suggestion. It never sends emails or changes orders.
 
-> Status: step 5 of 7 — evaluation. See [the task plan](../odd/tasks/inbox-ops.md).
+> Status: step 5 of 7 — evaluation. See the roadmap at the end of this file.
 
 ## Quick start
 
@@ -23,6 +23,8 @@ npm run eval    # scores the real model on the dev split
 |---|---|---|---|
 | `GROQ_API_KEY` | yes, for `triage` and `eval` | — | Groq API key from <https://console.groq.com/keys> |
 | `GROQ_MODEL` | no | `openai/gpt-oss-20b` | Groq model id |
+| `EVAL_TOKENS_PER_MINUTE` | no | `8000` | Token budget per minute that `eval` stays under; match your provider's limit |
+| `EVAL_REQUEST_TOKEN_ESTIMATE` | no | `2000` | Tokens reserved per request before sending it; Groq budgets each request by its own estimate, not by the tokens finally used |
 
 `.env` is ignored by Git; never commit it.
 
@@ -69,7 +71,8 @@ The AI SDK adapter:
 
 - Asks for structured output validated by a Zod schema; fields the customer did not write come back as `null` and are dropped.
 - Sends the customer text as the user message, never inside the instructions, and tells the model to treat it as data. This reduces prompt injection risk; it does not remove it.
-- Maps unparsable or out-of-schema answers to `invalid_output`, and any other failure (network, timeout of 20 s, provider error) to `unavailable`.
+- Maps unparsable or out-of-schema answers to `invalid_output`, including a provider that validates the schema itself and rejects the generation with HTTP 400 (Groq's `json_validate_failed`). Any other failure (network, timeout of 20 s, rate limit, other provider errors) is `unavailable`.
+- Accepts an optional `onError(requestId, error)` hook with the original error, so callers can diagnose failures; the use case only sees the error code.
 
 The triage use case:
 
@@ -106,23 +109,30 @@ Failed cases keep a `cause` in the results file (error name, HTTP status and a s
 
 Cost is reported as tokens; multiply by your provider's current price per token.
 
+The run is sequential and paced by a one-minute sliding token window (`EVAL_TOKENS_PER_MINUTE`), so a provider rate limit is not counted as a quality failure. Pacing makes a run slower: a little over a minute for the dev split on Groq's on-demand tier.
+
 ### Dev results
 
-`openai/gpt-oss-20b` on Groq, 20 dev cases. Summaries must be in Spanish (product decision); the instructions were changed between the two runs.
+`openai/gpt-oss-20b` on Groq, 20 dev cases, three runs in order:
 
-| Metric | Before: no language rule | After: summaries in Spanish |
-|---|---|---|
-| Category correct | 20/20 | 17/20: 2 errors, 1 wrong (`tricky-02`) |
-| Order number | 20 correct, 0 hallucinated | 18 correct, 0 hallucinated |
-| Return reason | 4 correct, 1 missed | 3 correct, 1 missed |
-| Summaries in Spanish | 2/20 (one is a false positive of the detector) | 18/18 |
-| Latency | p50 0.74 s, p95 5.65 s | p50 0.72 s, p95 11.36 s |
-| Tokens | 7,952 in, 5,146 out | 7,612 in, 6,070 out |
+1. **Baseline:** no rule for the summary language.
+2. **Spanish summaries:** the product decision is that summaries are always in Spanish.
+3. **Paced eval:** same prompt, with the eval paced under the token limit and Groq's JSON rejections mapped to `invalid_output`.
+
+| Metric | 1. Baseline | 2. Spanish summaries | 3. Paced eval |
+|---|---|---|---|
+| Category correct | 20/20 | 17/20: 2 errors, 1 wrong | **19/20**: 1 invalid output, 0 wrong |
+| Order number | 20 correct, 0 hallucinated | 18 correct, 0 hallucinated | 19 correct, **0 hallucinated** |
+| Return reason | 4 correct, 1 missed | 3 correct, 1 missed | 4 correct, 1 missed |
+| Summaries in Spanish | 2/20 | 18/18 | 18/19, 1 `unknown` |
+| Latency | p50 0.74 s, p95 5.65 s | p50 0.72 s, p95 11.36 s | p50 0.73 s, **p95 1.06 s** |
+| Tokens | 7,952 in, 5,146 out | 7,612 in, 6,070 out | 8,016 in, 3,919 out |
 
 What the results files show:
 
-- **Rate limit (429):** Groq allows 8,000 tokens per minute for this model and a sequential run uses more. `noise-01` failed for that reason; it is an evaluation pacing problem, not a quality problem.
-- **Provider-side JSON failure (400):** Groq rejected `ret-04` with "Failed to generate JSON". The adapter currently reports it as `unavailable`; it should be `invalid_output`.
+- **The long latency tail was rate limiting.** Runs 1 and 2 hit Groq's 8,000 tokens-per-minute limit; the SDK retried with backoff, which produced the 5 to 11 s p95. With pacing there were no 429 errors and the p95 dropped to 1.06 s. An earlier hypothesis blamed the model's internal reasoning; the data did not support it.
+- **Provider-side schema rejection (400).** Groq validates the JSON schema itself and sometimes rejects a generation (`ret-04` in run 2, `oth-01` in run 3). These are now `invalid_output`, not `unavailable`, so they count as quality failures.
+- **Detector false positive.** In run 1 one English summary quoting "en distribución" was counted as Spanish. In run 3 the summary for "hola" was just "Hola": too short to detect, and not useful to a reader.
 - **Non-determinism:** `tricky-02` (a package that arrived open with a missing item) was `shipping` in the first run and `returns` in the second. Ambiguous cases can flip between runs, so one run is not enough to compare prompts.
 - **Debatable label:** `ret-02` (exchange for another size) expects a return reason; the model does not extract one.
 - 20 cases are a small sample: treat the numbers as a baseline, not as proof.
