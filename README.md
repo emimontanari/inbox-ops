@@ -2,7 +2,7 @@
 
 AI-assisted support inbox for an online store. For each customer request it suggests a category, a short summary and the data that is missing; a person accepts or corrects the suggestion. It never sends emails or changes orders.
 
-> Status: step 6 of 7 — review inbox (6a: domain and use cases done). See the roadmap at the end of this file.
+> Status: step 6 of 7 — review inbox (6a domain and 6b API done; web UI next). See the roadmap at the end of this file.
 
 ## Quick start
 
@@ -13,11 +13,12 @@ npm install
 npm run check   # typecheck + tests, no API key needed
 npm run triage -- "I want to return order 4821, wrong size"
 npm run eval    # scores the real model on the dev split
+npm run serve   # HTTP API on http://127.0.0.1:3000
 ```
 
 ## Configuration
 
-`npm run triage` and `npm run eval` read a `.env` file in this folder if it exists. Tests never call a real model and need no key.
+`npm run triage`, `npm run eval` and `npm run serve` read a `.env` file in this folder if it exists. Tests never call a real model and need no key.
 
 | Variable | Required | Default | Purpose |
 |---|---|---|---|
@@ -25,6 +26,9 @@ npm run eval    # scores the real model on the dev split
 | `GROQ_MODEL` | no | `openai/gpt-oss-20b` | Groq model id |
 | `EVAL_TOKENS_PER_MINUTE` | no | `8000` | Token budget per minute that `eval` stays under; match your provider's limit |
 | `EVAL_REQUEST_TOKEN_ESTIMATE` | no | `2000` | Tokens reserved per request before sending it; Groq budgets each request by its own estimate, not by the tokens finally used |
+| `PORT` | no | `3000` | Port for `serve` |
+| `HOST` | no | `127.0.0.1` | Interface for `serve`; the API has no authentication, so keep it local |
+| `INBOX_DB_PATH` | no | `data/inbox.db` | SQLite file for `serve`; `data/` is ignored by Git |
 
 `.env` is ignored by Git; never commit it.
 
@@ -33,6 +37,7 @@ npm run eval    # scores the real model on the dev split
 | Script | What it does |
 |---|---|
 | `npm run triage -- "<text>"` | Triages one request with the real model and prints the result as JSON; exits 1 on error |
+| `npm run serve` | Starts the HTTP API with SQLite storage and the Groq classifier |
 | `npm run eval -- [--split=dev\|holdout\|all]` | Runs the real pipeline over the labeled dataset, prints the report and saves it to `eval/results/`; default split is `dev` |
 | `npm run typecheck` | Type-checks sources and tests without emitting files |
 | `npm test` | Runs the test suite once with Vitest |
@@ -76,15 +81,19 @@ new ──triage ok──────▶ awaiting_review ──accept───�
 src/
 ├── domain/        # business rules, pure TypeScript, no I/O
 ├── application/   # use cases and ports: triage, review inbox, Classifier, TicketRepository
-├── adapters/      # implementations of ports: AI SDK classifier, Groq model setup, in-memory tickets
+├── adapters/      # implementations of ports: AI SDK classifier, Groq model, SQLite and in-memory tickets
+├── http/          # HTTP API (Hono): input validation and status codes, no business rules
 ├── evaluation/    # dataset loading, scoring and the eval entry point
-└── main.ts        # composition root: picks the provider and wires everything
+├── main.ts        # composition root for the CLI
+└── server.ts      # composition root for the API: SQLite, Groq, HTTP server
 eval/
 ├── dataset.json   # 30 hand-labeled requests: 20 dev, 10 holdout
 └── results/       # one JSON report per eval run
 ```
 
-Dependencies point inward: `adapters` and `application` use `domain`; `domain` depends on nothing. Only `main.ts` knows which AI provider is used.
+Dependencies point inward: `adapters`, `http` and `application` use `domain`; `domain` depends on nothing. Only the composition roots (`main.ts`, `server.ts`) know which AI provider and storage are used.
+
+Storage uses `node:sqlite`, built into Node 22 but still marked experimental (Node prints a warning). It sits behind the `TicketRepository` port, and one contract test suite runs against both the SQLite and the in-memory implementation, so replacing the driver touches one file.
 
 The AI SDK adapter:
 
@@ -105,6 +114,22 @@ The triage use case:
 | `classifier_unavailable` | The classifier failed or threw |
 | `classifier_invalid_output` | The classifier answered with output it could not parse |
 | `invalid_category`, `empty_summary`, `summary_too_long` | The classifier answered, but the domain rejected the suggestion |
+
+## HTTP API
+
+All bodies are JSON. Input shapes are validated at the boundary (`400 invalid_body` with details); business rules stay in the domain.
+
+| Method and path | Body | Success | Errors |
+|---|---|---|---|
+| `GET /api/tickets` | — | `200 { tickets }`, oldest first | — |
+| `POST /api/tickets` | `{ requests: [{ id?, body }] }`, 1 to 200 items | `201 { added, rejected }`; a missing `id` is generated | `400 invalid_body` |
+| `POST /api/triage` | optional `{ retryFailed: true }` | `200 { triaged, failed }` | `400 invalid_body` |
+| `POST /api/tickets/:id/accept` | — | `200 { ticket }` | `404 not_found`, `409 not_reviewable` |
+| `POST /api/tickets/:id/correct` | `{ category, extracted: { orderNumber?, returnReason? } }` | `200 { ticket }` | `400 invalid_body` or `invalid_category`, `404 not_found`, `409 not_reviewable` |
+
+Other protections: request bodies over 1 MB are rejected, unexpected errors return `500 { error: "internal_error" }` without internal details, and blank `extracted` fields count as not provided.
+
+**There is no authentication.** The server listens on `127.0.0.1` by default; do not expose it publicly, since anyone could read requests or spend provider tokens through `/api/triage`.
 
 ## Evaluation
 

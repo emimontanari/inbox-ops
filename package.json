@@ -10,6 +10,7 @@
   "scripts": {
     "triage": "tsx --env-file-if-exists=.env src/main.ts",
     "eval": "tsx --env-file-if-exists=.env src/evaluation/run-eval.ts",
+    "serve": "tsx --env-file-if-exists=.env src/server.ts",
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -24,7 +25,9 @@
   },
   "dependencies": {
     "@ai-sdk/groq": "^4.0.60",
+    "@hono/node-server": "^2.1.5",
     "ai": "^7.0.139",
+    "hono": "^4.13.13",
     "zod": "^4.6.7"
   }
 }

@@ -2,5 +2,7 @@ node_modules/
 dist/
 coverage/
 .env
+# Local SQLite database: real customer requests must never be committed
+data/
 *.log
 .DS_Store
