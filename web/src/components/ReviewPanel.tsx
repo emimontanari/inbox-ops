@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useState, type SubmitEvent, type ReactNode } from "react";
 import { CATEGORIES, isCategory } from "../../../src/domain/category.js";
 import type { CorrectionInput, ReviewDecision, ReviewedTicket, Ticket } from "../../../src/domain/ticket.js";
 // The same pure domain rule the backend uses: the preview cannot drift from the server.
@@ -44,7 +44,7 @@ export function ReviewPanel(props: {
     }
   }
 
-  function submitCorrection(event: FormEvent) {
+  function submitCorrection(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     void save("correct", () => props.api.correct(ticket.id, toCorrection(draft)));
   }
@@ -140,7 +140,7 @@ function CorrectionForm(props: {
   title: string;
   draft: Draft;
   onChange: (draft: Draft) => void;
-  onSubmit: (event: FormEvent) => void;
+  onSubmit: (event: SubmitEvent<HTMLFormElement>) => void;
   saving: boolean;
 }) {
   const { draft } = props;
