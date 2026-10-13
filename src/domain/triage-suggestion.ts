@@ -60,7 +60,7 @@ export function createTriageSuggestion(
   });
 }
 
-function findMissingFields(category: Category, data: ExtractedData): MissingField[] {
+export function findMissingFields(category: Category, data: ExtractedData): MissingField[] {
   return REQUIRED_FIELDS[category].filter((field) => {
     const value = FIELD_VALUE[field](data);
     return value === undefined || value.trim() === "";

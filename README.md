@@ -2,7 +2,7 @@
 
 AI-assisted support inbox for an online store. For each customer request it suggests a category, a short summary and the data that is missing; a person accepts or corrects the suggestion. It never sends emails or changes orders.
 
-> Status: step 5 of 7 — evaluation. See the roadmap at the end of this file.
+> Status: step 6 of 7 — review inbox (6a: domain and use cases done). See the roadmap at the end of this file.
 
 ## Quick start
 
@@ -51,13 +51,32 @@ npm run eval    # scores the real model on the dev split
 
 Validation returns a `Result` with an error code instead of throwing, because invalid input is expected, not exceptional.
 
+### Ticket lifecycle
+
+```text
+new ──triage ok──────▶ awaiting_review ──accept───▶ reviewed (accepted)
+ │                            └─────────correct───▶ reviewed (corrected)
+ └──triage failed──▶ triage_failed ────correct────▶ reviewed (manual)
+                          └──retry──▶ awaiting_review
+```
+
+| Rule | Where |
+|---|---|
+| A ticket is a discriminated union on `status`: each status carries exactly its data (`suggestion`, `triageError`, `review`) | `src/domain/ticket.ts` |
+| Only `new` and `triage_failed` tickets can be triaged; a failed ticket can be retried | `src/domain/ticket.ts` |
+| Only `awaiting_review` tickets can be accepted | `src/domain/ticket.ts` |
+| `awaiting_review` and `triage_failed` tickets can be corrected; a correction of a failed triage is recorded as `manual` | `src/domain/ticket.ts` |
+| A correction recomputes missing data with the same domain rule as the model's suggestion | `src/domain/ticket.ts` |
+| The review decision (`accepted`, `corrected`, `manual`) is stored, so the share of human interventions can be measured | `src/domain/ticket.ts` |
+| Adding a request with an id that already exists is rejected as `duplicate_id` | `src/application/inbox.ts` |
+
 ## Architecture
 
 ```text
 src/
 ├── domain/        # business rules, pure TypeScript, no I/O
-├── application/   # use cases and ports (interfaces they depend on)
-├── adapters/      # implementations of ports: AI SDK classifier, Groq model setup
+├── application/   # use cases and ports: triage, review inbox, Classifier, TicketRepository
+├── adapters/      # implementations of ports: AI SDK classifier, Groq model setup, in-memory tickets
 ├── evaluation/    # dataset loading, scoring and the eval entry point
 └── main.ts        # composition root: picks the provider and wires everything
 eval/

@@ -1,21 +1,10 @@
 import { fail, type Result } from "../domain/result.js";
-import {
-  createSupportRequest,
-  type SupportRequest,
-  type SupportRequestError,
-} from "../domain/support-request.js";
-import {
-  createTriageSuggestion,
-  type TriageSuggestion,
-  type TriageSuggestionError,
-} from "../domain/triage-suggestion.js";
+import { createSupportRequest, type SupportRequest } from "../domain/support-request.js";
+import type { TriageError } from "../domain/triage-error.js";
+import { createTriageSuggestion, type TriageSuggestion } from "../domain/triage-suggestion.js";
 import type { Classifier, ClassifierResult } from "./classifier.js";
 
-export type TriageError =
-  | SupportRequestError
-  | "classifier_unavailable"
-  | "classifier_invalid_output"
-  | TriageSuggestionError;
+export type { TriageError };
 
 export type TriageRequest = (input: {
   id: string;
