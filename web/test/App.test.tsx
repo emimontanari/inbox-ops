@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
-import type { ReviewedTicket } from "../../src/domain/ticket.js";
+import { describe, expect, it, vi } from "vitest";
+import type { ReviewedTicket, Ticket } from "../../src/domain/ticket.js";
 import { ApiError } from "../src/api.js";
 import { App } from "../src/App.js";
 import { fakeApi } from "./fake-api.js";
-import { allTickets, awaitingTicket } from "./fixtures.js";
+import { allTickets, awaitingTicket, failedTicket, newTicket } from "./fixtures.js";
 
 describe("App", () => {
   it("loads and shows the tickets", async () => {
@@ -25,6 +25,32 @@ describe("App", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "Could not load tickets. Is the API running? (npm run serve)",
     );
+  });
+
+  it("runs triage and reloads the tickets", async () => {
+    const listTickets = vi
+      .fn<() => Promise<Ticket[]>>()
+      .mockResolvedValueOnce([newTicket])
+      .mockResolvedValueOnce([{ ...awaitingTicket, id: newTicket.id }]);
+    const triage = vi.fn(async () => ({ triaged: 1, failed: 0 }));
+    render(<App api={fakeApi({ listTickets, triage })} />);
+
+    await userEvent.click(await screen.findByRole("button", { name: "Run triage" }));
+
+    expect(triage).toHaveBeenCalledWith({});
+    expect(await screen.findByRole("status")).toHaveTextContent("Triaged 1, failed 0.");
+    expect(await screen.findByText("El cliente quiere devolver el pedido 4821.")).toBeInTheDocument();
+    expect(listTickets).toHaveBeenCalledTimes(2);
+  });
+
+  it("retries failed tickets", async () => {
+    const triage = vi.fn(async () => ({ triaged: 1, failed: 0 }));
+    render(<App api={fakeApi({ listTickets: async () => [failedTicket], triage })} />);
+
+    expect(await screen.findByRole("button", { name: "Run triage" })).toBeDisabled();
+    await userEvent.click(screen.getByRole("button", { name: "Retry failed" }));
+
+    expect(triage).toHaveBeenCalledWith({ retryFailed: true });
   });
 
   it("reviews the selected ticket and updates the list", async () => {
