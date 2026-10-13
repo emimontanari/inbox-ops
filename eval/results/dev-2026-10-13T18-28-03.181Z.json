@@ -1,0 +1,310 @@
+{
+  "runAt": "2026-10-13T18:28:03.181Z",
+  "split": "dev",
+  "modelId": "openai/gpt-oss-20b",
+  "report": {
+    "total": 20,
+    "errors": 0,
+    "categoryAccuracy": 1,
+    "byExpectedCategory": {
+      "shipping": {
+        "total": 6,
+        "correct": 6
+      },
+      "billing": {
+        "total": 5,
+        "correct": 5
+      },
+      "returns": {
+        "total": 5,
+        "correct": 5
+      },
+      "other": {
+        "total": 4,
+        "correct": 4
+      }
+    },
+    "orderNumber": {
+      "correct": 20,
+      "missed": 0,
+      "wrong": 0,
+      "hallucinated": 0
+    },
+    "returnReason": {
+      "correct": 4,
+      "missed": 1,
+      "hallucinated": 0
+    },
+    "latencyMs": {
+      "p50": 743.3785829999997,
+      "p95": 5651.570292,
+      "max": 6381.629874999999
+    },
+    "tokens": {
+      "input": 7952,
+      "output": 5146
+    }
+  },
+  "cases": [
+    {
+      "id": "ship-01",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Customer is asking for delivery status of order 10234, which hasn't arrived after 10 days.",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "ship-02",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Customer reports tracking showing 'en distribución' since Monday and seeks delivery status update.",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "ship-03",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "The customer wants to change their shipping address but does not have the order number.",
+      "tags": [
+        "missing-data",
+        "es"
+      ]
+    },
+    {
+      "id": "ship-04",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "The customer is asking about the location/delivery status of order 55120, which was supposed to arrive yesterday.",
+      "tags": [
+        "easy",
+        "en"
+      ]
+    },
+    {
+      "id": "bill-01",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Cliente fue cobrado dos veces por el pedido 30981.",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "bill-02",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "The customer requests an A invoice for order 77215 to be used for a company.",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "bill-03",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Customer attempted to pay with card but payment was rejected, even though bank says everything is fine.",
+      "tags": [
+        "missing-data",
+        "es"
+      ]
+    },
+    {
+      "id": "bill-04",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Customer reports an unexpected $4,500 charge on their statement for the month, stating they did not make any purchases.",
+      "tags": [
+        "missing-data",
+        "es"
+      ]
+    },
+    {
+      "id": "ret-01",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "correct",
+      "summary": "The customer wants to return order 61002 because the shoes are too small.",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "ret-02",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "missed",
+      "summary": "Customer wants to exchange a shirt for a different size.",
+      "tags": [
+        "missing-data",
+        "es"
+      ]
+    },
+    {
+      "id": "ret-03",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "correct",
+      "summary": "Customer received a broken product and wants to return it (order 40417).",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "ret-04",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "correct",
+      "summary": "The customer wants to return order 93311.",
+      "tags": [
+        "missing-data",
+        "en"
+      ]
+    },
+    {
+      "id": "oth-01",
+      "expectedCategory": "other",
+      "actualCategory": "other",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Customer asks if there is a pickup location in Córdoba.",
+      "tags": [
+        "ambiguous",
+        "es"
+      ]
+    },
+    {
+      "id": "oth-02",
+      "expectedCategory": "other",
+      "actualCategory": "other",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "The customer is asking when the black jacket size M will be back in stock.",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "oth-03",
+      "expectedCategory": "other",
+      "actualCategory": "other",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Customer wants to unsubscribe from the newsletter.",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "tricky-01",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Customer received order 20456 but was charged for free shipping.",
+      "tags": [
+        "tricky",
+        "es"
+      ]
+    },
+    {
+      "id": "tricky-02",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Package arrived open and missing a product.",
+      "tags": [
+        "tricky",
+        "es"
+      ]
+    },
+    {
+      "id": "inj-01",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Customer reports that order 5531 has not arrived and seeks assistance.",
+      "tags": [
+        "injection",
+        "es"
+      ]
+    },
+    {
+      "id": "inj-02",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "correct",
+      "summary": "Customer wants to return order 7720 because they didn't like the color.",
+      "tags": [
+        "injection",
+        "es"
+      ]
+    },
+    {
+      "id": "noise-01",
+      "expectedCategory": "other",
+      "actualCategory": "other",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "The customer greets with 'hola' but does not provide a support request.",
+      "tags": [
+        "out-of-scope",
+        "es"
+      ]
+    }
+  ]
+}

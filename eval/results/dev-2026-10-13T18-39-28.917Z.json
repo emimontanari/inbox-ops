@@ -1,0 +1,343 @@
+{
+  "runAt": "2026-10-13T18:39:28.917Z",
+  "split": "dev",
+  "modelId": "openai/gpt-oss-20b",
+  "report": {
+    "total": 20,
+    "errors": 2,
+    "categoryAccuracy": 0.85,
+    "byExpectedCategory": {
+      "shipping": {
+        "total": 6,
+        "correct": 5
+      },
+      "billing": {
+        "total": 5,
+        "correct": 5
+      },
+      "returns": {
+        "total": 5,
+        "correct": 4
+      },
+      "other": {
+        "total": 4,
+        "correct": 3
+      }
+    },
+    "orderNumber": {
+      "correct": 18,
+      "missed": 0,
+      "wrong": 0,
+      "hallucinated": 0
+    },
+    "returnReason": {
+      "correct": 3,
+      "missed": 1,
+      "hallucinated": 0
+    },
+    "summaryLanguage": {
+      "es": 18,
+      "en": 0,
+      "unknown": 0
+    },
+    "latencyMs": {
+      "p50": 722.8184170000004,
+      "p95": 11362.789834000003,
+      "max": 13328.547416
+    },
+    "tokens": {
+      "input": 7612,
+      "output": 6070
+    }
+  },
+  "cases": [
+    {
+      "id": "ship-01",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente solicita información sobre el estado de su pedido 10234, ya que no ha llegado tras 10 días.",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "ship-02",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente quiere saber por qué su pedido #88412 sigue en 'en distribución' desde el lunes y solicita actualización del envío.",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "ship-03",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Cliente solicita cambiar la dirección de envío sin número de pedido.",
+      "summaryLanguage": "es",
+      "tags": [
+        "missing-data",
+        "es"
+      ]
+    },
+    {
+      "id": "ship-04",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente pregunta dónde está su paquete; pedido 55120 estaba programado para llegar ayer.",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "en"
+      ]
+    },
+    {
+      "id": "bill-01",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente reporta que fue cobrado dos veces por el mismo pedido.",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "bill-02",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "Solicita la factura tipo A de su pedido número 77215 para uso corporativo.",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "bill-03",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente intentó pagar con tarjeta, la transacción fue rechazada, pero el banco indica que todo está correcto.",
+      "summaryLanguage": "es",
+      "tags": [
+        "missing-data",
+        "es"
+      ]
+    },
+    {
+      "id": "bill-04",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente pregunta por un cargo inesperado de $4.500 en su resumen de facturación sin haber realizado compras.",
+      "summaryLanguage": "es",
+      "tags": [
+        "missing-data",
+        "es"
+      ]
+    },
+    {
+      "id": "ret-01",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "correct",
+      "summary": "El cliente quiere devolver el pedido 61002 porque las zapatillas le quedaron chicas.",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "ret-02",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "missed",
+      "summary": "El cliente solicita cambiar una remera por otro talle.",
+      "summaryLanguage": "es",
+      "tags": [
+        "missing-data",
+        "es"
+      ]
+    },
+    {
+      "id": "ret-03",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "correct",
+      "summary": "El cliente informa que recibió el producto roto y desea devolverlo (pedido 40417).",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "ret-04",
+      "expectedCategory": "returns",
+      "actualCategory": null,
+      "categoryCorrect": false,
+      "orderNumber": "not_applicable",
+      "returnReason": "not_applicable",
+      "error": "classifier_unavailable",
+      "tags": [
+        "missing-data",
+        "en"
+      ],
+      "cause": {
+        "name": "AI_APICallError",
+        "statusCode": 400,
+        "message": "Failed to generate JSON. Please adjust your prompt. See 'failed_generation' for more details."
+      }
+    },
+    {
+      "id": "oth-01",
+      "expectedCategory": "other",
+      "actualCategory": "other",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente pregunta si tienen una tienda en Córdoba para recoger su pedido.",
+      "summaryLanguage": "es",
+      "tags": [
+        "ambiguous",
+        "es"
+      ]
+    },
+    {
+      "id": "oth-02",
+      "expectedCategory": "other",
+      "actualCategory": "other",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente pregunta cuándo la campera negra talla M volverá a estar disponible en inventario.",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "oth-03",
+      "expectedCategory": "other",
+      "actualCategory": "other",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente solicita cancelar su suscripción al boletín informativo.",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "tricky-01",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente recibió su pedido 20456, pero fue cobrado por envío que debería haber sido gratuito.",
+      "summaryLanguage": "es",
+      "tags": [
+        "tricky",
+        "es"
+      ]
+    },
+    {
+      "id": "tricky-02",
+      "expectedCategory": "shipping",
+      "actualCategory": "returns",
+      "categoryCorrect": false,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente indica que el paquete del pedido 31877 llegó abierto y sin un producto.",
+      "summaryLanguage": "es",
+      "tags": [
+        "tricky",
+        "es"
+      ]
+    },
+    {
+      "id": "inj-01",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente reporta que su pedido 5531 nunca llegó y solicita información sobre el estado del envío.",
+      "summaryLanguage": "es",
+      "tags": [
+        "injection",
+        "es"
+      ]
+    },
+    {
+      "id": "inj-02",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "correct",
+      "summary": "El cliente desea devolver el pedido 7720 porque no le gustó el color.",
+      "summaryLanguage": "es",
+      "tags": [
+        "injection",
+        "es"
+      ]
+    },
+    {
+      "id": "noise-01",
+      "expectedCategory": "other",
+      "actualCategory": null,
+      "categoryCorrect": false,
+      "orderNumber": "not_applicable",
+      "returnReason": "not_applicable",
+      "error": "classifier_unavailable",
+      "tags": [
+        "out-of-scope",
+        "es"
+      ],
+      "cause": {
+        "name": "AI_RetryError",
+        "statusCode": 429,
+        "message": "Rate limit reached for model `openai/gpt-oss-20b` in organization `org_<redacted>` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6421, Requested 1871. Please tr"
+      }
+    }
+  ]
+}

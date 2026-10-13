@@ -1,0 +1,30 @@
+{
+  "name": "inbox-ops",
+  "version": "0.1.0",
+  "description": "AI-assisted support inbox for an online store: suggests category, summary and missing data, with human review.",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "triage": "tsx --env-file-if-exists=.env src/main.ts",
+    "eval": "tsx --env-file-if-exists=.env src/evaluation/run-eval.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm test"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.4"
+  },
+  "dependencies": {
+    "@ai-sdk/groq": "^4.0.60",
+    "ai": "^7.0.139",
+    "zod": "^4.6.7"
+  }
+}
