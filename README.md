@@ -2,7 +2,7 @@
 
 AI-assisted support inbox for an online store. For each customer request it suggests a category, a short summary and the data that is missing; a person accepts or corrects the suggestion. It never sends emails or changes orders.
 
-> Status: step 6 of 7 — review inbox (6a domain and 6b API done; web UI next). See the roadmap at the end of this file.
+> Status: step 6 of 7 — review inbox (domain, API and the web ticket list done; review panel next). See the roadmap at the end of this file.
 
 ## Quick start
 
@@ -14,6 +14,14 @@ npm run check   # typecheck + tests, no API key needed
 npm run triage -- "I want to return order 4821, wrong size"
 npm run eval    # scores the real model on the dev split
 npm run serve   # HTTP API on http://127.0.0.1:3000
+```
+
+Web app, in a second terminal while `npm run serve` is running:
+
+```bash
+cd web
+npm install
+npm run dev     # http://localhost:5173, proxies /api to the API
 ```
 
 ## Configuration
@@ -86,6 +94,7 @@ src/
 ├── evaluation/    # dataset loading, scoring and the eval entry point
 ├── main.ts        # composition root for the CLI
 └── server.ts      # composition root for the API: SQLite, Groq, HTTP server
+web/               # React + Vite + Tailwind review inbox, with its own package.json and tests
 eval/
 ├── dataset.json   # 30 hand-labeled requests: 20 dev, 10 holdout
 └── results/       # one JSON report per eval run
@@ -114,6 +123,22 @@ The triage use case:
 | `classifier_unavailable` | The classifier failed or threw |
 | `classifier_invalid_output` | The classifier answered with output it could not parse |
 | `invalid_category`, `empty_summary`, `summary_too_long` | The classifier answered, but the domain rejected the suggestion |
+
+## Web app
+
+`web/` is a React app built with Vite and styled with Tailwind. It has its own `package.json`, so the backend does not install frontend dependencies.
+
+- **Shared types, no copies.** The app imports `Ticket`, `Category` and the inbox result types straight from `src/domain` and `src/application` as type-only imports. A change in the backend contract breaks the web build instead of failing at runtime.
+- **Typed API client.** `web/src/api.ts` only calls paths under `/api/`, enforced by its type and at runtime, and turns error responses into an `ApiError` with the HTTP status and the API's error code.
+- **Injected client.** `App` receives the API client as a prop, so component tests run without a server.
+
+| Script, inside `web/` | What it does |
+|---|---|
+| `npm run dev` | Vite dev server; `/api` is proxied to `http://127.0.0.1:3000` |
+| `npm run check` | Typecheck and tests (Vitest with jsdom and Testing Library) |
+| `npm run build` | Production build in `web/dist/` |
+
+The UI copy is in English; ticket summaries stay in Spanish because the support team reads Spanish.
 
 ## HTTP API
 
@@ -188,5 +213,5 @@ What the results files show:
 3. Triage use case behind a classifier port, tested with a fake — done
 4. AI SDK adapter with structured output — done
 5. Labeled dataset and evaluation (errors, latency, cost) — done
-6. Review inbox: accept or correct suggestions
+6. Review inbox: accept or correct suggestions — in progress (domain, API and ticket list done)
 7. Architecture notes, decisions and demo
