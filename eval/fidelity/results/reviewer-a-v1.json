@@ -1,0 +1,19 @@
+{
+  "method": "Independent AI-assisted review; not human ground truth",
+  "capture": "capture-2026-10-14T17-28-10.846Z.json",
+  "reviewer": "A",
+  "cases": [
+    {"id":"fv1-01","verdict":"unfaithful","evidence":"Source: La tienda confirmó que anuló el cargo; summary: pregunta por el reembolso. Anulación no equivale a reembolso; remaining card visibility and timing question preserved."},
+    {"id":"fv1-02","verdict":"faithful","evidence":"Source: No cancelen and en recepción, no en el departamento. Summary preserves delivery location request/contrast."},
+    {"id":"fv1-03","verdict":"uncertain","evidence":"Source paid3600/invoice6300. Summary incorrect6300invoice/correctcard omits3600paid. Amount material though correction request accurate."},
+    {"id":"fv1-04","verdict":"uncertain","evidence":"Source asks Sería posible, date No me confirmaron. Summary solicita confirmar la entrega lunes21 may imply confirmation request but omits unconfirmed status/travelTuesday."},
+    {"id":"fv1-05","verdict":"faithful","evidence":"Source cinta cortada,No la abrí,no sé si falta; summary preserves facts/uncertainty and what to review."},
+    {"id":"fv1-06","verdict":"faithful","evidence":"Source bluecolor,sizeperfect,notbroken; summary preserves facts."},
+    {"id":"fv1-07","verdict":"faithful","evidence":"Trackingdelivered,customer/neighbor no receipt,askswho; summary preserves each point."},
+    {"id":"fv1-08","verdict":"uncertain","evidence":"Source onechargepending/othersettled; summary omits status while preserving twocharges/checkbeforerefund. Omission may matter."},
+    {"id":"fv1-09","verdict":"faithful","evidence":"Yesterdaypurchase,missingordernumber,receiptneed preserved;phone4477 secondary omitted."},
+    {"id":"fv1-10","verdict":"unfaithful","evidence":"99118 explicitly instruction notorderevidence; summary asserts compra con número99118. Notarrived/noresponse retained."},
+    {"id":"fv1-11","verdict":"faithful","evidence":"Source82049fine/82050missinglaces,wantslacesnoreturn;summary accurate issue/request,unaffectedorder secondary."},
+    {"id":"fv1-12","verdict":"uncertain","evidence":"Source15%couponoffered,todavía no acepté;summary compatibilityfreeshipping omits nonacceptance and leaves offerstatusunclear."}
+  ]
+}

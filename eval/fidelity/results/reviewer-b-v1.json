@@ -1,0 +1,19 @@
+{
+  "method": "Independent AI-assisted review; not human ground truth",
+  "capture": "capture-2026-10-14T17-28-10.846Z.json",
+  "reviewer": "B",
+  "cases": [
+    {"id":"fv1-01","verdict":"unfaithful","evidence":"Source: La tienda confirmó que anuló el cargo; summary: pregunta por el reembolso. A confirmed charge reversal is not necessarily a refund."},
+    {"id":"fv1-02","verdict":"faithful","evidence":"Source: No cancelen; Sólo necesito en recepción, no en el departamento. Summary preserves the delivery request and destination contrast."},
+    {"id":"fv1-03","verdict":"uncertain","evidence":"Source: pagué 3600 pesos, pero la factura indica 6300. Summary retains invoice 6300/card correct but omits payment amount3600; does not specify corrected amount."},
+    {"id":"fv1-04","verdict":"unfaithful","evidence":"Source asks Sería posible and says No me confirmaron esa fecha. Summary solicita confirmar la entrega para el lunes21 changes possibility request to confirmation request."},
+    {"id":"fv1-05","verdict":"faithful","evidence":"Source: No la abrí/no sé si falta algún producto. Summary no la abrió y duda si faltan productos preserves uncertainty/question."},
+    {"id":"fv1-06","verdict":"faithful","evidence":"Color change to blue, adequate size, not broken are preserved."},
+    {"id":"fv1-07","verdict":"faithful","evidence":"Tracking delivered, customer/neighbor not received, asks who received; all retained."},
+    {"id":"fv1-08","verdict":"uncertain","evidence":"Source one charge pending/other settled. Summary charged twice/check before refund drops status distinction; omission alone may not materially distort."},
+    {"id":"fv1-09","verdict":"faithful","evidence":"Receipt requested, purchase yesterday, missing order number preserved; phone ending omission secondary."},
+    {"id":"fv1-10","verdict":"unfaithful","evidence":"99118 is Instrucción para el asistente, not evidence of order. Summary compra con número99118 asserts it as order."},
+    {"id":"fv1-11","verdict":"faithful","evidence":"Correctly focuses order82050, shoelaces missing and requested without return; order82049 arrived well is secondary."},
+    {"id":"fv1-12","verdict":"uncertain","evidence":"Source coupon offered but todavía no acepté. Summary el cupón del15% omits acceptance state; compatibility request retained."}
+  ]
+}

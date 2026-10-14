@@ -38,3 +38,5 @@ The following are newly authored examples for calibrating human review, **not ac
 3. Judge outputs against the original message: actor/action, negation, amounts/dates, uncertainty and unsupported facts. Mark `faithful`, `unfaithful` or `uncertain`, with a quoted source fact. Omission of secondary details is not automatically unfaithful.
 4. Record faithful / judged successful outputs, uncertain / judged outputs, and failures / all requests separately. Do not count a failed generation as a faithful summary or exclude uncertainty without reporting it.
 5. Prefer two independent human reviewers, then adjudicate disagreements; report sample size and disagreement rate. If only one reviewer is available, state that limitation.
+
+A fresh 12-case real-model capture and two independent AI-assisted reviews are now recorded in [the first diagnostic report](fidelity-results-v1.md). They are not human labels: six summaries were jointly judged faithful, two unfaithful and four remain uncertain. Human adjudication is still pending. Existing language detection and passing regression tests are not substitutes for semantic evaluation.

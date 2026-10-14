@@ -47,7 +47,7 @@ Use **Ordenar solicitudes** to show oldest (default) or newest requests first. *
 
 ## Check suggestion quality
 
-In **Antes de confirmar**, compare the order number with the original message and check who did what, negations, amounts and dates in the summary. A matching number is not a verified order; warnings do not block acceptance or change stored fields. See [quality-review guidance and new calibration cases](quality-review.md). Summary fidelity requires human judgment; the calibration examples are not model outputs or a benchmark.
+In **Antes de confirmar**, compare the order number with the original message and check who did what, negations, amounts and dates in the summary. A matching number is not a verified order; warnings do not block acceptance or change stored fields. See [quality-review guidance and new calibration cases](quality-review.md). Summary fidelity still requires human judgment; [a fresh real-model diagnostic with AI-assisted reviews](fidelity-results-v1.md) is recorded, but human adjudication remains pending.
 
 ## Explain the design in an interview
 

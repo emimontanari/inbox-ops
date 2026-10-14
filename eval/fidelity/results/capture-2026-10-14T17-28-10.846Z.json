@@ -1,0 +1,313 @@
+{
+  "runAt": "2026-10-14T17:28:10.846Z",
+  "purpose": "Fresh diagnostic sample; not a held-out benchmark or human-scored model evaluation",
+  "version": "fidelity-v1",
+  "datasetSha256": "7fd51f715636a52549f4a591b946547429e26114b502d36941b0521f18b9c6ea",
+  "sources": {
+    "src/adapters/ai-sdk-classifier.ts": "233b0b861ee7830124870a09086ebb0fbe7213bf1513f8b14aa6236987005e4b",
+    "src/adapters/groq-model.ts": "ad77eaa9e71219adab4f1bbe63913c6f4bc29b685542a20148258d92ea447a65",
+    "src/application/triage-request.ts": "692e9fe1c5b2eabab238ffbfe49618554078fc04f4281a6f84608285e4a80ffe",
+    "src/domain/triage-suggestion.ts": "6f79db0ba5d2ff96ed255d22b474b75d38dbafef3052a70789b0cfb40f1d8c03",
+    "src/evaluation/run-fidelity.ts": "d20f3c108e8e6d46b9a739f15ec7a5c1704a5690b5869a9134ca24e54162137e",
+    "package-lock.json": "111f8c086be209bc90674e7e1fd001eaa6ffdbe8d418a86c3858a1f8d15809ef"
+  },
+  "provider": "groq",
+  "modelId": "openai/gpt-oss-20b",
+  "sampling": "Adapter leaves temperature/seed unspecified; provider defaults apply, not deterministic",
+  "sdkRetries": "AI SDK defaults; no additional capture-level retries",
+  "pacing": {
+    "tokensPerMinute": 8000,
+    "requestTokenEstimate": 2000
+  },
+  "completed": true,
+  "cases": [
+    {
+      "id": "fv1-01",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-01",
+          "category": "billing",
+          "summary": "El cliente pregunta por el reembolso de 1750 pesos del pedido 82041 que aún aparece en su tarjeta y solicita saber cuándo se reflejará.",
+          "extracted": {
+            "orderNumber": "82041"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-01",
+        "latencyMs": 911.181666,
+        "ok": true,
+        "usage": {
+          "inputTokens": 437,
+          "outputTokens": 277
+        }
+      }
+    },
+    {
+      "id": "fv1-02",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-02",
+          "category": "shipping",
+          "summary": "El cliente solicita que el pedido 82042 sea entregado en recepción y no en el departamento.",
+          "extracted": {
+            "orderNumber": "82042"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-02",
+        "latencyMs": 1292.312583,
+        "ok": true,
+        "usage": {
+          "inputTokens": 428,
+          "outputTokens": 300
+        }
+      }
+    },
+    {
+      "id": "fv1-03",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-03",
+          "category": "billing",
+          "summary": "Solicita una factura corregida para el pedido 82043, ya que la factura muestra un monto incorrecto de 6300 pesos, aunque el cargo en la tarjeta es correcto.",
+          "extracted": {
+            "orderNumber": "82043"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-03",
+        "latencyMs": 1433.6172499999998,
+        "ok": true,
+        "usage": {
+          "inputTokens": 442,
+          "outputTokens": 757
+        }
+      }
+    },
+    {
+      "id": "fv1-04",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-04",
+          "category": "shipping",
+          "summary": "El cliente solicita confirmar la entrega del pedido 82044 para el lunes 21.",
+          "extracted": {
+            "orderNumber": "82044"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-04",
+        "latencyMs": 494.9575829999999,
+        "ok": true,
+        "usage": {
+          "inputTokens": 434,
+          "outputTokens": 147
+        }
+      }
+    },
+    {
+      "id": "fv1-05",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-05",
+          "category": "shipping",
+          "summary": "El cliente informa que la caja del pedido 82045 llegó con la cinta cortada, no la abrió y duda si faltan productos; solicita saber qué debe revisar.",
+          "extracted": {
+            "orderNumber": "82045"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-05",
+        "latencyMs": 665.1032910000004,
+        "ok": true,
+        "usage": {
+          "inputTokens": 437,
+          "outputTokens": 260
+        }
+      }
+    },
+    {
+      "id": "fv1-06",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-06",
+          "category": "returns",
+          "summary": "El cliente solicita cambiar el color de la mochila del pedido 82046 a azul; el tamaño es correcto y la mochila no está rota.",
+          "extracted": {
+            "orderNumber": "82046"
+          },
+          "missingFields": [
+            "return_reason"
+          ]
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-06",
+        "latencyMs": 697.7275,
+        "ok": true,
+        "usage": {
+          "inputTokens": 431,
+          "outputTokens": 280
+        }
+      }
+    },
+    {
+      "id": "fv1-07",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-07",
+          "category": "shipping",
+          "summary": "El cliente informa que el seguimiento indica que el pedido 82047 fue entregado, pero no lo recibió y su vecino tampoco lo tiene; solicita saber quién recibió el paquete.",
+          "extracted": {
+            "orderNumber": "82047"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-07",
+        "latencyMs": 1226.7107080000005,
+        "ok": true,
+        "usage": {
+          "inputTokens": 436,
+          "outputTokens": 286
+        }
+      }
+    },
+    {
+      "id": "fv1-08",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-08",
+          "category": "billing",
+          "summary": "El cliente fue cobrado dos veces por el pedido 82048 y desea que se verifique antes de emitir un reembolso.",
+          "extracted": {
+            "orderNumber": "82048"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-08",
+        "latencyMs": 502.056458,
+        "ok": true,
+        "usage": {
+          "inputTokens": 433,
+          "outputTokens": 158
+        }
+      }
+    },
+    {
+      "id": "fv1-09",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-09",
+          "category": "billing",
+          "summary": "El cliente necesita obtener el comprobante de compra realizada ayer, pero no puede encontrar el número de pedido.",
+          "extracted": {},
+          "missingFields": [
+            "order_number"
+          ]
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-09",
+        "latencyMs": 547.8579579999996,
+        "ok": true,
+        "usage": {
+          "inputTokens": 433,
+          "outputTokens": 219
+        }
+      }
+    },
+    {
+      "id": "fv1-10",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-10",
+          "category": "shipping",
+          "summary": "El cliente indica que su compra con número 99118 aún no ha llegado y nadie le ha respondido.",
+          "extracted": {
+            "orderNumber": "99118"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-10",
+        "latencyMs": 531.018624999997,
+        "ok": true,
+        "usage": {
+          "inputTokens": 439,
+          "outputTokens": 206
+        }
+      }
+    },
+    {
+      "id": "fv1-11",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-11",
+          "category": "shipping",
+          "summary": "El cliente indica que el pedido 82050 llegó incompleto, faltan los cordones de las zapatillas, y solicita que se envíen los cordones sin devolver el pedido.",
+          "extracted": {
+            "orderNumber": "82050"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-11",
+        "latencyMs": 1098.1123339999976,
+        "ok": true,
+        "usage": {
+          "inputTokens": 442,
+          "outputTokens": 337
+        }
+      }
+    },
+    {
+      "id": "fv1-12",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "fv1-12",
+          "category": "other",
+          "summary": "El cliente pregunta si el cupón del 15% puede combinarse con la promoción de envío gratis.",
+          "extracted": {},
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "fv1-12",
+        "latencyMs": 747.2910839999968,
+        "ok": true,
+        "usage": {
+          "inputTokens": 435,
+          "outputTokens": 180
+        }
+      }
+    }
+  ]
+}

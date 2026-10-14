@@ -1,0 +1,122 @@
+{
+  "method": "Independent AI-assisted judgments, not human ground truth or benchmark accuracy",
+  "capture": "capture-2026-10-14T17-28-10.846Z.json",
+  "captureSha256": "ccb5741f8d786e1ca0894fd7b972403d849736602e2e5640e6c7666f1dacc4d2",
+  "reviewerFiles": [
+    "reviewer-a-v1.json",
+    "reviewer-b-v1.json"
+  ],
+  "disagreementPolicy": "Any disagreement remains uncertain, no forced adjudication",
+  "totalRequests": 12,
+  "successfulGenerations": 12,
+  "generationFailures": 0,
+  "assistedConsensus": {
+    "unfaithful": 2,
+    "faithful": 6,
+    "uncertain": 4
+  },
+  "reviewerDisagreements": 1,
+  "reviewerDisagreementRate": 0.08333333333333333,
+  "tokens": {
+    "input": 5227,
+    "output": 3407
+  },
+  "latencyMs": {
+    "median": 722.5092919999984,
+    "p95NearestRank": 1433.6172499999998
+  },
+  "monetaryCost": "not calculated",
+  "limits": [
+    "Small intentionally challenging diagnostic sample, not representative",
+    "Same harness AI-assisted reviewers are not independent humans",
+    "Provider sampling defaults unspecified; one run only",
+    "No prompt change, no model improvement claim",
+    "Old holdout untouched"
+  ],
+  "cases": [
+    {
+      "id": "fv1-01",
+      "reviewerA": "unfaithful",
+      "reviewerB": "unfaithful",
+      "consensus": "unfaithful",
+      "disagreement": false
+    },
+    {
+      "id": "fv1-02",
+      "reviewerA": "faithful",
+      "reviewerB": "faithful",
+      "consensus": "faithful",
+      "disagreement": false
+    },
+    {
+      "id": "fv1-03",
+      "reviewerA": "uncertain",
+      "reviewerB": "uncertain",
+      "consensus": "uncertain",
+      "disagreement": false
+    },
+    {
+      "id": "fv1-04",
+      "reviewerA": "uncertain",
+      "reviewerB": "unfaithful",
+      "consensus": "uncertain",
+      "disagreement": true
+    },
+    {
+      "id": "fv1-05",
+      "reviewerA": "faithful",
+      "reviewerB": "faithful",
+      "consensus": "faithful",
+      "disagreement": false
+    },
+    {
+      "id": "fv1-06",
+      "reviewerA": "faithful",
+      "reviewerB": "faithful",
+      "consensus": "faithful",
+      "disagreement": false
+    },
+    {
+      "id": "fv1-07",
+      "reviewerA": "faithful",
+      "reviewerB": "faithful",
+      "consensus": "faithful",
+      "disagreement": false
+    },
+    {
+      "id": "fv1-08",
+      "reviewerA": "uncertain",
+      "reviewerB": "uncertain",
+      "consensus": "uncertain",
+      "disagreement": false
+    },
+    {
+      "id": "fv1-09",
+      "reviewerA": "faithful",
+      "reviewerB": "faithful",
+      "consensus": "faithful",
+      "disagreement": false
+    },
+    {
+      "id": "fv1-10",
+      "reviewerA": "unfaithful",
+      "reviewerB": "unfaithful",
+      "consensus": "unfaithful",
+      "disagreement": false
+    },
+    {
+      "id": "fv1-11",
+      "reviewerA": "faithful",
+      "reviewerB": "faithful",
+      "consensus": "faithful",
+      "disagreement": false
+    },
+    {
+      "id": "fv1-12",
+      "reviewerA": "uncertain",
+      "reviewerB": "uncertain",
+      "consensus": "uncertain",
+      "disagreement": false
+    }
+  ]
+}
