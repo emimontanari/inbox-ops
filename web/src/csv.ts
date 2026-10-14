@@ -6,14 +6,14 @@ export type CsvRequest = { id?: string; body: string };
 // so splitting on "," or "\n" would corrupt them.
 export function parseRequestsCsv(text: string): Result<CsvRequest[], string> {
   const rows = readRows(text.replace(/^\uFEFF/, ""));
-  if (rows === null) return fail("The CSV has an unclosed quote.");
+  if (rows === null) return fail("El CSV tiene una comilla sin cerrar.");
 
   const [header, ...data] = rows.filter((row) => row.some((cell) => cell !== ""));
   const columns = (header ?? []).map((name) => name.trim().toLowerCase());
   const bodyIndex = columns.indexOf("body");
   const idIndex = columns.indexOf("id");
-  if (bodyIndex === -1) return fail('The CSV needs a header row with a "body" column.');
-  if (data.length === 0) return fail("The CSV has no requests.");
+  if (bodyIndex === -1) return fail('El CSV necesita una fila de encabezado con una columna "body".');
+  if (data.length === 0) return fail("El CSV no contiene solicitudes.");
 
   return ok(
     data.map((row) => {

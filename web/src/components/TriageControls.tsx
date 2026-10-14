@@ -13,10 +13,10 @@ export function TriageControls(props: { api: ApiClient; pending: number; failed:
     setFeedback(undefined);
     try {
       const outcome = await props.api.triage(options);
-      setFeedback({ kind: "status", text: `Triaged ${outcome.triaged}, failed ${outcome.failed}.` });
+      setFeedback({ kind: "status", text: `Clasificadas: ${outcome.triaged}; fallidas: ${outcome.failed}.` });
       props.onDone();
     } catch {
-      setFeedback({ kind: "error", text: "Triage could not run. Is the API running?" });
+      setFeedback({ kind: "error", text: "No se pudo ejecutar la clasificación. ¿Está en marcha la API?" });
     } finally {
       setRunning(false);
     }
@@ -24,24 +24,27 @@ export function TriageControls(props: { api: ApiClient; pending: number; failed:
 
   return (
     <div className="flex flex-wrap items-center gap-3">
+      <p id="triage-scope" className="w-full text-sm">Pendientes de toda la bandeja: Clasificar procesa todas las solicitudes nuevas; Reintentar fallidas incluye nuevas y fallidas. Los filtros no limitan el alcance. Ambas acciones envían mensajes a Groq y consumen tokens.</p>
       <button
         type="button"
+        aria-describedby="triage-scope"
         disabled={running || props.pending === 0}
         onClick={() => void run({})}
-        className="rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
+        className="action-primary"
       >
-        {running ? "Triaging…" : "Run triage"}
+        {running ? "Clasificando…" : "Clasificar"}
       </button>
       <button
         type="button"
+        aria-describedby="triage-scope"
         disabled={running || props.failed === 0}
         onClick={() => void run({ retryFailed: true })}
-        className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium disabled:opacity-50"
+        className="action-secondary"
       >
-        Retry failed
+        Reintentar fallidas
       </button>
       <span className="text-xs text-slate-500">
-        {props.pending} new · {props.failed} failed
+        {props.pending} nuevas · {props.failed} fallidas
       </span>
       {feedback && (
         <p

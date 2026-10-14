@@ -7,16 +7,16 @@ export function ReviewStats(props: { tickets: readonly Ticket[] }) {
   const rate = stats.acceptanceRate === null ? "—" : `${Math.round(stats.acceptanceRate * 100)}%`;
 
   const items: Array<[label: string, value: string, hint?: string]> = [
-    ["Acceptance rate", rate, "Accepted out of accepted + corrected; manual triage is not counted"],
-    ["Suggestions accepted", String(stats.decisions.accepted)],
-    ["Suggestions corrected", String(stats.decisions.corrected), `${stats.categoryChanges} changed the category`],
-    ["Triaged manually", String(stats.decisions.manual), "The model had failed"],
+    ["Tasa de aceptación", rate, "Aceptadas sobre aceptadas + corregidas; no cuenta la clasificación manual"],
+    ["Sugerencias aceptadas", String(stats.decisions.accepted)],
+    ["Sugerencias corregidas", String(stats.decisions.corrected), `${stats.categoryChanges} cambiaron la categoría`],
+    ["Clasificadas manualmente", String(stats.decisions.manual), "El modelo había fallado"],
   ];
 
   return (
-    <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <dl className="review-stats" aria-label="Resultados de revisión">
       {items.map(([label, value, hint]) => (
-        <div key={label} className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm" title={hint}>
+        <div key={label} className="stat-card" title={hint}>
           <dt className="text-xs text-slate-500">{label}</dt>
           <dd className="text-xl font-semibold">{value}</dd>
         </div>

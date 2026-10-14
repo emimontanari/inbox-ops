@@ -13,6 +13,8 @@ type LoadState = { kind: "loading" } | { kind: "error" } | { kind: "ready"; tick
 export function App(props: { api: ApiClient }) {
   const [state, setState] = useState<LoadState>({ kind: "loading" });
   const [selectedId, setSelectedId] = useState<string | undefined>();
+  const [reviewSaving, setReviewSaving] = useState(false);
+  const [reviewConfirmation, setReviewConfirmation] = useState<string | undefined>();
 
   // Reloads keep the current list on screen; only the first load shows "Loading".
   const reload = useCallback(async () => {
@@ -29,6 +31,9 @@ export function App(props: { api: ApiClient }) {
 
   // The server's answer is the source of truth: replace the ticket with what it returned.
   function replaceTicket(updated: ReviewedTicket) {
+    const decision = updated.review.decision;
+    const labels = { accepted: "aceptada", corrected: "corregida", manual: "clasificada manualmente" };
+    setReviewConfirmation(`Solicitud ${updated.id}: decisión ${labels[decision]}.`);
     setState((current) =>
       current.kind === "ready"
         ? { kind: "ready", tickets: current.tickets.map((t) => (t.id === updated.id ? updated : t)) }
@@ -39,45 +44,76 @@ export function App(props: { api: ApiClient }) {
   const tickets = state.kind === "ready" ? state.tickets : [];
   const selected = tickets.find((t) => t.id === selectedId);
   const count = (status: Ticket["status"]) => tickets.filter((t) => t.status === status).length;
+  const nextTicket = selected?.status === "reviewed"
+    ? tickets.find((ticket) => ticket.id !== selected.id && ticket.status === "awaiting_review")
+    : undefined;
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-6xl flex-col gap-6 p-6">
-      <header>
-        <h1 className="text-2xl font-semibold">InboxOps</h1>
-        <p className="text-sm text-slate-500">AI-suggested triage for support requests. A person always decides.</p>
+    <div className="app-shell">
+      <a className="skip-link" href="#workspace">Ir a la bandeja</a>
+      <header className="app-header">
+        <div className="brand">
+          <span className="brand-mark" aria-hidden="true">IO</span>
+          <div>
+            <h1>InboxOps</h1>
+            <p>Tu espacio de soporte</p>
+          </div>
+        </div>
+        <p className="human-badge">IA propone · vos decidís</p>
       </header>
 
-      {state.kind === "loading" && <p className="text-sm text-slate-500">Loading tickets…</p>}
+      {state.kind === "loading" && <p className="text-sm text-slate-500">Cargando solicitudes…</p>}
 
       {state.kind === "error" && (
         <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-          Could not load tickets. Is the API running? (npm run serve)
+          No se pudieron cargar las solicitudes. ¿Está en marcha la API? (npm run serve)
         </p>
       )}
 
       {state.kind === "ready" && (
         <>
+          <div className="workspace-heading">
+            <div>
+              <p className="eyebrow">Atención al cliente</p>
+              <h2>Bandeja de soporte</h2>
+              <p>Revisá cada sugerencia antes de confirmar. No se envían respuestas automáticas.</p>
+            </div>
+            <span className="pending-badge">{count("awaiting_review")} por revisar</span>
+          </div>
           <ReviewStats tickets={tickets} />
-          <AddRequests api={props.api} onAdded={() => void reload()} />
-          <TriageControls
-            api={props.api}
-            pending={count("new")}
-            failed={count("triage_failed")}
-            onDone={() => void reload()}
-          />
-          <main className="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-            <TicketList tickets={tickets} selectedId={selectedId} onSelect={setSelectedId} />
-            <aside>
+          {reviewConfirmation && <p role="status" className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-900">{reviewConfirmation}</p>}
+          <section className="triage-toolbar" aria-label="Clasificación de solicitudes">
+            <TriageControls
+              api={props.api}
+              pending={count("new")}
+              failed={count("triage_failed")}
+              onDone={() => void reload()}
+            />
+
+          </section>
+          <main id="workspace" tabIndex={-1} aria-label="Bandeja de soporte" className="workspace-grid">
+            <TicketList tickets={tickets} selectedId={selectedId} onSelect={(id) => { if (!reviewSaving) setSelectedId(id); }} />
+            <section aria-label="Revisión de solicitud" className="review-workspace">
               {selected ? (
                 // key: a different ticket starts with a fresh form, not the previous ticket's draft.
-                <ReviewPanel key={selected.id} ticket={selected} api={props.api} onReviewed={replaceTicket} />
+                <ReviewPanel key={selected.id} ticket={selected} api={props.api} onReviewed={replaceTicket}
+                  onSavingChange={setReviewSaving} nextTicket={nextTicket}
+                  onNext={() => { if (nextTicket && !reviewSaving) setSelectedId(nextTicket.id); }} />
               ) : (
-                <p className="rounded-lg border border-dashed border-slate-300 p-6 text-sm text-slate-500">
-                  Select a ticket to review it.
-                </p>
+                <div className="empty-review">
+                  <span className="empty-mark" aria-hidden="true">↗</span>
+                  <h2>Una decisión a la vez</h2>
+                  <p>Seleccioná una solicitud de la bandeja para comparar el mensaje con la sugerencia de IA.</p>
+                  {tickets.length === 0 && <p>Para empezar, agregá un mensaje o importá un CSV más abajo.</p>}
+                </div>
               )}
-            </aside>
+            </section>
           </main>
+          <details className="intake-panel" open>
+            <summary>Agregar solicitudes</summary>
+            <p className="intake-hint">Escribí un mensaje o importá varias solicitudes. Después, elegí cuándo clasificarlas.</p>
+            <AddRequests api={props.api} onAdded={() => void reload()} />
+          </details>
         </>
       )}
     </div>

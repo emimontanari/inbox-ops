@@ -1,11 +1,17 @@
 import { useState } from "react";
 import type { Ticket, TicketStatus } from "../../../src/domain/ticket.js";
+import { CATEGORIES, type Category } from "../../../src/domain/category.js";
 import { CATEGORY_LABEL, MISSING_FIELD_LABEL, STATUS_LABEL, currentTriage, headline } from "../labels.js";
 
 type Filter = "all" | TicketStatus;
 
+// Normalize only for matching; never rewrite the customer's text or stored data.
+function normalize(text: string): string {
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("es");
+}
+
 const FILTERS: ReadonlyArray<{ value: Filter; label: string }> = [
-  { value: "all", label: "All" },
+  { value: "all", label: "Todas" },
   { value: "awaiting_review", label: STATUS_LABEL.awaiting_review },
   { value: "triage_failed", label: STATUS_LABEL.triage_failed },
   { value: "new", label: STATUS_LABEL.new },
@@ -27,21 +33,77 @@ export function TicketList(props: {
   const [filter, setFilter] = useState<Filter>("all");
   const count = (value: Filter) =>
     value === "all" ? props.tickets.length : props.tickets.filter((t) => t.status === value).length;
-  const visible = filter === "all" ? props.tickets : props.tickets.filter((t) => t.status === filter);
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState<Category | "all" | "unclassified">("all");
+  const [order, setOrder] = useState<"oldest" | "newest">("oldest");
+  const [onlyMissing, setOnlyMissing] = useState(false);
+  const normalizedQuery = normalize(query.trim());
+  const visible = props.tickets.filter((ticket) => {
+    const triage = currentTriage(ticket);
+    const matchesCategory = category === "all" || (category === "unclassified" ? !triage : triage?.category === category);
+    const searchable = [ticket.id, ticket.body, headline(ticket), triage?.extracted.orderNumber, triage?.extracted.returnReason];
+    return (filter === "all" || ticket.status === filter) && matchesCategory
+      && (!onlyMissing || (triage?.missingFields.length ?? 0) > 0)
+      && searchable.some((text) => normalize(text ?? "").includes(normalizedQuery));
+  }).sort((a, b) => {
+    const byReceived = Date.parse(a.receivedAt) - Date.parse(b.receivedAt);
+    return (order === "oldest" ? byReceived : -byReceived) || a.id.localeCompare(b.id);
+  });
+  const hasFilters = query !== "" || category !== "all" || filter !== "all" || onlyMissing;
+
+  function clearFilters() {
+    setQuery("");
+    setCategory("all");
+    setFilter("all");
+    setOnlyMissing(false);
+  }
 
   return (
-    <section className="flex flex-col gap-3">
-      <div role="tablist" aria-label="Filter tickets by status" className="flex flex-wrap gap-1">
+    <section className="ticket-list" aria-label="Solicitudes">
+      <div className="panel-heading">
+        <h2>Solicitudes</h2>
+        <span aria-live="polite" aria-atomic="true">{visible.length} de {props.tickets.length} solicitudes</span>
+      </div>
+      <div className="flex min-w-0 flex-col gap-3">
+        <label className="flex flex-col gap-1 text-xs font-medium text-slate-600">
+          Buscar solicitudes
+          <input type="search" value={query} onChange={(event) => setQuery(event.target.value)}
+            placeholder="Texto, ID o número de pedido" className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
+        </label>
+        <label className="flex flex-col gap-1 text-xs font-medium text-slate-600">
+          Filtrar por categoría
+          <select value={category} onChange={(event) => setCategory(event.target.value as typeof category)}
+            className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm">
+            <option value="all">Todas las categorías</option>
+            {CATEGORIES.map((value) => <option key={value} value={value}>{CATEGORY_LABEL[value]}</option>)}
+            <option value="unclassified">Sin clasificar</option>
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-xs font-medium text-slate-600">
+          Ordenar solicitudes
+          <select value={order} onChange={(event) => setOrder(event.target.value as typeof order)}
+            className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm">
+            <option value="oldest">Más antiguas primero</option>
+            <option value="newest">Más recientes primero</option>
+          </select>
+        </label>
+        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-slate-700">
+          <input type="checkbox" checked={onlyMissing} onChange={(event) => setOnlyMissing(event.target.checked)}
+            aria-describedby="missing-data-scope" className="h-5 w-5 shrink-0 accent-indigo-600" />
+          Solo con datos faltantes
+        </label>
+        <p id="missing-data-scope" className="text-xs text-slate-600">Incluye datos faltantes detectados en la clasificación actual; excluye solicitudes nuevas o fallidas sin clasificar.</p>
+        <button type="button" className="action-secondary self-start" disabled={!hasFilters} onClick={clearFilters}>Limpiar filtros</button>
+      </div>
+      <p className="text-xs text-slate-600">Los conteos por estado corresponden a toda la bandeja.</p>
+      <div role="group" aria-label="Filtrar solicitudes por estado" className="status-filters">
         {FILTERS.map(({ value, label }) => (
           <button
             key={value}
             type="button"
-            role="tab"
-            aria-selected={filter === value}
+            aria-pressed={filter === value}
             onClick={() => setFilter(value)}
-            className={`rounded-md px-3 py-1.5 text-sm font-medium ${
-              filter === value ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-200"
-            }`}
+            className="filter-button"
           >
             {label}
             <span className="ml-1.5 text-xs opacity-70">{count(value)}</span>
@@ -51,10 +113,10 @@ export function TicketList(props: {
 
       {visible.length === 0 ? (
         <p className="rounded-lg border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">
-          No tickets in this view.
+          No hay solicitudes en esta vista.{hasFilters && " Probá otra búsqueda o limpiá los filtros."}
         </p>
       ) : (
-        <ul className="flex flex-col gap-2">
+        <ul className="ticket-items">
           {visible.map((ticket) => {
             const triage = currentTriage(ticket);
             const missing = triage?.missingFields ?? [];
@@ -64,21 +126,19 @@ export function TicketList(props: {
                   type="button"
                   aria-current={props.selectedId === ticket.id}
                   onClick={() => props.onSelect(ticket.id)}
-                  className={`w-full rounded-lg border bg-white p-3 text-left shadow-sm transition hover:border-slate-400 ${
-                    props.selectedId === ticket.id ? "border-slate-900 ring-1 ring-slate-900" : "border-slate-200"
-                  }`}
+                  className="ticket-card"
                 >
-                  <div className="mb-1 flex items-center gap-2 text-xs">
+                  <div className="ticket-meta">
                     <span className={`rounded px-1.5 py-0.5 font-medium ${STATUS_STYLE[ticket.status]}`}>
                       {STATUS_LABEL[ticket.status]}
                     </span>
                     {triage && <span className="font-medium text-slate-700">{CATEGORY_LABEL[triage.category]}</span>}
-                    <span className="ml-auto text-slate-400">{ticket.id}</span>
+                    <span className="ticket-id" title={ticket.id}>{ticket.id}</span>
                   </div>
-                  <p className="line-clamp-2 text-sm">{headline(ticket)}</p>
+                  <p className="ticket-headline">{headline(ticket)}</p>
                   {missing.length > 0 && (
                     <p className="mt-1 text-xs text-amber-700">
-                      Missing: {missing.map((field) => MISSING_FIELD_LABEL[field]).join(", ")}
+                      Falta: {missing.map((field) => MISSING_FIELD_LABEL[field]).join(", ")}
                     </p>
                   )}
                 </button>

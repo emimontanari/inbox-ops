@@ -4,18 +4,19 @@ import type { CorrectionInput, ReviewDecision, ReviewedTicket, Ticket } from "..
 // The same pure domain rule the backend uses: the preview cannot drift from the server.
 import { findMissingFields, type ExtractedData, type MissingField } from "../../../src/domain/triage-suggestion.js";
 import { ApiError, type ApiClient } from "../api.js";
-import { CATEGORY_LABEL, MISSING_FIELD_LABEL } from "../labels.js";
+import { CATEGORY_LABEL, MISSING_FIELD_LABEL, currentTriage } from "../labels.js";
+import { assessOrderGrounding } from "../order-grounding.js";
 
 const DECISION_LABEL: Record<ReviewDecision, string> = {
-  accepted: "Accepted",
-  corrected: "Corrected",
-  manual: "Manual triage",
+  accepted: "Aceptada",
+  corrected: "Corregida",
+  manual: "Clasificación manual",
 };
 
 const ERROR_MESSAGE: Record<string, string> = {
-  not_reviewable: "This ticket was already reviewed. Reload to see its current state.",
-  not_found: "This ticket no longer exists. Reload the list.",
-  invalid_category: "Choose a valid category.",
+  not_reviewable: "Esta solicitud ya se revisó. Recarga para ver su estado actual.",
+  not_found: "Esta solicitud ya no existe. Recarga la lista.",
+  invalid_category: "Elige una categoría válida.",
 };
 
 type Draft = { category: string; orderNumber: string; returnReason: string };
@@ -24,23 +25,36 @@ export function ReviewPanel(props: {
   ticket: Ticket;
   api: ApiClient;
   onReviewed: (ticket: ReviewedTicket) => void;
+  nextTicket?: Ticket | undefined;
+  onNext?: () => void;
+  onSavingChange?: (saving: boolean) => void;
 }) {
   const { ticket } = props;
+  const triage = currentTriage(ticket);
+  const grounding = triage ? assessOrderGrounding(ticket.body, triage.extracted.orderNumber) : undefined;
   const [saving, setSaving] = useState<"accept" | "correct" | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [editing, setEditing] = useState(ticket.status === "triage_failed");
   const [draft, setDraft] = useState<Draft>(() => initialDraft(ticket));
 
+  function cancelCorrection() {
+    setDraft(initialDraft(ticket));
+    setError(undefined);
+    setEditing(false);
+  }
+
   async function save(action: "accept" | "correct", call: () => Promise<ReviewedTicket>) {
     setSaving(action);
+    props.onSavingChange?.(true);
     setError(undefined);
     try {
       props.onReviewed(await call());
     } catch (failure) {
       const code = failure instanceof ApiError ? failure.code : undefined;
-      setError((code && ERROR_MESSAGE[code]) ?? "Could not save the review. Try again.");
+      setError((code && ERROR_MESSAGE[code]) ?? "No se pudo guardar la revisión. Inténtalo de nuevo.");
     } finally {
       setSaving(undefined);
+      props.onSavingChange?.(false);
     }
   }
 
@@ -50,22 +64,26 @@ export function ReviewPanel(props: {
   }
 
   return (
-    <section className="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <section className="review-panel">
+      <div className="panel-heading">
+        <h2>Detalle de la solicitud</h2>
+        <span className="ticket-id" title={ticket.id}>{ticket.id}</span>
+      </div>
       <div>
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Customer message</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Mensaje del cliente</h2>
         <p className="mt-1 whitespace-pre-wrap rounded-md bg-slate-50 p-3 text-sm">{ticket.body}</p>
       </div>
 
-      {ticket.status === "new" && <p className="text-sm text-slate-500">Waiting for triage.</p>}
+      {ticket.status === "new" && <p className="text-sm text-slate-500">En espera de clasificación.</p>}
 
       {ticket.status === "triage_failed" && (
         <p className="rounded-md bg-red-50 p-3 text-sm text-red-800">
-          The model could not triage this request ({ticket.triageError}).
+          No se pudo clasificar esta solicitud ({ticket.triageError}).
         </p>
       )}
 
       {ticket.status === "awaiting_review" && (
-        <Triage title="Model suggestion" summary={ticket.suggestion.summary} triage={ticket.suggestion} />
+        <Triage title="Sugerencia del modelo" summary={ticket.suggestion.summary} triage={ticket.suggestion} />
       )}
 
       {ticket.status === "reviewed" && (
@@ -75,28 +93,55 @@ export function ReviewPanel(props: {
               {DECISION_LABEL[ticket.review.decision]}
             </span>
           </p>
-          <Triage title="Final triage" summary={ticket.suggestion?.summary} triage={ticket.review.final} />
+          <Triage title="Clasificación final" summary={ticket.suggestion?.summary} triage={ticket.review.final} />
         </>
       )}
 
+      {grounding && (
+        <aside aria-label="Comprobaciones de revisión" className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+          <h2 className="font-semibold">Antes de confirmar</h2>
+          <p className="mt-2">
+            {grounding === "not_found"
+              ? "El número de pedido no aparece como identificador completo en el mensaje. Revisá si la IA lo inventó o si se agregó después durante la revisión."
+              : grounding === "present"
+                ? "Aparece en el mensaje, pero eso no confirma que sea un pedido real ni que pertenezca al cliente. Puede ser otro dato o una instrucción incrustada."
+                : "No hay número de pedido para contrastar con el mensaje."}
+          </p>
+          <p className="mt-2">Compará el resumen con el mensaje: quién hizo qué, negaciones, importes y fechas. La fidelidad del resumen no se verifica automáticamente.</p>
+        </aside>
+      )}
+
       {ticket.status === "awaiting_review" && !editing && (
-        <div className="flex gap-2">
+        <div className="review-actions">
           <Button primary disabled={saving !== undefined} onClick={() => void save("accept", () => props.api.accept(ticket.id))}>
-            {saving === "accept" ? "Saving…" : "Accept"}
+            {saving === "accept" ? "Guardando…" : "Aceptar sugerencia"}
           </Button>
           <Button disabled={saving !== undefined} onClick={() => setEditing(true)}>
-            Correct
+            Corregir
           </Button>
+        </div>
+      )}
+
+      {ticket.status === "triage_failed" && !editing && (
+        <Button disabled={saving !== undefined} onClick={() => { setDraft(initialDraft(ticket)); setError(undefined); setEditing(true); }}>Clasificar manualmente</Button>
+      )}
+
+      {ticket.status === "reviewed" && (
+        <div className="review-actions">
+          <Button disabled={!props.nextTicket || !props.onNext || saving !== undefined} onClick={() => props.onNext?.()}>Siguiente por revisar</Button>
+          {!props.nextTicket && <span> No quedan solicitudes pendientes de revisar.</span>}
+          <p>Pendientes de toda la bandeja</p>
         </div>
       )}
 
       {editing && ticket.status !== "reviewed" && (
         <CorrectionForm
-          title={ticket.status === "triage_failed" ? "Triage manually" : "Correct the suggestion"}
+          title={ticket.status === "triage_failed" ? "Clasificar manualmente" : "Corregir la sugerencia"}
           draft={draft}
           onChange={setDraft}
           onSubmit={submitCorrection}
-          saving={saving === "correct"}
+          saving={saving !== undefined}
+          onCancel={cancelCorrection}
         />
       )}
 
@@ -119,17 +164,17 @@ function Triage(props: {
     <div>
       <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">{props.title}</h2>
       {props.summary && <p className="mt-1 text-sm">{props.summary}</p>}
-      <dl className="mt-3 grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1 text-sm">
-        <dt className="text-slate-500">Category</dt>
+      <dl className="triage-fields">
+        <dt className="text-slate-500">Categoría</dt>
         <dd className="font-medium">{CATEGORY_LABEL[category]}</dd>
-        <dt className="text-slate-500">Order number</dt>
+        <dt className="text-slate-500">Número de pedido</dt>
         <dd>{extracted.orderNumber ?? "—"}</dd>
-        <dt className="text-slate-500">Return reason</dt>
+        <dt className="text-slate-500">Motivo de devolución</dt>
         <dd>{extracted.returnReason ?? "—"}</dd>
       </dl>
       {missingFields.length > 0 && (
         <p className="mt-2 text-xs text-amber-700">
-          Missing: {missingFields.map((field) => MISSING_FIELD_LABEL[field]).join(", ")}
+          Falta: {missingFields.map((field) => MISSING_FIELD_LABEL[field]).join(", ")}
         </p>
       )}
     </div>
@@ -142,6 +187,7 @@ function CorrectionForm(props: {
   onChange: (draft: Draft) => void;
   onSubmit: (event: SubmitEvent<HTMLFormElement>) => void;
   saving: boolean;
+  onCancel: () => void;
 }) {
   const { draft } = props;
   const update = (field: keyof Draft) => (value: string) => props.onChange({ ...draft, [field]: value });
@@ -150,15 +196,16 @@ function CorrectionForm(props: {
   return (
     <form onSubmit={props.onSubmit} className="flex flex-col gap-3 border-t border-slate-200 pt-4">
       <h2 className="text-sm font-semibold">{props.title}</h2>
-      <Field id="category" label="Category">
+      <Field id="category" label="Categoría">
         <select
           id="category"
           value={draft.category}
+          disabled={props.saving}
           onChange={(e) => update("category")(e.target.value)}
           className="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm"
         >
           <option value="" disabled>
-            Choose a category
+            Elige una categoría
           </option>
           {CATEGORIES.map((category) => (
             <option key={category} value={category}>
@@ -167,18 +214,20 @@ function CorrectionForm(props: {
           ))}
         </select>
       </Field>
-      <Field id="order-number" label="Order number">
+      <Field id="order-number" label="Número de pedido">
         <input
           id="order-number"
           value={draft.orderNumber}
+          disabled={props.saving}
           onChange={(e) => update("orderNumber")(e.target.value)}
           className="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm"
         />
       </Field>
-      <Field id="return-reason" label="Return reason">
+      <Field id="return-reason" label="Motivo de devolución">
         <input
           id="return-reason"
           value={draft.returnReason}
+          disabled={props.saving}
           onChange={(e) => update("returnReason")(e.target.value)}
           className="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm"
         />
@@ -186,14 +235,15 @@ function CorrectionForm(props: {
       {missing && (
         <p className={`text-xs ${missing.length > 0 ? "text-amber-700" : "text-emerald-700"}`}>
           {missing.length > 0
-            ? `Still missing: ${missing.map((field) => MISSING_FIELD_LABEL[field]).join(", ")}`
-            : "Nothing missing"}
+            ? `Aún falta: ${missing.map((field) => MISSING_FIELD_LABEL[field]).join(", ")}`
+            : "No falta nada"}
         </p>
       )}
-      <div>
+      <div className="review-actions">
         <Button primary type="submit" disabled={props.saving || !isCategory(draft.category)}>
-          {props.saving ? "Saving…" : "Save review"}
+          {props.saving ? "Guardando…" : "Guardar revisión"}
         </Button>
+        <Button disabled={props.saving} onClick={props.onCancel}>Cancelar</Button>
       </div>
     </form>
   );
@@ -222,9 +272,7 @@ function Button(props: {
       type={props.type ?? "button"}
       onClick={props.onClick}
       disabled={props.disabled}
-      className={`rounded-md px-3 py-1.5 text-sm font-medium disabled:opacity-50 ${
-        props.primary ? "bg-slate-900 text-white hover:bg-slate-700" : "border border-slate-300 hover:bg-slate-100"
-      }`}
+      className={props.primary ? "action-primary" : "action-secondary"}
     >
       {props.children}
     </button>

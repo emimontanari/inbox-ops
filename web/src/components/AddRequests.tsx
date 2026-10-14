@@ -7,10 +7,10 @@ import { parseRequestsCsv, type CsvRequest } from "../csv.js";
 const BATCH_SIZE = 200;
 
 const REJECTION_LABEL: Record<AddRequestsResult["rejected"][number]["error"], string> = {
-  empty_id: "empty id",
-  empty_body: "empty message",
-  body_too_long: "message too long",
-  duplicate_id: "duplicate id",
+  empty_id: "identificador vacío",
+  empty_body: "mensaje vacío",
+  body_too_long: "mensaje demasiado largo",
+  duplicate_id: "identificador duplicado",
 };
 
 type Feedback = { kind: "status" | "error"; text: string };
@@ -34,7 +34,7 @@ export function AddRequests(props: { api: ApiClient; onAdded: () => void }) {
       props.onAdded();
       return true;
     } catch {
-      setFeedback({ kind: "error", text: "Could not add the requests. Is the API running?" });
+      setFeedback({ kind: "error", text: "No se pudieron añadir las solicitudes. ¿Está en marcha la API?" });
       return false;
     } finally {
       setBusy(false);
@@ -59,10 +59,10 @@ export function AddRequests(props: { api: ApiClient; onAdded: () => void }) {
   }
 
   return (
-    <section className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <section className="flex min-w-0 flex-col gap-3">
       <div className="flex flex-col gap-1">
         <label htmlFor="new-message" className="text-xs font-medium text-slate-600">
-          Customer message
+          Mensaje del cliente
         </label>
         <textarea
           id="new-message"
@@ -77,15 +77,15 @@ export function AddRequests(props: { api: ApiClient; onAdded: () => void }) {
           type="button"
           disabled={busy || message.trim() === ""}
           onClick={() => void addMessage()}
-          className="rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
+          className="action-primary"
         >
-          Add request
+          Añadir solicitud
         </button>
-        <label className="cursor-pointer text-sm text-slate-600 underline">
-          Import CSV
+        <label className="csv-import action-secondary">
+          Importar CSV
           <input type="file" accept=".csv,text/csv" disabled={busy} onChange={(e) => void importCsv(e)} className="sr-only" />
         </label>
-        <span className="text-xs text-slate-400">CSV columns: body (required), id (optional)</span>
+        <span className="text-xs text-slate-600">Columnas del CSV: body (obligatoria), id (opcional)</span>
       </div>
       {feedback && (
         <p
@@ -100,10 +100,10 @@ export function AddRequests(props: { api: ApiClient; onAdded: () => void }) {
 }
 
 function describe(result: AddRequestsResult): string {
-  const added = `Added ${result.added.length} request${result.added.length === 1 ? "" : "s"}.`;
+  const added = result.added.length === 1 ? "Se añadió 1 solicitud." : `Se añadieron ${result.added.length} solicitudes.`;
   if (result.rejected.length === 0) return added;
   const details = result.rejected
     .map((r) => `#${r.index + 1} (${r.id}) ${REJECTION_LABEL[r.error]}`)
     .join(", ");
-  return `${added} Rejected ${result.rejected.length}: ${details}.`;
+  return `${added} Rechazadas ${result.rejected.length}: ${details}.`;
 }

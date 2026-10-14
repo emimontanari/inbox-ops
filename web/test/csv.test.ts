@@ -39,15 +39,15 @@ describe("parseRequestsCsv", () => {
   it("requires a body column", () => {
     expect(parseRequestsCsv("id,message\nt-1,Hola")).toEqual({
       ok: false,
-      error: 'The CSV needs a header row with a "body" column.',
+      error: 'El CSV necesita una fila de encabezado con una columna "body".',
     });
   });
 
   it("reports an unclosed quote", () => {
-    expect(parseRequestsCsv('body\n"Hola')).toEqual({ ok: false, error: "The CSV has an unclosed quote." });
+    expect(parseRequestsCsv('body\n"Hola')).toEqual({ ok: false, error: "El CSV tiene una comilla sin cerrar." });
   });
 
   it("reports a file with no requests", () => {
-    expect(parseRequestsCsv("body\n")).toEqual({ ok: false, error: "The CSV has no requests." });
+    expect(parseRequestsCsv("body\n")).toEqual({ ok: false, error: "El CSV no contiene solicitudes." });
   });
 });

@@ -3,22 +3,22 @@ import type { Ticket, TicketStatus } from "../../src/domain/ticket.js";
 import type { MissingField } from "../../src/domain/triage-suggestion.js";
 
 export const CATEGORY_LABEL: Record<Category, string> = {
-  shipping: "Shipping",
-  billing: "Billing",
-  returns: "Returns",
-  other: "Other",
+  shipping: "Envío",
+  billing: "Facturación",
+  returns: "Devoluciones",
+  other: "Otro",
 };
 
 export const STATUS_LABEL: Record<TicketStatus, string> = {
-  new: "New",
-  awaiting_review: "To review",
-  triage_failed: "Failed",
-  reviewed: "Reviewed",
+  new: "Nueva",
+  awaiting_review: "Por revisar",
+  triage_failed: "Fallida",
+  reviewed: "Revisada",
 };
 
 export const MISSING_FIELD_LABEL: Record<MissingField, string> = {
-  order_number: "order number",
-  return_reason: "return reason",
+  order_number: "número de pedido",
+  return_reason: "motivo de devolución",
 };
 
 // What a person should read first: the final decision, then the model's suggestion, then the raw text.
