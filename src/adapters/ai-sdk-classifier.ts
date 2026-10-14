@@ -1,17 +1,11 @@
-import {
-  APICallError,
-  generateText,
-  NoObjectGeneratedError,
-  NoOutputGeneratedError,
-  Output,
-  type LanguageModel,
-} from "ai";
+import { generateText, Output, type LanguageModel } from "ai";
 import { z } from "zod";
 import type { Classifier, ClassifierResult } from "../application/classifier.js";
 import { CATEGORIES } from "../domain/category.js";
 import { fail, ok } from "../domain/result.js";
 import type { SupportRequest } from "../domain/support-request.js";
 import type { ExtractedData } from "../domain/triage-suggestion.js";
+import { isInvalidOutput } from "./ai-sdk-errors.js";
 
 const DEFAULT_TIMEOUT_MS = 20_000;
 
@@ -79,18 +73,6 @@ export function createAiSdkClassifier(deps: AiSdkClassifierDeps): Classifier {
       }
     },
   };
-}
-
-function isInvalidOutput(error: unknown): boolean {
-  if (NoObjectGeneratedError.isInstance(error) || NoOutputGeneratedError.isInstance(error)) return true;
-  // Providers that enforce the schema server-side (Groq) reject an invalid generation
-  // with HTTP 400 instead of returning it: the model answered, the answer was invalid.
-  return (
-    APICallError.isInstance(error) &&
-    error.statusCode === 400 &&
-    (error.responseBody?.includes("json_validate_failed") === true ||
-      /failed to generate json/i.test(error.message))
-  );
 }
 
 function toExtractedData(output: z.infer<typeof triageSchema>): ExtractedData {

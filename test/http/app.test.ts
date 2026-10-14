@@ -2,9 +2,12 @@ import { describe, expect, it } from "vitest";
 import { InMemoryTicketRepository } from "../../src/adapters/in-memory-ticket-repository.js";
 import type { ClassifierResult } from "../../src/application/classifier.js";
 import { createInbox } from "../../src/application/inbox.js";
+import { createDraftReply } from "../../src/application/draft-reply.js";
+import type { DrafterResult } from "../../src/application/reply-drafter.js";
 import { createTriageRequest } from "../../src/application/triage-request.js";
 import { createApp } from "../../src/http/app.js";
 import { FakeClassifier } from "../support/fake-classifier.js";
+import { FakeDrafter } from "../support/fake-drafter.js";
 
 const NOW = "2026-10-13T10:00:00.000Z";
 
@@ -13,12 +16,16 @@ const shippingAnswer: ClassifierResult = {
   value: { category: "shipping", summary: "Consulta por el pedido 1234.", extracted: { orderNumber: "1234" } },
 };
 
-function setup(classifier = FakeClassifier.returning(shippingAnswer)) {
+const passages = [{ id: "shipping-tracking", title: "Seguimiento", topics: ["shipping" as const], text: "Abrimos una consulta con el transportista si no hay novedades del pedido." }];
+const draftAnswer: DrafterResult = { ok: true, value: { sentences: [{ text: "Abrimos una consulta con el transportista.", sourceIds: ["shipping-tracking"] }] } };
+
+function setup(classifier = FakeClassifier.returning(shippingAnswer), drafter = FakeDrafter.returning(draftAnswer)) {
   const repository = new InMemoryTicketRepository();
   const inbox = createInbox({ repository, triageRequest: createTriageRequest({ classifier }), now: () => NOW });
+  const draftReply = createDraftReply({ repository, drafter, passages });
   let nextId = 0;
-  const app = createApp({ inbox, generateId: () => `gen-${++nextId}` });
-  return { app, repository, classifier };
+  const app = createApp({ inbox, draftReply, generateId: () => `gen-${++nextId}` });
+  return { app, repository, classifier, drafter };
 }
 
 function post(app: ReturnType<typeof setup>["app"], path: string, body?: unknown) {
@@ -137,6 +144,43 @@ describe("HTTP API", () => {
     expect(before?.status).toBe("awaiting_review");
   });
 
+  it("drafts a reply with its cited sources without changing the ticket", async () => {
+    const { app, repository } = setup();
+    await addAndTriage(app);
+    const before = await repository.findById("t-1");
+
+    const response = await post(app, "/api/tickets/t-1/draft");
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({
+      draft: { sentences: [{ text: "Abrimos una consulta con el transportista.", sourceIds: ["shipping-tracking"] }], sources: passages },
+    });
+    expect(await repository.findById("t-1")).toEqual(before);
+  });
+
+  it("maps draft errors to HTTP status codes", async () => {
+    const unavailable = setup(undefined, FakeDrafter.returning({ ok: false, error: "unavailable" }));
+    const invalid = setup(undefined, FakeDrafter.returning({ ok: false, error: "invalid_output" }));
+    await addAndTriage(unavailable.app);
+    await addAndTriage(invalid.app);
+    await post(unavailable.app, "/api/tickets", { requests: [{ id: "t-new", body: "Hola" }] });
+
+    const responses = [
+      await post(unavailable.app, "/api/tickets/missing/draft"),
+      await post(unavailable.app, "/api/tickets/t-new/draft"),
+      await post(unavailable.app, "/api/tickets/t-1/draft"),
+      await post(invalid.app, "/api/tickets/t-1/draft"),
+    ];
+
+    expect(responses.map((response) => response.status)).toEqual([404, 409, 503, 502]);
+    expect(await Promise.all(responses.map((response) => response.json()))).toEqual([
+      { error: "not_found" },
+      { error: "not_draftable" },
+      { error: "drafter_unavailable" },
+      { error: "drafter_invalid_output" },
+    ]);
+  });
+
   it("hides internal errors behind a generic 500", async () => {
     const repository = new InMemoryTicketRepository();
     repository.list = async () => {
@@ -147,7 +191,8 @@ describe("HTTP API", () => {
       triageRequest: createTriageRequest({ classifier: FakeClassifier.returning(shippingAnswer) }),
       now: () => NOW,
     });
-    const app = createApp({ inbox, generateId: () => "x", logError: () => {} });
+    const draftReply = createDraftReply({ repository, drafter: FakeDrafter.returning(draftAnswer), passages });
+    const app = createApp({ inbox, draftReply, generateId: () => "x", logError: () => {} });
 
     const response = await app.request("/api/tickets");
 

@@ -2,6 +2,7 @@ import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono, type Context } from "hono";
 import { bodyLimit } from "hono/body-limit";
 import { z } from "zod";
+import type { DraftReply } from "../application/draft-reply.js";
 import type { Inbox } from "../application/inbox.js";
 import type { ExtractedData } from "../domain/triage-suggestion.js";
 
@@ -32,10 +33,19 @@ const REVIEW_ERROR_STATUS = {
   invalid_category: 400,
 } as const;
 
+// The provider failing is a gateway problem, not a client error.
+const DRAFT_ERROR_STATUS = {
+  not_found: 404,
+  not_draftable: 409,
+  drafter_unavailable: 503,
+  drafter_invalid_output: 502,
+} as const;
+
 type ReadBody<T> = { ok: true; value: T } | { ok: false; response: Response };
 
 export function createApp(deps: {
   inbox: Inbox;
+  draftReply: DraftReply;
   generateId: () => string;
   logError?: (error: unknown) => void;
   // Folder with the built web app (web/dist). Without it only the API is served.
@@ -85,6 +95,14 @@ export function createApp(deps: {
     return result.ok
       ? c.json({ ticket: result.value })
       : c.json({ error: result.error }, REVIEW_ERROR_STATUS[result.error]);
+  });
+
+  // Spends provider tokens; the draft is returned, never stored or sent.
+  app.post("/api/tickets/:id/draft", async (c) => {
+    const result = await deps.draftReply(c.req.param("id"));
+    return result.ok
+      ? c.json({ draft: result.value })
+      : c.json({ error: result.error }, DRAFT_ERROR_STATUS[result.error]);
   });
 
   // A mistyped API path must fail as an API error, never return the web app's HTML.

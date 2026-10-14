@@ -9,6 +9,16 @@ All bodies are JSON. Input shapes are validated at the boundary (`400 invalid_bo
 | `POST /api/triage` | optional `{ retryFailed: true }` | `200 { triaged, failed }` | `400 invalid_body` |
 | `POST /api/tickets/:id/accept` | — | `200 { ticket }` | `404 not_found`, `409 not_reviewable` |
 | `POST /api/tickets/:id/correct` | `{ category, extracted: { orderNumber?, returnReason? } }` | `200 { ticket }` | `400 invalid_body` or `invalid_category`, `404 not_found`, `409 not_reviewable` |
+| `POST /api/tickets/:id/draft` | — | `200 { draft: { sentences, sources } }` | `404 not_found`, `409 not_draftable`, `502 drafter_invalid_output`, `503 drafter_unavailable` |
+
+## Reply drafts
+
+`POST /api/tickets/:id/draft` suggests a Spanish reply for a ticket that is `awaiting_review` or `reviewed`; `new` and `triage_failed` tickets return `409 not_draftable`. It spends provider tokens on every call. The draft is returned only: it is not stored, the ticket does not change, and nothing is sent to the customer.
+
+- `sentences`: `[{ text, sourceIds }]` in reading order. `sourceIds` lists the policy passages the model says support the sentence; an empty list means the sentence states no policy or is unsupported.
+- `sources`: the cited passages `{ id, title, topics, text }` from `knowledge/store-policies.json`.
+
+The server retrieves up to three passages with deterministic word matching plus the ticket category, sends only those to the model, and rejects a draft that cites any other id (`502 drafter_invalid_output`). A valid citation shows which passage the model points to; it does not prove the sentence is correct. A reviewed ticket is drafted from the final human triage.
 
 `rejected` items look like `{ index, id, error }`, where `error` is `empty_id`, `empty_body`, `body_too_long` or `duplicate_id`.
 

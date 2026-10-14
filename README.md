@@ -166,6 +166,7 @@ All bodies are JSON. Input shapes are validated at the boundary (`400 invalid_bo
 | `POST /api/triage` | optional `{ retryFailed: true }` | `200 { triaged, failed }` | `400 invalid_body` |
 | `POST /api/tickets/:id/accept` | — | `200 { ticket }` | `404 not_found`, `409 not_reviewable` |
 | `POST /api/tickets/:id/correct` | `{ category, extracted: { orderNumber?, returnReason? } }` | `200 { ticket }` | `400 invalid_body` or `invalid_category`, `404 not_found`, `409 not_reviewable` |
+| `POST /api/tickets/:id/draft` | — | `200 { draft: { sentences, sources } }`; not stored, never sent | `404 not_found`, `409 not_draftable`, `502 drafter_invalid_output`, `503 drafter_unavailable` |
 
 When `web/dist` exists the same server serves the web app; other non-API paths fall back to `index.html`. An unknown `/api/...` path always answers `404 { error: "not_found" }` in JSON, never the app's HTML.
 

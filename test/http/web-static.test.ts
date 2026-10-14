@@ -3,20 +3,24 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { InMemoryTicketRepository } from "../../src/adapters/in-memory-ticket-repository.js";
+import { createDraftReply } from "../../src/application/draft-reply.js";
 import { createInbox } from "../../src/application/inbox.js";
 import { createTriageRequest } from "../../src/application/triage-request.js";
 import { createApp } from "../../src/http/app.js";
 import { FakeClassifier } from "../support/fake-classifier.js";
+import { FakeDrafter } from "../support/fake-drafter.js";
 
 const INDEX_HTML = '<!doctype html><div id="root"></div>';
 
 function createTestApp(webRoot?: string) {
+  const repository = new InMemoryTicketRepository();
   const inbox = createInbox({
-    repository: new InMemoryTicketRepository(),
+    repository,
     triageRequest: createTriageRequest({ classifier: FakeClassifier.returning({ ok: false, error: "unavailable" }) }),
     now: () => "2026-10-13T10:00:00.000Z",
   });
-  return createApp({ inbox, generateId: () => "x", ...(webRoot !== undefined && { webRoot }) });
+  const draftReply = createDraftReply({ repository, drafter: FakeDrafter.returning({ ok: false, error: "unavailable" }), passages: [] });
+  return createApp({ inbox, draftReply, generateId: () => "x", ...(webRoot !== undefined && { webRoot }) });
 }
 
 describe("serving the web app", () => {
