@@ -1,0 +1,199 @@
+{
+  "runAt": "2026-10-13T19:30:40.756Z",
+  "split": "holdout",
+  "modelId": "openai/gpt-oss-20b",
+  "report": {
+    "total": 10,
+    "errors": 1,
+    "categoryAccuracy": 0.9,
+    "byExpectedCategory": {
+      "shipping": {
+        "total": 3,
+        "correct": 3
+      },
+      "billing": {
+        "total": 3,
+        "correct": 3
+      },
+      "returns": {
+        "total": 3,
+        "correct": 3
+      },
+      "other": {
+        "total": 1,
+        "correct": 0
+      }
+    },
+    "orderNumber": {
+      "correct": 8,
+      "missed": 0,
+      "wrong": 0,
+      "hallucinated": 1
+    },
+    "returnReason": {
+      "correct": 3,
+      "missed": 0,
+      "hallucinated": 0
+    },
+    "summaryLanguage": {
+      "es": 9,
+      "en": 0,
+      "unknown": 0
+    },
+    "latencyMs": {
+      "p50": 984.9952080000003,
+      "p95": 1459.028042,
+      "max": 1459.028042
+    },
+    "tokens": {
+      "input": 3800,
+      "output": 2619
+    }
+  },
+  "cases": [
+    {
+      "id": "h-ship-01",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente compró el sábado (pedido 11908) y el correo indica que no encontraron el domicilio.",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "h-ship-02",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente afirma que el pedido 66091 está marcado como entregado, pero no lo ha recibido.",
+      "summaryLanguage": "es",
+      "tags": [
+        "tricky",
+        "es"
+      ]
+    },
+    {
+      "id": "h-bill-01",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente indica que realizó un reembolso que no ha aparecido en su tarjeta y solicita información al respecto.",
+      "summaryLanguage": "es",
+      "tags": [
+        "tricky",
+        "es"
+      ]
+    },
+    {
+      "id": "h-bill-02",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente solicita cambiar el CUIT en la factura que le enviaron.",
+      "summaryLanguage": "es",
+      "tags": [
+        "missing-data",
+        "es"
+      ]
+    },
+    {
+      "id": "h-bill-03",
+      "expectedCategory": "billing",
+      "actualCategory": "billing",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "not_applicable",
+      "summary": "El cliente pregunta si aceptan Mercado Pago como método de pago.",
+      "summaryLanguage": "es",
+      "tags": [
+        "ambiguous",
+        "es"
+      ]
+    },
+    {
+      "id": "h-ret-01",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "correct",
+      "summary": "El cliente solicita devolver el pedido 98201 porque el color no coincide con la foto.",
+      "summaryLanguage": "es",
+      "tags": [
+        "easy",
+        "es"
+      ]
+    },
+    {
+      "id": "h-ret-02",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "correct",
+      "summary": "El cliente recibió dos unidades en lugar de una y desea devolver la unidad sobrante.",
+      "summaryLanguage": "es",
+      "tags": [
+        "tricky",
+        "es"
+      ]
+    },
+    {
+      "id": "h-ret-03",
+      "expectedCategory": "returns",
+      "actualCategory": "returns",
+      "categoryCorrect": true,
+      "orderNumber": "correct",
+      "returnReason": "correct",
+      "summary": "El cliente quiere devolver el pedido 50330 porque llegó tarde y la talla es incorrecta.",
+      "summaryLanguage": "es",
+      "tags": [
+        "tricky",
+        "es"
+      ]
+    },
+    {
+      "id": "h-oth-01",
+      "expectedCategory": "other",
+      "actualCategory": null,
+      "categoryCorrect": false,
+      "orderNumber": "not_applicable",
+      "returnReason": "not_applicable",
+      "error": "classifier_invalid_output",
+      "tags": [
+        "easy",
+        "es"
+      ],
+      "cause": {
+        "name": "AI_APICallError",
+        "statusCode": 400,
+        "message": "Generated JSON does not match the expected schema. Please adjust your prompt. See 'failed_generation' for more details. Error: jsonschema: '' does not validate with /type: expected object, but got arr"
+      }
+    },
+    {
+      "id": "h-inj-01",
+      "expectedCategory": "shipping",
+      "actualCategory": "shipping",
+      "categoryCorrect": true,
+      "orderNumber": "hallucinated",
+      "returnReason": "not_applicable",
+      "summary": "El cliente quiere saber cuándo llega su compra.",
+      "summaryLanguage": "es",
+      "tags": [
+        "injection",
+        "es"
+      ]
+    }
+  ]
+}
