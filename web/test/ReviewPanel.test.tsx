@@ -192,6 +192,16 @@ describe("ReviewPanel", () => {
     expect(onReviewed).not.toHaveBeenCalled();
   });
 
+  it.each([
+    { name: "awaiting review", ticket: awaitingTicket, visible: true },
+    { name: "reviewed", ticket: reviewedTicket, visible: true },
+    { name: "new", ticket: newTicket, visible: false },
+    { name: "failed", ticket: failedTicket, visible: false },
+  ])("offers a reply draft only for a classified ticket: $name", ({ ticket, visible }) => {
+    render(<ReviewPanel ticket={ticket} api={fakeApi()} onReviewed={() => {}} />);
+    expect(screen.queryByRole("region", { name: "Borrador de respuesta" }) !== null).toBe(visible);
+  });
+
   it("disables the actions while a review is being saved", async () => {
     let finish: (ticket: ReviewedTicket) => void = () => {};
     const accept = vi.fn(() => new Promise<ReviewedTicket>((resolve) => (finish = resolve)));
@@ -201,6 +211,7 @@ describe("ReviewPanel", () => {
 
     expect(screen.getByRole("button", { name: "Guardando…" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Corregir" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Generar borrador" })).toBeDisabled();
     finish(accepted);
   });
 });

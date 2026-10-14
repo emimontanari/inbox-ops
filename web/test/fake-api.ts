@@ -13,6 +13,7 @@ export function fakeApi(overrides: Partial<ApiClient> = {}): ApiClient {
     triage: unused("triage"),
     accept: unused("accept"),
     correct: unused("correct"),
+    draftReply: unused("draftReply"),
     ...overrides,
   };
 }

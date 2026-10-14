@@ -1,5 +1,6 @@
 // Types come straight from the backend domain: a contract change breaks this build, not production.
 import type { AddRequestsResult, TriageOutcome } from "../../src/application/inbox.js";
+import type { ReplyDraft } from "../../src/domain/reply-draft.js";
 import type { CorrectionInput, ReviewedTicket, Ticket } from "../../src/domain/ticket.js";
 
 export class ApiError extends Error {
@@ -33,7 +34,7 @@ export function createApiClient(fetchFn: FetchFn = (input, init) => fetch(input,
     return (await response.json()) as T;
   }
 
-  const ticketPath = (id: string, action: "accept" | "correct"): ApiPath =>
+  const ticketPath = (id: string, action: "accept" | "correct" | "draft"): ApiPath =>
     `/api/tickets/${encodeURIComponent(id)}/${action}`;
 
   return {
@@ -52,6 +53,10 @@ export function createApiClient(fetchFn: FetchFn = (input, init) => fetch(input,
     async correct(id: string, input: CorrectionInput): Promise<ReviewedTicket> {
       const path = ticketPath(id, "correct");
       return (await request<{ ticket: ReviewedTicket }>(path, { method: "POST", body: input })).ticket;
+    },
+    // Spends provider tokens: call only on an explicit user action.
+    async draftReply(id: string): Promise<ReplyDraft> {
+      return (await request<{ draft: ReplyDraft }>(ticketPath(id, "draft"), { method: "POST" })).draft;
     },
   };
 }

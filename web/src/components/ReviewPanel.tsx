@@ -6,6 +6,7 @@ import { findMissingFields, type ExtractedData, type MissingField } from "../../
 import { ApiError, type ApiClient } from "../api.js";
 import { CATEGORY_LABEL, MISSING_FIELD_LABEL, currentTriage } from "../labels.js";
 import { assessOrderGrounding } from "../order-grounding.js";
+import { ReplyDraftPanel } from "./ReplyDraftPanel.js";
 
 const DECISION_LABEL: Record<ReviewDecision, string> = {
   accepted: "Aceptada",
@@ -149,6 +150,10 @@ export function ReviewPanel(props: {
         <p role="alert" className="rounded-md bg-red-50 p-3 text-sm text-red-800">
           {error}
         </p>
+      )}
+
+      {(ticket.status === "awaiting_review" || ticket.status === "reviewed") && (
+        <ReplyDraftPanel ticketId={ticket.id} api={props.api} disabled={saving !== undefined} />
       )}
     </section>
   );

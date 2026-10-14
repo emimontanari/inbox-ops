@@ -38,6 +38,14 @@ describe("api client", () => {
     expect(calls[0]).toMatchObject({ url: "/api/tickets/t%201%2F2/accept", method: "POST" });
   });
 
+  it("requests a reply draft for a ticket, encoding its id", async () => {
+    const draft = { sentences: [{ text: "Hola.", sourceIds: [] }], sources: [] };
+    const { fetchFn, calls } = fakeFetch(200, { draft });
+
+    expect(await createApiClient(fetchFn).draftReply("t 1/2")).toEqual(draft);
+    expect(calls).toEqual([{ url: "/api/tickets/t%201%2F2/draft", method: "POST", body: undefined }]);
+  });
+
   it("sends a correction as JSON", async () => {
     const { fetchFn, calls } = fakeFetch(200, { ticket: reviewedTicket });
 
