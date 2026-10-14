@@ -59,4 +59,4 @@ The example data is fictional. Captures contain full generated summaries/extract
 
 ## Next step
 
-Human-review the two flagged summaries and four uncertain cases with the [source-fact protocol](quality-review.md). Then select a bounded prompt/extraction improvement, evaluate it on development cases, and reserve a new independent test set for confirmation. No prompt was changed in this measurement.
+Human-review the two flagged summaries and four uncertain cases with the [source-fact protocol](quality-review.md). Then select a bounded prompt/extraction improvement, evaluate it on development cases, and reserve a new independent test set for confirmation. No prompt was changed in this measurement. A later, separate [paired injection diagnostic](injection-results-v1.md) records the first prompt reinforcement; these historical outputs and unresolved human judgments remain unchanged.

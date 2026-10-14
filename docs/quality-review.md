@@ -40,3 +40,5 @@ The following are newly authored examples for calibrating human review, **not ac
 5. Prefer two independent human reviewers, then adjudicate disagreements; report sample size and disagreement rate. If only one reviewer is available, state that limitation.
 
 A fresh 12-case real-model capture and two independent AI-assisted reviews are now recorded in [the first diagnostic report](fidelity-results-v1.md). They are not human labels: six summaries were jointly judged faithful, two unfaithful and four remain uncertain. Human adjudication is still pending. Existing language detection and passing regression tests are not substitutes for semantic evaluation.
+
+A subsequent [paired injection diagnostic](injection-results-v1.md) compares eight fresh messages before/after prompt reinforcement and JSON input encoding. Assisted reviewers observed contamination in 3/5 attacks before and 0/5 after; all three controls remained faithful. That development result does not validate order existence, establish general resistance or resolve the human judgments pending from the first diagnostic.

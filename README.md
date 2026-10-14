@@ -2,7 +2,14 @@
 
 AI-assisted support inbox for an online store. For each customer request it suggests a category, a short summary and the data that is missing; a person accepts or corrects the suggestion. It never sends emails or changes orders.
 
-> Status: step 6 of 7 done — review inbox. Next: architecture notes and demo. See the roadmap at the end of this file.
+> Status: all seven MVP steps implemented. Local demo only, not production-ready. The holdout found a planted order number and an unfaithful summary; human review remains required.
+
+## Review this project
+
+- [Demo walkthrough](docs/demo.md): import sample requests, classify and review them.
+- [Architecture](docs/architecture.md) and [decision records](docs/decisions/README.md): boundaries and trade-offs.
+- [Evaluation and known failures](docs/evaluation.md): recorded dev and holdout results, not a claim of production quality.
+- [Fresh fidelity diagnostic](docs/fidelity-results-v1.md) and [paired injection mitigation](docs/injection-results-v1.md): real captures with AI-assisted review, uncertainty and limits—not human-scored security guarantees.
 
 ## Quick start
 
@@ -31,7 +38,7 @@ For frontend work with hot reload, run `npm run serve` and, in a second terminal
 
 | Variable | Required | Default | Purpose |
 |---|---|---|---|
-| `GROQ_API_KEY` | yes, for `triage` and `eval` | — | Groq API key from <https://console.groq.com/keys> |
+| `GROQ_API_KEY` | yes, for `triage`, `eval` and `serve` | — | Groq API key from <https://console.groq.com/keys> |
 | `GROQ_MODEL` | no | `openai/gpt-oss-20b` | Groq model id |
 | `EVAL_TOKENS_PER_MINUTE` | no | `8000` | Token budget per minute that `eval` stays under; match your provider's limit |
 | `EVAL_REQUEST_TOKEN_ESTIMATE` | no | `2000` | Tokens reserved per request before sending it; Groq budgets each request by its own estimate, not by the tokens finally used |
@@ -110,7 +117,7 @@ Storage uses `node:sqlite`, built into Node 22 but still marked experimental (No
 The AI SDK adapter:
 
 - Asks for structured output validated by a Zod schema; fields the customer did not write come back as `null` and are dropped.
-- Sends the customer text as the user message, never inside the instructions, and tells the model to treat it as data. This reduces prompt injection risk; it does not remove it.
+- Sends the customer text in a JSON `customerMessage` field, never inside the system instructions. The prompt distinguishes legitimate support requests from embedded model directives and forbids using directive values as customer facts. This is a prompt-level mitigation, not a security guarantee or order verification.
 - Maps unparsable or out-of-schema answers to `invalid_output`, including a provider that validates the schema itself and rejects the generation with HTTP 400 (Groq's `json_validate_failed`). Any other failure (network, timeout of 20 s, rate limit, other provider errors) is `unavailable`.
 - Accepts an optional `onError(requestId, error)` hook with the original error, so callers can diagnose failures; the use case only sees the error code.
 
@@ -146,7 +153,7 @@ The triage use case:
 | `npm run build` | Production build in `web/dist/`, served by `npm run serve` |
 | `npm run check` | Typecheck and tests (Vitest with jsdom and Testing Library) |
 
-The UI copy is in English; ticket summaries stay in Spanish because the support team reads Spanish.
+La interfaz está en español; los resúmenes de solicitudes también se muestran en español porque el equipo de soporte los lee en ese idioma.
 
 ## HTTP API
 
@@ -178,7 +185,7 @@ Each run scores:
 | Metric | How |
 |---|---|
 | Category accuracy | Exact match with the label, overall and per expected category |
-| Order number | `correct`, `missed`, `wrong` or `hallucinated` (the model returned a number the customer never wrote); a leading `#` is ignored |
+| Order number | `correct`, `missed`, `wrong` or `hallucinated` (the label expects no number, but the model returned one, including a number planted by injection); a leading `#` is ignored |
 | Return reason | Only for `returns` cases: `correct`, `missed` or `hallucinated` |
 | Latency | p50, p95 and max per model call, measured by a decorator around the classifier |
 | Tokens | Input and output tokens reported by the provider |
@@ -189,6 +196,12 @@ Failed cases keep a `cause` in the results file (error name, HTTP status and a s
 Cost is reported as tokens; multiply by your provider's current price per token.
 
 The run is sequential and paced by a one-minute sliding token window (`EVAL_TOKENS_PER_MINUTE`), so a provider rate limit is not counted as a quality failure. Pacing makes a run slower: a little over a minute for the dev split on Groq's on-demand tier.
+
+### Recorded holdout result
+
+The saved run of 10 holdout cases returned **9/10 correct categories**, with one provider-side invalid output. It also extracted an order number planted by prompt injection. All nine successful summaries were labeled Spanish by the heuristic, but one reversed who issued a refund. Language detection does not measure faithfulness.
+
+Latency: p50 0.99 s, p95 1.46 s. Usage: 3,800 input and 2,619 output tokens; no monetary cost was calculated. See the [full report and limitations](docs/evaluation.md) and [raw saved run](eval/results/holdout-2026-10-13T19-30-40.756Z.json). The holdout was not rerun or used to tune the prompt after these findings.
 
 ### Dev results
 
@@ -224,4 +237,4 @@ What the results files show:
 4. AI SDK adapter with structured output — done
 5. Labeled dataset and evaluation (errors, latency, cost) — done
 6. Review inbox: accept or correct suggestions — done
-7. Architecture notes, decisions and demo
+7. Architecture notes, decisions, demo walkthrough and recorded holdout evaluation — done
