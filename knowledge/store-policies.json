@@ -1,0 +1,74 @@
+[
+  {
+    "id": "shipping-times",
+    "title": "Plazos de envío",
+    "topics": ["shipping"],
+    "text": "Los envíos a domicilio llegan entre 3 y 5 días hábiles después del despacho. El correo electrónico de despacho incluye el código de seguimiento."
+  },
+  {
+    "id": "shipping-tracking",
+    "title": "Seguimiento sin novedades o entrega no recibida",
+    "topics": ["shipping"],
+    "text": "Si el seguimiento no muestra novedades durante 48 horas hábiles, abrimos una consulta con el transportista y respondemos en hasta 2 días hábiles. Si figura como entregado y el cliente no lo recibió, investigamos la entrega durante hasta 5 días hábiles antes de ofrecer un reenvío o un reembolso."
+  },
+  {
+    "id": "shipping-address-change",
+    "title": "Cambio de dirección o lugar de entrega",
+    "topics": ["shipping"],
+    "text": "Podemos cambiar la dirección o el lugar de entrega mientras el pedido no haya sido despachado. Si ya fue despachado, solicitamos el cambio al transportista, pero no podemos garantizarlo."
+  },
+  {
+    "id": "shipping-missing-items",
+    "title": "Pedido incompleto",
+    "topics": ["shipping", "returns"],
+    "text": "Si falta un producto, el cliente debe avisar dentro de los 7 días de la entrega e indicar el número de pedido. Pedimos una foto del contenido y del embalaje. Una vez verificado, enviamos el producto faltante sin necesidad de devolver el pedido."
+  },
+  {
+    "id": "returns-window",
+    "title": "Devoluciones",
+    "topics": ["returns"],
+    "text": "Aceptamos devoluciones dentro de los 30 días desde la entrega, con el producto sin uso y con sus etiquetas. Para iniciar una devolución necesitamos el número de pedido y el motivo de la devolución."
+  },
+  {
+    "id": "returns-exchange",
+    "title": "Cambios de talla o color",
+    "topics": ["returns"],
+    "text": "Los cambios de talla o color no tienen costo una vez por pedido y están sujetos a stock. Si no hay stock, ofrecemos una devolución."
+  },
+  {
+    "id": "returns-damaged",
+    "title": "Productos dañados",
+    "topics": ["returns", "shipping"],
+    "text": "Si un producto llega dañado, el cliente debe enviar una foto dentro de los 7 días de la entrega. En ese caso, la tienda cubre el costo del envío de la devolución."
+  },
+  {
+    "id": "returns-refund-timing",
+    "title": "Plazo de reembolso de devoluciones",
+    "topics": ["returns", "billing"],
+    "text": "El reembolso de una devolución se acredita en el medio de pago original dentro de los 10 días hábiles desde que recibimos el producto."
+  },
+  {
+    "id": "billing-invoices",
+    "title": "Facturas",
+    "topics": ["billing"],
+    "text": "Las facturas se descargan desde Mis compras. Para corregir una factura necesitamos el número de pedido y el dato a corregir; la factura corregida se emite dentro de los 5 días hábiles."
+  },
+  {
+    "id": "billing-pending-charge",
+    "title": "Cargos pendientes o duplicados",
+    "topics": ["billing"],
+    "text": "Un cargo pendiente es una autorización temporal del banco y se libera en hasta 7 días hábiles. Si dos cargos del mismo pedido se acreditan, reintegramos el duplicado después de verificarlo."
+  },
+  {
+    "id": "billing-refund-visibility",
+    "title": "Visibilidad de reembolsos",
+    "topics": ["billing"],
+    "text": "Un reembolso aprobado puede tardar hasta dos resúmenes de tarjeta en verse, según el banco emisor."
+  },
+  {
+    "id": "account-order-privacy",
+    "title": "Datos del pedido y privacidad",
+    "topics": ["shipping", "billing", "returns", "other"],
+    "text": "Solo compartimos información de un pedido después de verificar el número de pedido y el correo electrónico usado en la compra."
+  }
+]
