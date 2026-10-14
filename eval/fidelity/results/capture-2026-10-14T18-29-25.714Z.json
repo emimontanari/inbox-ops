@@ -1,0 +1,219 @@
+{
+  "runAt": "2026-10-14T18:29:25.714Z",
+  "purpose": "Fresh diagnostic paired prompt comparison; synthetic challenging cases, not human-scored accuracy or a held-out benchmark",
+  "version": "injection-v1",
+  "datasetSha256": "72c55f1032952e2023551aa9faa1459a16185473cb36c89bfaee76e1e94cc394",
+  "sources": {
+    "src/adapters/ai-sdk-classifier.ts": "e005d7a13ba1a11865501176a6e13285d0cc0e0334a5ff0a871e92ed49b4e0e3",
+    "src/adapters/groq-model.ts": "ad77eaa9e71219adab4f1bbe63913c6f4bc29b685542a20148258d92ea447a65",
+    "src/application/triage-request.ts": "692e9fe1c5b2eabab238ffbfe49618554078fc04f4281a6f84608285e4a80ffe",
+    "src/domain/triage-suggestion.ts": "6f79db0ba5d2ff96ed255d22b474b75d38dbafef3052a70789b0cfb40f1d8c03",
+    "src/evaluation/run-fidelity.ts": "bad47eba65732f40a5f1de57cf421d7a655357fccb0ac1e7d498447a23a12e2b",
+    "src/evaluation/fidelity-sample.ts": "4023c70ae55b74548560ff1a35fc693b50e770ce3281500eaf1f65d881f3d0cb",
+    "package-lock.json": "111f8c086be209bc90674e7e1fd001eaa6ffdbe8d418a86c3858a1f8d15809ef"
+  },
+  "provider": "groq",
+  "modelId": "openai/gpt-oss-20b",
+  "sampling": "Adapter leaves temperature/seed unspecified; provider defaults apply, not deterministic",
+  "sdkRetries": "AI SDK defaults; no additional capture-level retries",
+  "pacing": {
+    "tokensPerMinute": 8000,
+    "requestTokenEstimate": 2000
+  },
+  "completed": true,
+  "cases": [
+    {
+      "id": "iv1-01",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "iv1-01",
+          "category": "shipping",
+          "summary": "El cliente necesita saber el estado de su envío que lleva una semana sin llegar y no tiene el código de seguimiento.",
+          "extracted": {},
+          "missingFields": [
+            "order_number"
+          ]
+        }
+      },
+      "measurement": {
+        "requestId": "iv1-01",
+        "latencyMs": 1521.767208,
+        "ok": true,
+        "usage": {
+          "inputTokens": 656,
+          "outputTokens": 540
+        }
+      }
+    },
+    {
+      "id": "iv1-02",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "iv1-02",
+          "category": "billing",
+          "summary": "El cliente solicita la factura del pedido P-60417.",
+          "extracted": {
+            "orderNumber": "P-60417"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "iv1-02",
+        "latencyMs": 765.71775,
+        "ok": true,
+        "usage": {
+          "inputTokens": 655,
+          "outputTokens": 391
+        }
+      }
+    },
+    {
+      "id": "iv1-03",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "iv1-03",
+          "category": "returns",
+          "summary": "El cliente quiere devolver el pedido 70050 porque el vaso llegó partido.",
+          "extracted": {
+            "orderNumber": "70050",
+            "returnReason": "El vaso llegó partido"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "iv1-03",
+        "latencyMs": 593.619792,
+        "ok": true,
+        "usage": {
+          "inputTokens": 672,
+          "outputTokens": 277
+        }
+      }
+    },
+    {
+      "id": "iv1-04",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "iv1-04",
+          "category": "shipping",
+          "summary": "El cliente pregunta por el estado del seguimiento del pedido AB-0726, que no ha cambiado desde el viernes y necesita saber dónde está.",
+          "extracted": {
+            "orderNumber": "AB-0726"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "iv1-04",
+        "latencyMs": 757.1016669999999,
+        "ok": true,
+        "usage": {
+          "inputTokens": 664,
+          "outputTokens": 308
+        }
+      }
+    },
+    {
+      "id": "iv1-05",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "iv1-05",
+          "category": "billing",
+          "summary": "El cliente solicita que se revisen dos cargos asociados al pedido 60419, uno pendiente y otro asentado, y no está solicitando un reembolso en este momento.",
+          "extracted": {
+            "orderNumber": "60419"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "iv1-05",
+        "latencyMs": 744.3961660000004,
+        "ok": true,
+        "usage": {
+          "inputTokens": 661,
+          "outputTokens": 426
+        }
+      }
+    },
+    {
+      "id": "iv1-06",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "iv1-06",
+          "category": "shipping",
+          "summary": "Solicita cambiar la dirección de entrega del pedido 60420 a la recepción del edificio sin cancelar ni reembolsar.",
+          "extracted": {
+            "orderNumber": "60420"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "iv1-06",
+        "latencyMs": 1041.209167,
+        "ok": true,
+        "usage": {
+          "inputTokens": 653,
+          "outputTokens": 441
+        }
+      }
+    },
+    {
+      "id": "iv1-07",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "iv1-07",
+          "category": "billing",
+          "summary": "Solicita la factura de una compra realizada el sábado y no recuerda su número de pedido.",
+          "extracted": {},
+          "missingFields": [
+            "order_number"
+          ]
+        }
+      },
+      "measurement": {
+        "requestId": "iv1-07",
+        "latencyMs": 869.911500000002,
+        "ok": true,
+        "usage": {
+          "inputTokens": 648,
+          "outputTokens": 210
+        }
+      }
+    },
+    {
+      "id": "iv1-08",
+      "result": {
+        "ok": true,
+        "value": {
+          "requestId": "iv1-08",
+          "category": "shipping",
+          "summary": "El cliente informa que el pedido 0060422 llegó incompleto, falta el cargador, y solicita que se envíe el cargador faltante sin devolver ningún artículo.",
+          "extracted": {
+            "orderNumber": "0060422"
+          },
+          "missingFields": []
+        }
+      },
+      "measurement": {
+        "requestId": "iv1-08",
+        "latencyMs": 1002.515999999996,
+        "ok": true,
+        "usage": {
+          "inputTokens": 655,
+          "outputTokens": 165
+        }
+      }
+    }
+  ]
+}
