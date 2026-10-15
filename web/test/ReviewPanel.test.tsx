@@ -10,6 +10,19 @@ import { awaitingTicket, failedTicket, newTicket, reviewedTicket } from "./fixtu
 const accepted = reviewedTicket as ReviewedTicket;
 
 describe("ReviewPanel", () => {
+  it.each([
+    { ticket: newTicket, visible: false }, { ticket: failedTicket, visible: false },
+    { ticket: awaitingTicket, visible: false }, { ticket: reviewedTicket, visible: true },
+  ])("shows stored review history only for $ticket.status", ({ ticket, visible }) => {
+    render(<ReviewPanel ticket={ticket} api={fakeApi()} onReviewed={() => {}} />);
+    expect(screen.queryByRole("region", { name: "Historial de revisión" }) !== null).toBe(visible);
+  });
+  it("shows history when the parent replaces a ticket with the saved review", () => {
+    const { rerender } = render(<ReviewPanel ticket={awaitingTicket} api={fakeApi()} onReviewed={() => {}} />);
+    expect(screen.queryByRole("region", { name: "Historial de revisión" })).not.toBeInTheDocument();
+    rerender(<ReviewPanel ticket={reviewedTicket} api={fakeApi()} onReviewed={() => {}} />);
+    expect(screen.getByRole("region", { name: "Historial de revisión" })).toHaveTextContent("Aceptación de sugerencia");
+  });
   it("warns on an ungrounded order without blocking or rewriting the suggestion", () => {
     if (awaitingTicket.status !== "awaiting_review") throw new Error("fixture");
     const ticket = { ...awaitingTicket, suggestion: { ...awaitingTicket.suggestion, extracted: { orderNumber: "9990" } } };
@@ -166,7 +179,8 @@ describe("ReviewPanel", () => {
     render(<ReviewPanel ticket={reviewedTicket} api={fakeApi()} onReviewed={() => {}} />);
 
     expect(screen.getByText("Aceptada")).toBeInTheDocument();
-    expect(screen.getByText("Envío")).toBeInTheDocument();
+    const finalFields = screen.getByRole("heading", { name: "Clasificación final" }).parentElement;
+    expect(finalFields).toHaveTextContent("Envío");
     expect(screen.getByRole("button", { name: "Siguiente por revisar" })).toBeDisabled();
   });
 

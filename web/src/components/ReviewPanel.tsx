@@ -7,6 +7,7 @@ import { ApiError, type ApiClient } from "../api.js";
 import { CATEGORY_LABEL, MISSING_FIELD_LABEL, currentTriage } from "../labels.js";
 import { assessOrderGrounding } from "../order-grounding.js";
 import { ReplyDraftPanel } from "./ReplyDraftPanel.js";
+import { ReviewHistory } from "./ReviewHistory.js";
 
 const DECISION_LABEL: Record<ReviewDecision, string> = {
   accepted: "Aceptada",
@@ -151,6 +152,8 @@ export function ReviewPanel(props: {
           {error}
         </p>
       )}
+
+      {ticket.status === "reviewed" && <ReviewHistory ticket={ticket} />}
 
       {(ticket.status === "awaiting_review" || ticket.status === "reviewed") && (
         <ReplyDraftPanel ticketId={ticket.id} api={props.api} disabled={saving !== undefined} />
