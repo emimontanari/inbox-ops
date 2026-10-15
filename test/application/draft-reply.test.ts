@@ -79,6 +79,20 @@ describe("draftReply", () => {
     expect(drafter.calls[0]).toMatchObject({ category: "billing", missingFields: ["order_number"] });
   });
 
+  it("retrieves passages from the customer message only, not from the model summary", async () => {
+    const ticket: Ticket = {
+      ...awaiting,
+      body: "¿Tienen local en Córdoba?",
+      suggestion: { ...awaiting.suggestion, category: "shipping", summary: "Consulta sobre el seguimiento de novedades del envío.", missingFields: [] },
+    };
+    const { draftReply, drafter } = await setup([ticket], FakeDrafter.returning({ ok: true, value: { sentences: [{ text: "Una persona del equipo revisará tu consulta.", sourceIds: [] }] } }));
+
+    const result = await draftReply("t-1");
+
+    expect(drafter.calls[0]?.passages).toEqual([]);
+    expect(result).toEqual({ ok: true, value: { sentences: [{ text: "Una persona del equipo revisará tu consulta.", sourceIds: [] }], sources: [] } });
+  });
+
   it("returns not_found for an unknown ticket without calling the model", async () => {
     const { draftReply, drafter } = await setup([]);
     expect(await draftReply("missing")).toEqual({ ok: false, error: "not_found" });

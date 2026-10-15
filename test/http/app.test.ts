@@ -16,7 +16,7 @@ const shippingAnswer: ClassifierResult = {
   value: { category: "shipping", summary: "Consulta por el pedido 1234.", extracted: { orderNumber: "1234" } },
 };
 
-const passages = [{ id: "shipping-tracking", title: "Seguimiento", topics: ["shipping" as const], text: "Abrimos una consulta con el transportista si no hay novedades del pedido." }];
+const passages = [{ id: "shipping-tracking", title: "Seguimiento", topics: ["shipping" as const], text: "Si no sabés dónde está tu pedido, abrimos una consulta con el transportista." }];
 const draftAnswer: DrafterResult = { ok: true, value: { sentences: [{ text: "Abrimos una consulta con el transportista.", sourceIds: ["shipping-tracking"] }] } };
 
 function setup(classifier = FakeClassifier.returning(shippingAnswer), drafter = FakeDrafter.returning(draftAnswer)) {

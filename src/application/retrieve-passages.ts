@@ -8,13 +8,17 @@ export type PassageQuery = {
 
 const DEFAULT_LIMIT = 3;
 const CATEGORY_BOOST = 2;
+// A passage needs at least this many shared words to count as relevant. One shared word ("envíos")
+// matched uncovered questions to unrelated policies, and the model then applied them as if they fit.
+const MIN_SHARED_WORDS = 2;
 // Crude stemming: Spanish inflections share a prefix (devolver, devolución -> "devol").
 const STEM_LENGTH = 5;
 const MIN_WORD_LENGTH = 4;
 const STOPWORDS = new Set(["para", "pero", "como", "este", "esta", "esto", "porque", "cual", "cuál", "quiero", "tengo", "hola", "gracias", "with", "that", "this", "have", "from"]);
 
 // Deterministic lexical retrieval: no embeddings or extra dependencies for a handful of passages.
-// Shared words decide relevance; the ticket category only adds a boost to break near-ties.
+// Shared words decide relevance; the ticket category only ranks passages that already qualify.
+// An empty result is meaningful: no policy covers the request, so the drafter must not cite one.
 export function retrievePassages(passages: readonly PolicyPassage[], query: PassageQuery, limit = DEFAULT_LIMIT): PolicyPassage[] {
   const queryStems = stems(query.text);
   return passages
@@ -22,9 +26,9 @@ export function retrievePassages(passages: readonly PolicyPassage[], query: Pass
       const passageStems = stems(`${passage.title} ${passage.text}`);
       const shared = [...queryStems].filter((stem) => passageStems.has(stem)).length;
       const boost = query.category && passage.topics.includes(query.category) ? CATEGORY_BOOST : 0;
-      return { passage, score: shared + boost };
+      return { passage, shared, score: shared + boost };
     })
-    .filter((item) => item.score > 0)
+    .filter((item) => item.shared >= MIN_SHARED_WORDS)
     .sort((a, b) => b.score - a.score || a.passage.id.localeCompare(b.passage.id))
     .slice(0, limit)
     .map((item) => item.passage);

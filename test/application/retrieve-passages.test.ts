@@ -17,16 +17,29 @@ describe("retrievePassages", () => {
   });
 
   it("matches word stems such as devolver and devolución", () => {
-    expect(retrievePassages(passages, { text: "devolver" }).map((item) => item.id)).toEqual(["returns-window"]);
+    expect(retrievePassages(passages, { text: "devolver el pedido" }).map((item) => item.id)).toEqual(["returns-window"]);
   });
 
-  it("boosts passages of the ticket category", () => {
-    const result = retrievePassages(passages, { text: "pedido", category: "shipping" });
+  it("boosts passages of the ticket category among those that match", () => {
+    const result = retrievePassages(passages, { text: "días hábiles pedido seguimiento", category: "shipping" });
     expect(result[0]?.id).toBe("shipping-tracking");
   });
 
   it("returns at most the requested number of passages", () => {
-    expect(retrievePassages(passages, { text: "pedido novedades cargo consultas", category: "billing" }, 2)).toHaveLength(2);
+    expect(retrievePassages(passages, { text: "días hábiles pedido seguimiento", category: "billing" }, 2)).toHaveLength(2);
+  });
+
+  it("ignores a passage that shares a single word: one word is too weak a match", () => {
+    expect(retrievePassages(passages, { text: "devolver" })).toEqual([]);
+  });
+
+  it("never retrieves a passage on the ticket category alone", () => {
+    expect(retrievePassages(passages, { text: "hola, una consulta rápida", category: "returns" })).toEqual([]);
+  });
+
+  it("sends no passage for a question the shipped policies do not cover", () => {
+    const shipped = parsePolicyPassages(JSON.parse(readFileSync(new URL("../../knowledge/store-policies.json", import.meta.url), "utf8")));
+    expect(retrievePassages(shipped, { text: "¿Hacen envíos a Montevideo, Uruguay?", category: "shipping" })).toEqual([]);
   });
 
   it("returns nothing when no word or category matches", () => {
@@ -35,10 +48,10 @@ describe("retrievePassages", () => {
 
   it("is deterministic for ties, ordering by id", () => {
     const tie: PolicyPassage[] = [
-      { id: "b", title: "B", topics: ["other"], text: "garantía" },
-      { id: "a", title: "A", topics: ["other"], text: "garantía" },
+      { id: "b", title: "B", topics: ["other"], text: "garantía extendida" },
+      { id: "a", title: "A", topics: ["other"], text: "garantía extendida" },
     ];
-    expect(retrievePassages(tie, { text: "garantía" }).map((item) => item.id)).toEqual(["a", "b"]);
+    expect(retrievePassages(tie, { text: "garantía extendida" }).map((item) => item.id)).toEqual(["a", "b"]);
   });
 
   it("finds the returns policy for a return request in the shipped knowledge base", () => {

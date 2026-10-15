@@ -24,10 +24,9 @@ export function createDraftReply(deps: {
     const triage = currentTriage(ticket);
     if (!triage) return fail("not_draftable");
 
-    const passages = retrievePassages(deps.passages, {
-      text: [ticket.body, triage.summary].filter(Boolean).join(" "),
-      category: triage.category,
-    });
+    // Only the customer's words decide relevance: the model summary adds generic words
+    // ("cliente", "envío") that made unrelated passages look relevant.
+    const passages = retrievePassages(deps.passages, { text: ticket.body, category: triage.category });
     const context: DraftContext = { customerMessage: ticket.body, ...triage, passages };
 
     const result = await deps.drafter.draft(context);
