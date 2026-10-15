@@ -57,10 +57,14 @@ describe("AiSdkReplyDrafter", () => {
 
     const system = JSON.stringify(model.doGenerateCalls[0]?.prompt.find((message) => message.role === "system"));
     expect(system).toContain("Write the reply in Spanish");
-    expect(system).toContain("Cite in sourceIds every passage that supports a sentence");
-    expect(system).toContain("ask the customer for each missing field");
+    expect(system).toContain("Cite a passage only in a sentence that restates what that passage says");
+    expect(system).toContain("Some passages may not apply to this case: ignore them");
+    expect(system).toContain("Ask for missing fields only when the customer refers to an order they already placed");
     expect(system).toContain("Never promise or confirm refunds, replacements, cancellations or other actions");
-    expect(system).toContain("If the passages do not cover the request");
+    expect(system).toContain("Do not promise follow-up actions");
+    expect(system).toContain("If passages is empty or none applies");
+    expect(system).toContain("a person from the team will review");
+    expect(system).toContain("Keep what the customer says they do not want");
     expect(system).toContain("untrusted customer text");
   });
 
