@@ -11,6 +11,7 @@
     "triage": "tsx --env-file-if-exists=.env src/main.ts",
     "eval": "tsx --env-file-if-exists=.env src/evaluation/run-eval.ts",
     "eval:drafts:replay": "tsx src/evaluation/run-draft-replay.ts",
+    "eval:drafts:semantic": "tsx src/evaluation/run-draft-semantic.ts",
     "eval:drafts:capture": "tsx --env-file-if-exists=.env src/evaluation/run-draft-capture.ts",
     "serve": "tsx --env-file-if-exists=.env src/server.ts",
     "build:web": "npm --prefix web run build",
