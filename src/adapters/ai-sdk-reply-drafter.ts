@@ -1,4 +1,4 @@
-import { generateText, Output, type LanguageModel } from "ai";
+import { APICallError, generateText, Output, type LanguageModel } from "ai";
 import { z } from "zod";
 import type { DraftContext, DrafterResult, ReplyDrafter } from "../application/reply-drafter.js";
 import { fail, ok } from "../domain/result.js";
@@ -6,10 +6,10 @@ import { isInvalidOutput } from "./ai-sdk-errors.js";
 
 const DEFAULT_TIMEOUT_MS = 30_000;
 
-const draftSchema = z.object({
+const draftSchema = z.strictObject({
   sentences: z
     .array(
-      z.object({
+      z.strictObject({
         text: z.string().describe("One sentence of the reply, in Spanish."),
         sourceIds: z
           .array(z.string())
@@ -54,11 +54,40 @@ export function createAiSdkReplyDrafter(deps: AiSdkReplyDrafterDeps): ReplyDraft
           usage: { inputTokens: usage.inputTokens ?? 0, outputTokens: usage.outputTokens ?? 0 },
         });
       } catch (error) {
+        const recovered = recoverRejectedAnswer(error);
+        if (recovered) return ok({ sentences: recovered.sentences, usage: { inputTokens: 0, outputTokens: 0 } });
         deps.onError?.(error);
         return fail(isInvalidOutput(error) ? "invalid_output" : "unavailable");
       }
     },
   };
+}
+
+// gpt-oss on Groq sometimes writes a key as "sourceIds:" and Groq rejects the whole answer.
+// Recover only that defect: trim a trailing colon or spaces from keys, then require the exact schema.
+// Anything else stays invalid output. Usage is unknown for a rejected call, so it is reported as 0.
+function recoverRejectedAnswer(error: unknown): z.infer<typeof draftSchema> | undefined {
+  if (!APICallError.isInstance(error) || error.statusCode !== 400 || !error.responseBody) return undefined;
+  try {
+    const body: unknown = JSON.parse(error.responseBody);
+    const generated = (body as { error?: { code?: unknown; failed_generation?: unknown } }).error;
+    if (generated?.code !== "json_validate_failed" || typeof generated.failed_generation !== "string") return undefined;
+    const parsed = draftSchema.safeParse(normalizeKeys(JSON.parse(generated.failed_generation) as JsonValue));
+    return parsed.success ? parsed.data : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
+
+function normalizeKeys(value: JsonValue): JsonValue {
+  if (Array.isArray(value)) return value.map(normalizeKeys);
+  if (typeof value !== "object" || value === null) return value;
+  const entries = Object.entries(value).map(([key, item]) => [key.replace(/[\s:]+$/, ""), normalizeKeys(item)] as const);
+  // Two keys collapsing into one is not a typo we can resolve: keep the original so validation fails.
+  if (new Set(entries.map(([key]) => key)).size !== entries.length) return value;
+  return Object.fromEntries(entries);
 }
 
 function toPromptData(context: DraftContext) {

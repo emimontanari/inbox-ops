@@ -1,3 +1,4 @@
+import { APICallError } from "ai";
 import { MockLanguageModelV4 } from "ai/test";
 import { describe, expect, it } from "vitest";
 import { createAiSdkReplyDrafter } from "../../src/adapters/ai-sdk-reply-drafter.js";
@@ -70,6 +71,36 @@ describe("AiSdkReplyDrafter", () => {
 
   it("reports an answer outside the schema as invalid output", async () => {
     const result = await createAiSdkReplyDrafter({ model: modelAnswering('{"reply":"Hola"}') }).draft(context);
+    expect(result).toEqual({ ok: false, error: "invalid_output" });
+  });
+
+  // Groq validates the schema server-side and rejects the whole answer for one malformed key.
+  function modelRejecting(failedGeneration: string): MockLanguageModelV4 {
+    const responseBody = JSON.stringify({ error: { code: "json_validate_failed", message: "Generated JSON does not match the expected schema.", failed_generation: failedGeneration } });
+    return new MockLanguageModelV4({
+      doGenerate: async () => {
+        throw new APICallError({ message: "Generated JSON does not match the expected schema.", url: "https://api.groq.com", requestBodyValues: {}, statusCode: 400, responseBody, isRetryable: false });
+      },
+    });
+  }
+
+  it("recovers a rejected answer whose only defect is a key with a trailing colon", async () => {
+    const generated = '{"sentences":[{"text":"Hola.","sourceIds":[]},{"text":"Envía una foto.","sourceIds:":["returns-window"]}]}';
+
+    const result = await createAiSdkReplyDrafter({ model: modelRejecting(generated) }).draft(context);
+
+    expect(result).toEqual({
+      ok: true,
+      value: { sentences: [{ text: "Hola.", sourceIds: [] }, { text: "Envía una foto.", sourceIds: ["returns-window"] }], usage: { inputTokens: 0, outputTokens: 0 } },
+    });
+  });
+
+  it.each([
+    { name: "a missing field", generated: '{"sentences":[{"text":"Hola."}]}' },
+    { name: "an unknown key", generated: '{"sentences":[{"text":"Hola.","sources":[]}]}' },
+    { name: "text that is not JSON", generated: '{"sentences":[{"text":"Hola.",' },
+  ])("still reports a rejected answer with $name as invalid output", async ({ generated }) => {
+    const result = await createAiSdkReplyDrafter({ model: modelRejecting(generated) }).draft(context);
     expect(result).toEqual({ ok: false, error: "invalid_output" });
   });
 
