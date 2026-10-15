@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "provenance": "synthetic",
+  "cases": [
+    {
+      "id": "fixture-seguimiento",
+      "context": {
+        "customerMessage": "¿Cómo consulto el seguimiento del pedido 0042?",
+        "category": "shipping",
+        "summary": "Consulta ficticia sobre seguimiento.",
+        "extracted": { "orderNumber": "0042" },
+        "missingFields": [],
+        "passages": [
+          { "id": "fixture-envios", "title": "Seguimiento ficticio", "topics": ["shipping"], "text": "El seguimiento se consulta en el enlace del correo de confirmación." },
+          { "id": "fixture-demoras", "title": "Demoras ficticias", "topics": ["shipping"], "text": "Si no hay novedades, contacta con soporte para consultar el estado." }
+        ]
+      },
+      "attempts": [
+        { "status": "returned", "output": { "sentences": [
+          { "text": "Hola, gracias por contactarnos.", "sourceIds": [] },
+          { "text": "Puedes consultar el seguimiento en el enlace del correo de confirmación.", "sourceIds": ["fixture-envios"] }
+        ] } }
+      ]
+    },
+    {
+      "id": "fixture-sin-politica",
+      "context": {
+        "customerMessage": "¿Tienen un descuento para mi cumpleaños?",
+        "category": "other",
+        "summary": "Consulta ficticia sobre descuento no documentado.",
+        "extracted": {},
+        "missingFields": [],
+        "passages": []
+      },
+      "attempts": [
+        { "status": "returned", "output": { "sentences": [
+          { "text": "No dispongo de una política sobre descuentos de cumpleaños para confirmar tu consulta.", "sourceIds": [] }
+        ] } }
+      ]
+    }
+  ]
+}
