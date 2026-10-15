@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "6e6f7404bc447f20d7ea73ed77e6ebf86c33ffe765344a7b89e19c96f5fc6042",
+  "captureHash": "01fb91feee4e42bbc6c484259d16ed3d8bb20a4be82306007c0344dfee4002cb",
+  "reviews": [
+    {
+      "packetHash": "6e6f7404bc447f20d7ea73ed77e6ebf86c33ffe765344a7b89e19c96f5fc6042",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El daño fue reportado como ocurrido ayer y el pasaje establece el procedimiento."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El mensaje informa que la taza llegó rota; la frase expresa empatía.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje requiere una foto dentro de siete días; la entrega fue ayer.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje asigna a la tienda el costo del envío de devolución para ese caso.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje indica datos necesarios y plazo de emisión; no se requiere prometer aviso."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje pide el dato que debe corregirse, no correo; además aún falta ese dato y verificar correo.",
+              "evidenceIds": [
+                "account-order-privacy",
+                "billing-invoices"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La emisión dentro de cinco días hábiles está indicada; la verificación de correo concuerda con privacidad.",
+              "evidenceIds": [
+                "billing-invoices",
+                "account-order-privacy"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "No hay evidencia de que notificarán cuando esté disponible.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "6e6f7404bc447f20d7ea73ed77e6ebf86c33ffe765344a7b89e19c96f5fc6042",
+      "reviewer": {
+        "id": "final-semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "La respuesta expresa empatía y sigue las instrucciones documentadas."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El cliente indicó que la taza llegó rota; la disculpa responde a ese hecho.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje requiere una foto dentro de los siete días; llegó ayer.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La cobertura del envío de devolución coincide con el pasaje y su condición de daño.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "uncertain",
+            "rationale": "La corrección y su plazo están documentados, pero falta el dato que se corregirá."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento, sin afirmación verificable.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La política requiere verificar el correo antes de compartir información del pedido.",
+              "evidenceIds": [
+                "account-order-privacy"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El plazo de cinco días hábiles está documentado; la condición de verificación es explícita.",
+              "evidenceIds": [
+                "billing-invoices"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Promete notificar al cliente, acción que no aparece documentada.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "not_needed",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "supported",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 2,
+          "support": "supported",
+          "citations": "applicable"
+        }
+      ]
+    },
+    {
+      "responseId": "response-2-1",
+      "abstention": "uncertain",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "not_applicable",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "uncertain",
+          "citations": "uncertain"
+        },
+        {
+          "index": 2,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 3,
+          "support": "unsupported",
+          "citations": "none"
+        }
+      ]
+    }
+  ],
+  "excluded": [],
+  "disagreements": 3
+}

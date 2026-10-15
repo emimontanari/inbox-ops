@@ -1,0 +1,222 @@
+{
+  "version": 1,
+  "status": "ai_reviewer_agreement_not_ground_truth",
+  "reviewerRuntime": {
+    "a": {
+      "model": "unknown",
+      "effort": "unknown",
+      "exposureNotes": "Leí únicamente /tmp/inboxops-diagnostic-baseline/reviewer-rubric.md y packet-1.json a packet-4.json. No vi resultados previos ni identidad de modelo."
+    },
+    "b": {
+      "model": "unknown",
+      "effort": "unknown",
+      "exposureNotes": "Leí únicamente los cinco archivos absolutos indicados: rubric.md y packet-1.json a packet-4.json. No vi resultados previos ni identidad de modelo."
+    }
+  },
+  "totals": {
+    "sentences": 21,
+    "responses": 7,
+    "excluded": 1,
+    "disagreements": 0,
+    "support": {
+      "not_applicable": 3,
+      "supported": 11,
+      "unsupported": 7
+    },
+    "citations": {
+      "none": 8,
+      "applicable": 9,
+      "misapplied": 4
+    },
+    "abstention": {
+      "not_needed": 3,
+      "inappropriate": 4
+    }
+  },
+  "batches": [
+    {
+      "batch": 1,
+      "packetHash": "ac0e70f2f250924a13247a6fa0c3cbc286b524b9207a194bf1ee2e7f9a93c26d",
+      "disagreements": 0,
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": "not_needed",
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none"
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable"
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable"
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": "not_needed",
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none"
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable"
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable"
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "applicable"
+            }
+          ]
+        }
+      ],
+      "excluded": []
+    },
+    {
+      "batch": 2,
+      "packetHash": "edc7329b6862fa2bac73d02ba4d032d95c48e22bc8e3466ed8138b28f3d68ce5",
+      "disagreements": 0,
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": "inappropriate",
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none"
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": "inappropriate",
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none"
+            }
+          ]
+        }
+      ],
+      "excluded": []
+    },
+    {
+      "batch": 3,
+      "packetHash": "4714d65cb8969db7d1912c70a3cab496ef97ce6a5ba8691e767b0cb1d31b94e3",
+      "disagreements": 0,
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": "inappropriate",
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none"
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied"
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable"
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "applicable"
+            },
+            {
+              "index": 4,
+              "support": "unsupported",
+              "citations": "misapplied"
+            }
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "responseId": "response-2-1",
+          "outcome": "error"
+        }
+      ]
+    },
+    {
+      "batch": 4,
+      "packetHash": "c63c7efbce2f16a35ebe95035bd3b78f71bee95b14a947a87ea26a1fc90e0baf",
+      "disagreements": 0,
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": "not_needed",
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none"
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable"
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable"
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": "inappropriate",
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none"
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied"
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied"
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "none"
+            }
+          ]
+        }
+      ],
+      "excluded": []
+    }
+  ]
+}

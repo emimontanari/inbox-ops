@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v1",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "edc7329b6862fa2bac73d02ba4d032d95c48e22bc8e3466ed8138b28f3d68ce5",
+  "captureHash": "aaabdcfd5102909e0ecfea56aeafe3d1161fad59cea68ac91e38ef16b18b2b5e",
+  "reviews": [
+    {
+      "packetHash": "edc7329b6862fa2bac73d02ba4d032d95c48e22bc8e3466ed8138b28f3d68ce5",
+      "reviewer": {
+        "id": "semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "No hay información sobre descuentos de cumpleaños, pero la respuesta promete que el equipo revisará y contactará pronto."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Los pasajes están vacíos; no se respalda la revisión ni el contacto próximo prometidos.",
+              "evidenceIds": []
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "El pasaje disponible no resuelve destino ni costos, pero la respuesta promete revisión y respuesta próxima."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "El único pasaje trata plazos y seguimiento; no respalda que un miembro revise o responda en breve.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "edc7329b6862fa2bac73d02ba4d032d95c48e22bc8e3466ed8138b28f3d68ce5",
+      "reviewer": {
+        "id": "semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "La respuesta asegura que un miembro revisará la solicitud y contactará pronto, acciones y plazo sin respaldo en los pasajes."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "El mensaje pregunta por un descuento, pero no aporta base para prometer revisión ni contacto futuro.",
+              "evidenceIds": []
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "Asegura revisión y respuesta próxima sin evidencia; el pasaje solo informa plazos y seguimiento de envíos, no atención a esta consulta."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "No hay respaldo para prometer que un miembro del equipo revisará la pregunta ni que responderá pronto.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "inappropriate",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "unsupported",
+          "citations": "none"
+        }
+      ]
+    },
+    {
+      "responseId": "response-2-1",
+      "abstention": "inappropriate",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "unsupported",
+          "citations": "none"
+        }
+      ]
+    }
+  ],
+  "excluded": [],
+  "disagreements": 0
+}

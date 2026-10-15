@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "provenance": "synthetic",
+  "kind": "frozen_inputs",
+  "cases": [
+    {
+      "id": "diag-01",
+      "context": {
+        "customerMessage": "Antes de comprar, ¿cuánto tarda el envío a domicilio después del despacho y dónde recibiré el seguimiento?",
+        "category": "shipping",
+        "summary": "Consulta general previa a compra sobre plazo y seguimiento.",
+        "extracted": {},
+        "missingFields": [
+          "order_number"
+        ],
+        "passages": [
+          {
+            "id": "shipping-times",
+            "title": "Plazos de envío",
+            "topics": [
+              "shipping"
+            ],
+            "text": "Los envíos a domicilio llegan entre 3 y 5 días hábiles después del despacho. El correo electrónico de despacho incluye el código de seguimiento."
+          }
+        ]
+      }
+    },
+    {
+      "id": "diag-02",
+      "context": {
+        "customerMessage": "Quiero cambiar la talla del pedido 007101 porque me queda grande. Lo recibí hace 12 días, no lo usé y conserva las etiquetas. ¿Tiene costo y está garantizada la otra talla?",
+        "category": "returns",
+        "summary": "Solicita cambio de talla y consulta costo y disponibilidad.",
+        "extracted": {
+          "orderNumber": "007101",
+          "returnReason": "La talla queda grande"
+        },
+        "missingFields": [],
+        "passages": [
+          {
+            "id": "returns-window",
+            "title": "Devoluciones",
+            "topics": [
+              "returns"
+            ],
+            "text": "Aceptamos devoluciones dentro de los 30 días desde la entrega, con el producto sin uso y con sus etiquetas. Para iniciar una devolución necesitamos el número de pedido y el motivo de la devolución."
+          },
+          {
+            "id": "returns-exchange",
+            "title": "Cambios de talla o color",
+            "topics": [
+              "returns"
+            ],
+            "text": "Los cambios de talla o color no tienen costo una vez por pedido y están sujetos a stock. Si no hay stock, ofrecemos una devolución."
+          }
+        ]
+      }
+    }
+  ]
+}

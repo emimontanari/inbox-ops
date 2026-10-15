@@ -1,0 +1,235 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "f96840bb26d34d0877bd58a162810ca855197e20fd98c2d9b93ab6229ac620ef",
+  "captureHash": "a75e62ecfca2d43b8e746c63335a2e2eda4ca640559ffddfe8b1da9ac975d8db",
+  "reviews": [
+    {
+      "packetHash": "f96840bb26d34d0877bd58a162810ca855197e20fd98c2d9b93ab6229ac620ef",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje establece qué enviar y el plazo para un producto dañado."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El cliente informa que la taza llegó rota; la frase expresa empatía.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje exige foto dentro de siete días; la entrega fue ayer.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje atribuye a la tienda el costo del envío de devolución.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El pasaje requiere una foto para el caso dañado y la solicitud es consecuente con ese requisito.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje indica la información requerida y el plazo de emisión."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje pide número de pedido y dato a corregir; el correo de verificación también es requisito para compartir información del pedido.",
+              "evidenceIds": [
+                "billing-invoices",
+                "account-order-privacy"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Solicita el dato a corregir para proceder, acorde al requisito del pasaje.",
+              "evidenceIds": [
+                "billing-invoices"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "f96840bb26d34d0877bd58a162810ca855197e20fd98c2d9b93ab6229ac620ef",
+      "reviewer": {
+        "id": "final-semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje indica la instrucción aplicable para productos dañados."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y empatía, sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El cliente relata que la taza llegó dañada ayer; el pasaje requiere foto dentro de siete días.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje indica que la tienda cubre el costo del envío de devolución en ese caso.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "uncertain",
+              "citations": "none",
+              "rationale": "Pedir la foto está respaldado, pero el pasaje no especifica que sea requisito para iniciar el proceso.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "uncertain",
+            "rationale": "La política documenta el requisito y el plazo, pero falta el dato nuevo que debe corregirse."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento, sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La fuente exige número de pedido y dato a corregir, ambos mencionados, y fija cinco días hábiles para emitir la factura corregida.",
+              "evidenceIds": [
+                "billing-invoices"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Solicita la dirección actualizada, que es el dato necesario para corregirla; no garantiza que la corrección ya se haya realizado.",
+              "evidenceIds": [
+                "billing-invoices"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "not_needed",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "uncertain",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 2,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 3,
+          "support": "uncertain",
+          "citations": "none"
+        }
+      ]
+    },
+    {
+      "responseId": "response-2-1",
+      "abstention": "uncertain",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "not_applicable",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "uncertain",
+          "citations": "uncertain"
+        },
+        {
+          "index": 2,
+          "support": "supported",
+          "citations": "none"
+        }
+      ]
+    }
+  ],
+  "excluded": [],
+  "disagreements": 5
+}

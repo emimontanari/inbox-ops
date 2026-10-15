@@ -1,0 +1,375 @@
+{
+  "version": 1,
+  "status": "ai_review_development_comparison_not_ground_truth",
+  "variants": {
+    "baseline": {
+      "responses": 7,
+      "sentences": 21,
+      "excluded": 1,
+      "disagreements": 5,
+      "support": {
+        "not_applicable": 2,
+        "supported": 10,
+        "uncertain": 2,
+        "unsupported": 7
+      },
+      "citations": {
+        "none": 8,
+        "applicable": 8,
+        "misapplied": 4,
+        "uncertain": 1
+      },
+      "abstention": {
+        "not_needed": 2,
+        "uncertain": 3,
+        "inappropriate": 2
+      }
+    },
+    "candidate": {
+      "responses": 7,
+      "sentences": 21,
+      "excluded": 1,
+      "disagreements": 9,
+      "support": {
+        "supported": 10,
+        "uncertain": 5,
+        "unsupported": 4,
+        "not_applicable": 2
+      },
+      "citations": {
+        "none": 9,
+        "applicable": 7,
+        "misapplied": 3,
+        "uncertain": 2
+      },
+      "abstention": {
+        "appropriate": 2,
+        "not_needed": 2,
+        "uncertain": 3
+      }
+    }
+  },
+  "pairs": {
+    "diag-01": {
+      "baseline": {
+        "responseId": "response-1-1",
+        "abstention": "not_needed",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "not_applicable",
+            "citations": "none"
+          },
+          {
+            "index": 1,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 2,
+            "support": "supported",
+            "citations": "applicable"
+          }
+        ]
+      },
+      "candidate": {
+        "responseId": "response-1-1",
+        "abstention": "not_needed",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 1,
+            "support": "supported",
+            "citations": "applicable"
+          }
+        ]
+      }
+    },
+    "diag-02": {
+      "baseline": {
+        "responseId": "response-2-1",
+        "abstention": "uncertain",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "uncertain",
+            "citations": "none"
+          },
+          {
+            "index": 1,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 2,
+            "support": "unsupported",
+            "citations": "misapplied"
+          },
+          {
+            "index": 3,
+            "support": "supported",
+            "citations": "applicable"
+          }
+        ]
+      },
+      "candidate": {
+        "responseId": "response-2-1",
+        "abstention": "uncertain",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "uncertain",
+            "citations": "none"
+          },
+          {
+            "index": 1,
+            "support": "unsupported",
+            "citations": "misapplied"
+          },
+          {
+            "index": 2,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 3,
+            "support": "unsupported",
+            "citations": "misapplied"
+          },
+          {
+            "index": 4,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 5,
+            "support": "unsupported",
+            "citations": "misapplied"
+          }
+        ]
+      }
+    },
+    "diag-07": {
+      "baseline": {
+        "responseId": "response-1-1",
+        "abstention": "not_needed",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "supported",
+            "citations": "none"
+          },
+          {
+            "index": 1,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 2,
+            "support": "supported",
+            "citations": "applicable"
+          }
+        ]
+      },
+      "candidate": {
+        "responseId": "response-1-1",
+        "abstention": "not_needed",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "uncertain",
+            "citations": "none"
+          },
+          {
+            "index": 1,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 2,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 3,
+            "support": "uncertain",
+            "citations": "none"
+          }
+        ]
+      }
+    },
+    "diag-08": {
+      "baseline": {
+        "responseId": "response-2-1",
+        "abstention": "uncertain",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "not_applicable",
+            "citations": "none"
+          },
+          {
+            "index": 1,
+            "support": "uncertain",
+            "citations": "uncertain"
+          },
+          {
+            "index": 2,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 3,
+            "support": "unsupported",
+            "citations": "none"
+          }
+        ]
+      },
+      "candidate": {
+        "responseId": "response-2-1",
+        "abstention": "uncertain",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "not_applicable",
+            "citations": "none"
+          },
+          {
+            "index": 1,
+            "support": "uncertain",
+            "citations": "uncertain"
+          },
+          {
+            "index": 2,
+            "support": "supported",
+            "citations": "none"
+          }
+        ]
+      }
+    },
+    "diag-03": {
+      "candidate": {
+        "responseId": "response-1-1",
+        "abstention": "appropriate",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "supported",
+            "citations": "none"
+          }
+        ]
+      },
+      "baseline": {
+        "responseId": "response-1-1",
+        "abstention": "inappropriate",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "unsupported",
+            "citations": "none"
+          }
+        ]
+      }
+    },
+    "diag-04": {
+      "candidate": {
+        "responseId": "response-2-1",
+        "abstention": "appropriate",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "supported",
+            "citations": "none"
+          }
+        ]
+      },
+      "baseline": {
+        "responseId": "response-2-1",
+        "abstention": "inappropriate",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "unsupported",
+            "citations": "none"
+          }
+        ]
+      }
+    },
+    "diag-05": {
+      "candidate": {
+        "responseId": "response-1-1",
+        "abstention": "uncertain",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "not_applicable",
+            "citations": "none"
+          },
+          {
+            "index": 1,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 2,
+            "support": "uncertain",
+            "citations": "uncertain"
+          },
+          {
+            "index": 3,
+            "support": "unsupported",
+            "citations": "none"
+          }
+        ]
+      },
+      "baseline": {
+        "responseId": "response-1-1",
+        "abstention": "uncertain",
+        "sentences": [
+          {
+            "index": 0,
+            "support": "supported",
+            "citations": "none"
+          },
+          {
+            "index": 1,
+            "support": "unsupported",
+            "citations": "misapplied"
+          },
+          {
+            "index": 2,
+            "support": "unsupported",
+            "citations": "misapplied"
+          },
+          {
+            "index": 3,
+            "support": "supported",
+            "citations": "applicable"
+          },
+          {
+            "index": 4,
+            "support": "unsupported",
+            "citations": "misapplied"
+          }
+        ]
+      }
+    },
+    "diag-06": {
+      "candidate": {
+        "outcome": "excluded_error"
+      },
+      "baseline": {
+        "outcome": "excluded_error"
+      }
+    }
+  },
+  "notes": [
+    "B packet8 required source correspondence correction and changed some judgments; both originals and corrections preserved.",
+    "Both reviewers erroneously described explicit once-per-order candidate condition as missing; agreement cannot establish truth.",
+    "No winner automatically inferred from sentence counts."
+  ]
+}

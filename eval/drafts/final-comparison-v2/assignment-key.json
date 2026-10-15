@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "presentation": "randomized packet order; not randomized model generation or independent trial",
+  "rubricVersion": "draft-semantic-v2",
+  "mapping": [
+    {
+      "variant": "baseline",
+      "batch": 1,
+      "file": "packet-01.json",
+      "packetHash": "3738737aae3d14134d482933f6dcfcc3b39dbf8ceeb255d1ead73c5203a5e163",
+      "fileSha256": "3eb8bb242bc75dc73fbdde9a67e29026f82417686cbf4ab32438a574a674707d"
+    },
+    {
+      "variant": "baseline",
+      "batch": 4,
+      "file": "packet-02.json",
+      "packetHash": "6e6f7404bc447f20d7ea73ed77e6ebf86c33ffe765344a7b89e19c96f5fc6042",
+      "fileSha256": "a21b71c474ddf3fb63077ebd5f0e7af34a6e7d1bb41eba656aecfc3a9bde2275"
+    },
+    {
+      "variant": "candidate",
+      "batch": 2,
+      "file": "packet-03.json",
+      "packetHash": "0ed26adac8289c21d00b42afe0fb0772122c4031066d8bb098789fb6afa3bbc0",
+      "fileSha256": "eee67929e8cb916d4cb8674eb59b9ee3890ead2b805620c6b8fe3d872daff54a"
+    },
+    {
+      "variant": "candidate",
+      "batch": 1,
+      "file": "packet-04.json",
+      "packetHash": "1e8d7c475ce0c864e698faaf0ca6213ebecff34ade682264bb7d32bf24e45721",
+      "fileSha256": "5acd4e793e6d053b303a2449b3a76719b8f4a56a27b9d12e14333041c511b5be"
+    },
+    {
+      "variant": "baseline",
+      "batch": 2,
+      "file": "packet-05.json",
+      "packetHash": "3e9696740f8ab3ac88ace7d9a82243fcd610c0388a2fad661635533f6a7df4cf",
+      "fileSha256": "d89d629dfbc0d2cbdf4ad4e4a11987d1b36ef5bdcb3184ad22fded49cfef0688"
+    },
+    {
+      "variant": "candidate",
+      "batch": 3,
+      "file": "packet-06.json",
+      "packetHash": "4f3ea44d590d596e99962ca262a5b5ca5a6ac6d9168ef3e6222f59ea6147242d",
+      "fileSha256": "33ee67e4cffb62ffd66ad272762d574ab3f0e62e024e49ee0e41b1e390131fff"
+    },
+    {
+      "variant": "baseline",
+      "batch": 3,
+      "file": "packet-07.json",
+      "packetHash": "a2a170420ded307d32db3ab64d744825e50ac45ec84cc84f4e6d04025a461a0d",
+      "fileSha256": "cf0f1378a732d84c5f1376288869d6e0fd227e9d86c2b9ea1a0d1f299478886b"
+    },
+    {
+      "variant": "candidate",
+      "batch": 4,
+      "file": "packet-08.json",
+      "packetHash": "f96840bb26d34d0877bd58a162810ca855197e20fd98c2d9b93ab6229ac620ef",
+      "fileSha256": "7e075889591eaaed4a2c25fe15dc73dd7edcfa56837ce2da04d2185781526a36"
+    }
+  ]
+}

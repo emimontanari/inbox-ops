@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "captureHash": "9fefebbb1a2ab5919bfc3a7a8172ec5d0c746060183b724f9fbac15dcbc5bb5a",
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "context": {
+        "customerMessage": "El seguimiento del pedido 00052 figura como entregado pero no lo recibí. No quiero un reembolso ni un reenvío todavía; solo saber cómo se revisa la entrega.",
+        "category": "shipping",
+        "summary": "Entrega no recibida; pide procedimiento sin reembolso ni reenvío por ahora.",
+        "extracted": {
+          "orderNumber": "00052"
+        },
+        "missingFields": [],
+        "passages": [
+          {
+            "id": "shipping-tracking",
+            "title": "Seguimiento sin novedades o entrega no recibida",
+            "topics": [
+              "shipping"
+            ],
+            "text": "Si el seguimiento no muestra novedades durante 48 horas hábiles, abrimos una consulta con el transportista y respondemos en hasta 2 días hábiles. Si figura como entregado y el cliente no lo recibió, investigamos la entrega durante hasta 5 días hábiles antes de ofrecer un reenvío o un reembolso."
+          },
+          {
+            "id": "account-order-privacy",
+            "title": "Datos del pedido y privacidad",
+            "topics": [
+              "shipping",
+              "billing",
+              "returns",
+              "other"
+            ],
+            "text": "Solo compartimos información de un pedido después de verificar el número de pedido y el correo electrónico usado en la compra."
+          }
+        ]
+      },
+      "sentences": [
+        {
+          "text": "Hola, gracias por contactarnos.",
+          "sourceIds": []
+        },
+        {
+          "text": "Si el seguimiento indica que se entregó pero no lo recibiste, investigaremos la entrega durante hasta 5 días hábiles antes de ofrecer un reenvío o reembolso.",
+          "sourceIds": [
+            "shipping-tracking"
+          ]
+        },
+        {
+          "text": "Durante ese periodo revisaremos con el transportista los detalles de la entrega.",
+          "sourceIds": [
+            "shipping-tracking"
+          ]
+        },
+        {
+          "text": "Te mantendremos informado sobre el progreso de la investigación.",
+          "sourceIds": []
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "responseId": "response-2-1",
+      "outcome": "error"
+    }
+  ],
+  "packetHash": "4f3ea44d590d596e99962ca262a5b5ca5a6ac6d9168ef3e6222f59ea6147242d"
+}

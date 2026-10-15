@@ -1,0 +1,238 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "3738737aae3d14134d482933f6dcfcc3b39dbf8ceeb255d1ead73c5203a5e163",
+  "captureHash": "401daef94c2fa8f2e8f79fa1addc3cd75b9fe747fa5d91ccc027aaf763b504b6",
+  "reviews": [
+    {
+      "packetHash": "3738737aae3d14134d482933f6dcfcc3b39dbf8ceeb255d1ead73c5203a5e163",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje responde ambas preguntas generales."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje especifica ese plazo después del despacho.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje indica que el correo de despacho incluye el código.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "Los datos del cliente cumplen la ventana y condiciones; el pasaje explica cambios y alternativa."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El cliente aportó pedido y motivo; el pasaje permite cambios sujetos a stock.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La entrega fue hace 12 días; producto sin uso y etiquetas, dentro de los 30 días.",
+              "evidenceIds": [
+                "returns-window"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "Omitir el límite de una vez por pedido amplía el beneficio; el stock también condiciona el cambio.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La alternativa indicada ante falta de stock es ofrecer una devolución.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "3738737aae3d14134d482933f6dcfcc3b39dbf8ceeb255d1ead73c5203a5e163",
+      "reviewer": {
+        "id": "final-semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "Los pasajes cubren plazo y seguimiento."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El plazo coincide con el pasaje para envíos a domicilio.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje indica que el correo de despacho incluye el código.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "uncertain",
+            "rationale": "Las condiciones de devolución están documentadas, pero no consta que el cambio ya pueda procesarse."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "uncertain",
+              "citations": "none",
+              "rationale": "El pasaje permite cambios sujetos a stock; no confirma que este pedido pueda cambiarse ahora.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La entrega fue hace 12 días, el producto está sin uso y conserva etiquetas: cumple el plazo y condiciones citados.",
+              "evidenceIds": [
+                "returns-window"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "Omite la condición material de una vez por pedido, ampliando el beneficio.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje prevé ofrecer una devolución si no hay stock.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "not_needed",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "not_applicable",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 2,
+          "support": "supported",
+          "citations": "applicable"
+        }
+      ]
+    },
+    {
+      "responseId": "response-2-1",
+      "abstention": "uncertain",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "uncertain",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 2,
+          "support": "unsupported",
+          "citations": "misapplied"
+        },
+        {
+          "index": 3,
+          "support": "supported",
+          "citations": "applicable"
+        }
+      ]
+    }
+  ],
+  "excluded": [],
+  "disagreements": 2
+}

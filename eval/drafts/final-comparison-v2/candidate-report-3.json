@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "4f3ea44d590d596e99962ca262a5b5ca5a6ac6d9168ef3e6222f59ea6147242d",
+  "captureHash": "9fefebbb1a2ab5919bfc3a7a8172ec5d0c746060183b724f9fbac15dcbc5bb5a",
+  "reviews": [
+    {
+      "packetHash": "4f3ea44d590d596e99962ca262a5b5ca5a6ac6d9168ef3e6222f59ea6147242d",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "uncertain",
+            "rationale": "Parte del procedimiento está documentada, pero la respuesta añade acciones no especificadas."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El caso coincide con la condición de entrega marcada como entregada y no recibida; el plazo está indicado.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La fuente contempla investigar, pero no especifica revisión con el transportista para esta rama; esa consulta corresponde a seguimiento sin novedades.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Promete mantener informado al cliente sin respaldo explícito.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "4f3ea44d590d596e99962ca262a5b5ca5a6ac6d9168ef3e6222f59ea6147242d",
+      "reviewer": {
+        "id": "final-semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "uncertain",
+            "rationale": "La investigación está documentada, pero no se sabe si se verificó el pedido según la política de privacidad."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La condición coincide con el caso y el plazo de investigación figura en el pasaje.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "uncertain",
+              "citations": "uncertain",
+              "rationale": "El pasaje describe investigación, pero no dice que se consultarán específicamente detalles con el transportista.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Promete mantener informado al cliente; no hay respaldo para notificaciones de progreso.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "uncertain",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "not_applicable",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 2,
+          "support": "uncertain",
+          "citations": "uncertain"
+        },
+        {
+          "index": 3,
+          "support": "unsupported",
+          "citations": "none"
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "responseId": "response-2-1",
+      "outcome": "error"
+    }
+  ],
+  "disagreements": 2
+}

@@ -203,6 +203,8 @@ Other protections: request bodies over 1 MB are rejected, unexpected errors retu
 
 ## Evaluation
 
+For offline draft validation with frozen triage and the complete supplied context, see [reproducible draft replay](docs/draft-replay.md). `npm run eval:drafts:replay -- eval/drafts/replay/synthetic-v1.json` requires no provider key. The included fixture is synthetic plumbing evidence, not model-quality evidence; semantic support and abstention remain unassessed.
+
 `eval/dataset.json` holds hand-labeled requests with the expected category, order number and whether a return reason is present. Tags group them: `easy`, `missing-data`, `ambiguous`, `tricky`, `injection`, `out-of-scope`, plus language (`es`, `en`).
 
 - **`dev` (20 cases):** used while changing prompts or models.

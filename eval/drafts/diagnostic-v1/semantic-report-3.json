@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v1",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "4714d65cb8969db7d1912c70a3cab496ef97ce6a5ba8691e767b0cb1d31b94e3",
+  "captureHash": "03f82d10f98ca4dd7f9b5e0e16d8acd3cbaec8aff2dad950a444041ad2e97ff5",
+  "reviews": [
+    {
+      "packetHash": "4714d65cb8969db7d1912c70a3cab496ef97ce6a5ba8691e767b0cb1d31b94e3",
+      "reviewer": {
+        "id": "semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "La respuesta asegura que abrirá una consulta aunque el pasaje reserva ese procedimiento para seguimiento sin novedades durante 48 horas hábiles; el cliente informa entrega marcada como entregada."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Reformula que el pedido figura entregado y el cliente no lo recibió, según su mensaje.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje vincula abrir una consulta con 48 horas hábiles sin novedades, no con un envío marcado como entregado.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "Repite el plazo condicional de 48 horas sin novedades y respuesta en hasta 2 días hábiles.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje prevé investigar hasta 5 días hábiles cuando figura entregado y no se recibió.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 4,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje indica investigar antes de ofrecer reenvío o reembolso, pero no garantiza comunicar resultados ni opciones disponibles al concluir.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "4714d65cb8969db7d1912c70a3cab496ef97ce6a5ba8691e767b0cb1d31b94e3",
+      "reviewer": {
+        "id": "semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "La respuesta promete abrir una consulta y comunicar resultados sin base suficiente; el pasaje contempla investigar la entrega, pero no promete esas acciones concretas."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Reformula lo que el cliente dice sobre el estado de entrega y la no recepción.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje indica investigar entregas marcadas como entregadas, no abrir una consulta con el transportista en ese caso.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje fija ese plazo de respuesta solo si el seguimiento no muestra novedades durante 48 horas hábiles; la frase conserva la condición.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje contempla investigar durante hasta 5 días hábiles cuando figura como entregado y el cliente no lo recibió.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 4,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje menciona investigar y luego ofrecer reenvío o reembolso, pero no garantiza comunicar resultados ni otras opciones; además, el cliente no quiere esas opciones todavía.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "inappropriate",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "supported",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "unsupported",
+          "citations": "misapplied"
+        },
+        {
+          "index": 2,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 3,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 4,
+          "support": "unsupported",
+          "citations": "misapplied"
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "responseId": "response-2-1",
+      "outcome": "error"
+    }
+  ],
+  "disagreements": 0
+}

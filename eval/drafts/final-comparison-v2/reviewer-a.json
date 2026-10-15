@@ -1,0 +1,575 @@
+{
+  "reviewerRuntime": {
+    "model": "unknown",
+    "effort": "unknown",
+    "exposureNotes": "Leí únicamente reviewer-rubric.md y packet-01.json a packet-08.json."
+  },
+  "reviews": [
+    {
+      "packetHash": "3738737aae3d14134d482933f6dcfcc3b39dbf8ceeb255d1ead73c5203a5e163",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje responde ambas preguntas generales."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje especifica ese plazo después del despacho.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje indica que el correo de despacho incluye el código.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "Los datos del cliente cumplen la ventana y condiciones; el pasaje explica cambios y alternativa."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El cliente aportó pedido y motivo; el pasaje permite cambios sujetos a stock.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La entrega fue hace 12 días; producto sin uso y etiquetas, dentro de los 30 días.",
+              "evidenceIds": [
+                "returns-window"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "Omitir el límite de una vez por pedido amplía el beneficio; el stock también condiciona el cambio.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La alternativa indicada ante falta de stock es ofrecer una devolución.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "6e6f7404bc447f20d7ea73ed77e6ebf86c33ffe765344a7b89e19c96f5fc6042",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El daño fue reportado como ocurrido ayer y el pasaje establece el procedimiento."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El mensaje informa que la taza llegó rota; la frase expresa empatía.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje requiere una foto dentro de siete días; la entrega fue ayer.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje asigna a la tienda el costo del envío de devolución para ese caso.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje indica datos necesarios y plazo de emisión; no se requiere prometer aviso."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje pide el dato que debe corregirse, no correo; además aún falta ese dato y verificar correo.",
+              "evidenceIds": [
+                "account-order-privacy",
+                "billing-invoices"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La emisión dentro de cinco días hábiles está indicada; la verificación de correo concuerda con privacidad.",
+              "evidenceIds": [
+                "billing-invoices",
+                "account-order-privacy"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "No hay evidencia de que notificarán cuando esté disponible.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "0ed26adac8289c21d00b42afe0fb0772122c4031066d8bb098789fb6afa3bbc0",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "appropriate",
+            "rationale": "No hay pasajes sobre descuentos de cumpleaños; la respuesta reconoce falta de información sin prometer acciones."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Reconoce que no hay información suficiente; los pasajes están vacíos.",
+              "evidenceIds": []
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "appropriate",
+            "rationale": "No hay información sobre Islandia ni costos internacionales; no se inventa política ni acción."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Reconoce la ausencia de información específica; el pasaje disponible solo cubre plazo y seguimiento.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "1e8d7c475ce0c864e698faaf0ca6213ebecff34ade682264bb7d32bf24e45721",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje responde plazo y seguimiento para envíos a domicilio."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "Coincide con el plazo y condición de despacho del pasaje.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje especifica que el correo de despacho incluye el código.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "La política de cambios cubre la consulta y la entrega reciente satisface la ventana indicada."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El cliente solicita el cambio y la política contempla cambios de talla sujetos a stock.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "Omitir que es una vez por pedido amplía la gratuidad; no consta que el pedido no haya usado ya el cambio.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El cambio está sujeto a stock según el pasaje.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La fuente dice que se ofrece una devolución, no un reembolso.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 4,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "Los 12 días desde la entrega están dentro de los 30 días indicados.",
+              "evidenceIds": [
+                "returns-window"
+              ]
+            },
+            {
+              "index": 5,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La política también exige número de pedido y motivo para iniciar una devolución; la frase los presenta como únicos requisitos para el cambio.",
+              "evidenceIds": [
+                "returns-window",
+                "returns-exchange"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "3e9696740f8ab3ac88ace7d9a82243fcd610c0388a2fad661635533f6a7df4cf",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "Ante la falta de política, promete revisión y contacto futuro sin respaldo."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Asegura que un miembro del equipo revisará y contactará pronto; no hay evidencia de esas acciones o plazo.",
+              "evidenceIds": []
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "No hay información de envíos a Islandia ni costos, pero asegura revisión y respuesta futura."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Promete revisión y respuesta en breve no documentadas; el pasaje solo trata plazos y seguimiento.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "4f3ea44d590d596e99962ca262a5b5ca5a6ac6d9168ef3e6222f59ea6147242d",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "uncertain",
+            "rationale": "Parte del procedimiento está documentada, pero la respuesta añade acciones no especificadas."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El caso coincide con la condición de entrega marcada como entregada y no recibida; el plazo está indicado.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La fuente contempla investigar, pero no especifica revisión con el transportista para esta rama; esa consulta corresponde a seguimiento sin novedades.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Promete mantener informado al cliente sin respaldo explícito.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "a2a170420ded307d32db3ab64d744825e50ac45ec84cc84f4e6d04025a461a0d",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "uncertain",
+            "rationale": "El pasaje sustenta parte de la respuesta, pero no el procedimiento completo ni la comunicación final."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Reitera lo informado por el cliente sobre pedido y entrega.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "Abrir consulta con transportista está previsto para seguimiento sin novedades, no para entrega marcada como entregada.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La condición de 48 horas sin novedades no aplica al caso descrito como entregado.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El caso coincide con la rama de entrega marcada como entregada; no añade resultado ni opción final.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 4,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje no garantiza comunicar resultados u opciones al concluir; solo indica investigar antes de ofrecer reenvío o reembolso.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "f96840bb26d34d0877bd58a162810ca855197e20fd98c2d9b93ab6229ac620ef",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje establece qué enviar y el plazo para un producto dañado."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El cliente informa que la taza llegó rota; la frase expresa empatía.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje exige foto dentro de siete días; la entrega fue ayer.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje atribuye a la tienda el costo del envío de devolución.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El pasaje requiere una foto para el caso dañado y la solicitud es consecuente con ese requisito.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje indica la información requerida y el plazo de emisión."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje pide número de pedido y dato a corregir; el correo de verificación también es requisito para compartir información del pedido.",
+              "evidenceIds": [
+                "billing-invoices",
+                "account-order-privacy"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Solicita el dato a corregir para proceder, acorde al requisito del pasaje.",
+              "evidenceIds": [
+                "billing-invoices"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

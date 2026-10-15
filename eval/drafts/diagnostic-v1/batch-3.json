@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "provenance": "synthetic",
+  "kind": "frozen_inputs",
+  "cases": [
+    {
+      "id": "diag-05",
+      "context": {
+        "customerMessage": "El seguimiento del pedido 00052 figura como entregado pero no lo recibí. No quiero un reembolso ni un reenvío todavía; solo saber cómo se revisa la entrega.",
+        "category": "shipping",
+        "summary": "Entrega no recibida; pide procedimiento sin reembolso ni reenvío por ahora.",
+        "extracted": {
+          "orderNumber": "00052"
+        },
+        "missingFields": [],
+        "passages": [
+          {
+            "id": "shipping-tracking",
+            "title": "Seguimiento sin novedades o entrega no recibida",
+            "topics": [
+              "shipping"
+            ],
+            "text": "Si el seguimiento no muestra novedades durante 48 horas hábiles, abrimos una consulta con el transportista y respondemos en hasta 2 días hábiles. Si figura como entregado y el cliente no lo recibió, investigamos la entrega durante hasta 5 días hábiles antes de ofrecer un reenvío o un reembolso."
+          },
+          {
+            "id": "account-order-privacy",
+            "title": "Datos del pedido y privacidad",
+            "topics": [
+              "shipping",
+              "billing",
+              "returns",
+              "other"
+            ],
+            "text": "Solo compartimos información de un pedido después de verificar el número de pedido y el correo electrónico usado en la compra."
+          }
+        ]
+      }
+    },
+    {
+      "id": "diag-06",
+      "context": {
+        "customerMessage": "En el pedido 00891 veo dos movimientos: uno acreditado y otro pendiente. No digo que ambos se hayan acreditado ni pido un reintegro todavía. ¿Qué diferencia hay?",
+        "category": "billing",
+        "summary": "Consulta diferencia entre cargo pendiente y duplicado acreditado; no solicita reintegro.",
+        "extracted": {
+          "orderNumber": "00891"
+        },
+        "missingFields": [],
+        "passages": [
+          {
+            "id": "billing-pending-charge",
+            "title": "Cargos pendientes o duplicados",
+            "topics": [
+              "billing"
+            ],
+            "text": "Un cargo pendiente es una autorización temporal del banco y se libera en hasta 7 días hábiles. Si dos cargos del mismo pedido se acreditan, reintegramos el duplicado después de verificarlo."
+          }
+        ]
+      }
+    }
+  ]
+}

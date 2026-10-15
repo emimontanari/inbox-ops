@@ -1,0 +1,158 @@
+{
+  "version": 1,
+  "kind": "recorded_baseline_not_quality_score",
+  "modelId": "openai/gpt-oss-20b",
+  "attempts": 8,
+  "structurallyValid": 7,
+  "errors": 1,
+  "usageUnknown": 1,
+  "knownTokens": {
+    "input": 5487,
+    "output": 3052
+  },
+  "semanticReview": "not_assessed",
+  "batches": [
+    {
+      "batch": 1,
+      "captureHash": "401daef94c2fa8f2e8f79fa1addc3cd75b9fe747fa5d91ccc027aaf763b504b6",
+      "packetHash": "ac0e70f2f250924a13247a6fa0c3cbc286b524b9207a194bf1ee2e7f9a93c26d",
+      "counts": {
+        "attempts": 2,
+        "valid": 2,
+        "invalid": 0,
+        "errors": 0,
+        "usageMissing": 0
+      },
+      "excluded": [],
+      "captureFile": "baseline-1.json",
+      "captureFileSha256": "a92717fdb15099e26a443fa7cdbb99ac76697ccb4a2ac11ae38a5a56d89ce164",
+      "commandExitCode": 0
+    },
+    {
+      "batch": 2,
+      "captureHash": "aaabdcfd5102909e0ecfea56aeafe3d1161fad59cea68ac91e38ef16b18b2b5e",
+      "packetHash": "edc7329b6862fa2bac73d02ba4d032d95c48e22bc8e3466ed8138b28f3d68ce5",
+      "counts": {
+        "attempts": 2,
+        "valid": 2,
+        "invalid": 0,
+        "errors": 0,
+        "usageMissing": 0
+      },
+      "excluded": [],
+      "captureFile": "baseline-2.json",
+      "captureFileSha256": "5b645e74193dbef990c456d923716e4fe850c04c185232eb3f91c94857137430",
+      "commandExitCode": 0
+    },
+    {
+      "batch": 3,
+      "captureHash": "03f82d10f98ca4dd7f9b5e0e16d8acd3cbaec8aff2dad950a444041ad2e97ff5",
+      "packetHash": "4714d65cb8969db7d1912c70a3cab496ef97ce6a5ba8691e767b0cb1d31b94e3",
+      "counts": {
+        "attempts": 2,
+        "valid": 1,
+        "invalid": 0,
+        "errors": 1,
+        "usageMissing": 1
+      },
+      "excluded": [
+        {
+          "responseId": "response-2-1",
+          "outcome": "error"
+        }
+      ],
+      "captureFile": "baseline-3.json",
+      "captureFileSha256": "72988893b904bc3f84e100d4dcf2ec6c417596590a4e5f567e33fb4a96d35c74",
+      "commandExitCode": 1
+    },
+    {
+      "batch": 4,
+      "captureHash": "01fb91feee4e42bbc6c484259d16ed3d8bb20a4be82306007c0344dfee4002cb",
+      "packetHash": "c63c7efbce2f16a35ebe95035bd3b78f71bee95b14a947a87ea26a1fc90e0baf",
+      "counts": {
+        "attempts": 2,
+        "valid": 2,
+        "invalid": 0,
+        "errors": 0,
+        "usageMissing": 0
+      },
+      "excluded": [],
+      "captureFile": "baseline-4.json",
+      "captureFileSha256": "250f94ecd32026f99628390b94060a683d0ef055786ff94bb12de78c361ba700",
+      "commandExitCode": 0
+    }
+  ],
+  "cases": [
+    {
+      "id": "diag-01",
+      "contextHash": "71e19e28ba566b9aa9e1330dcc8afe1e25edec217b369a030ce52a4ec7dd5aa2",
+      "outcome": "valid",
+      "usage": {
+        "inputTokens": 747,
+        "outputTokens": 472
+      }
+    },
+    {
+      "id": "diag-02",
+      "contextHash": "5e5cb0fe1c38b0c48b2c6028ee9f071863e784816e25f9b44867538ffd8c6756",
+      "outcome": "valid",
+      "usage": {
+        "inputTokens": 825,
+        "outputTokens": 434
+      }
+    },
+    {
+      "id": "diag-03",
+      "contextHash": "66438d0a091ba4a6a0d1af410c36b7f5a9e176ad7b798eb5e23fdce2c3f97e18",
+      "outcome": "valid",
+      "usage": {
+        "inputTokens": 691,
+        "outputTokens": 354
+      }
+    },
+    {
+      "id": "diag-04",
+      "contextHash": "b93466104e2256dfb33dc18200d9d46c6f898b6a68f18325b66533dbb624eb1f",
+      "outcome": "valid",
+      "usage": {
+        "inputTokens": 755,
+        "outputTokens": 350
+      }
+    },
+    {
+      "id": "diag-05",
+      "contextHash": "f1134ae49896b78d59ea8e4f5540c3baa08d5c9805c57d0ca490fa693110d518",
+      "outcome": "valid",
+      "usage": {
+        "inputTokens": 854,
+        "outputTokens": 453
+      }
+    },
+    {
+      "id": "diag-06",
+      "contextHash": "98e856794153c3bda81e7b2f5b10fc7bd2db2aacdaac978211b2318a1f1342c0",
+      "outcome": "error",
+      "usage": null,
+      "error": "invalid_output",
+      "httpStatus": 400
+    },
+    {
+      "id": "diag-07",
+      "contextHash": "2ab8adbd9a5350d495b2e51c57e3f732f16fd875579908113e40b29038d7d158",
+      "outcome": "valid",
+      "usage": {
+        "inputTokens": 789,
+        "outputTokens": 276
+      }
+    },
+    {
+      "id": "diag-08",
+      "contextHash": "bbfb267839d576728b6a5aca4ab7fc997a8aee3d54cd26fdac9dcf15e177e6d4",
+      "outcome": "valid",
+      "usage": {
+        "inputTokens": 826,
+        "outputTokens": 713
+      }
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v1",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "c63c7efbce2f16a35ebe95035bd3b78f71bee95b14a947a87ea26a1fc90e0baf",
+  "captureHash": "01fb91feee4e42bbc6c484259d16ed3d8bb20a4be82306007c0344dfee4002cb",
+  "reviews": [
+    {
+      "packetHash": "c63c7efbce2f16a35ebe95035bd3b78f71bee95b14a947a87ea26a1fc90e0baf",
+      "reviewer": {
+        "id": "semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje especifica el requisito de foto dentro de 7 días y quién cubre el envío de devolución."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Expresión de empatía, sin afirmación verificable.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje requiere una foto del producto dentro de 7 días; el mensaje dice que llegó ayer. La formulación de procesar la devolución se entiende como el paso solicitado, no como una devolución ya procesada.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje dice que en ese caso la tienda cubre el costo del envío de devolución.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "La respuesta presenta como cierta una emisión futura, pero no consta el dato de corrección requerido ni se respalda una notificación posterior."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje exige verificar el correo antes de compartir información del pedido; no dice que ese correo sea necesario para proceder con una corrección de factura.",
+              "evidenceIds": [
+                "account-order-privacy"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El plazo de 5 días hábiles aplica a la factura corregida una vez recibidos el número de pedido y el dato a corregir; la frase lo condiciona solo a verificar el correo.",
+              "evidenceIds": [
+                "billing-invoices"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Ningún pasaje promete notificar cuando la factura esté disponible.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "c63c7efbce2f16a35ebe95035bd3b78f71bee95b14a947a87ea26a1fc90e0baf",
+      "reviewer": {
+        "id": "semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje especifica la documentación requerida y quién cubre el envío de devolución."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Expresa pesar por el incidente descrito, sin añadir una afirmación verificable.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje exige una foto dentro de los 7 días de la entrega; el cliente indica que recibió el producto ayer.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje establece que la tienda cubre el costo del envío de devolución en ese caso.",
+              "evidenceIds": [
+                "returns-damaged"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "La respuesta asegura una notificación futura sin respaldo y no solicita el dato a corregir que el pasaje requiere."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "not_applicable",
+              "citations": "none",
+              "rationale": "Saludo y agradecimiento, sin afirmaciones verificables.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje requiere el número de pedido y el dato a corregir; no exige confirmar el correo electrónico. El mensaje ya proporciona el número.",
+              "evidenceIds": [
+                "billing-invoices",
+                "account-order-privacy"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El plazo de 5 días hábiles aplica a la emisión de la factura corregida, pero falta el dato a corregir y la frase lo condiciona solo a verificar el correo.",
+              "evidenceIds": [
+                "billing-invoices"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Ningún pasaje promete notificar cuando la factura esté disponible para descargar.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "not_needed",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "not_applicable",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 2,
+          "support": "supported",
+          "citations": "applicable"
+        }
+      ]
+    },
+    {
+      "responseId": "response-2-1",
+      "abstention": "inappropriate",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "not_applicable",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "unsupported",
+          "citations": "misapplied"
+        },
+        {
+          "index": 2,
+          "support": "unsupported",
+          "citations": "misapplied"
+        },
+        {
+          "index": 3,
+          "support": "unsupported",
+          "citations": "none"
+        }
+      ]
+    }
+  ],
+  "excluded": [],
+  "disagreements": 0
+}

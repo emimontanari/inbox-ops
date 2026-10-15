@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "0ed26adac8289c21d00b42afe0fb0772122c4031066d8bb098789fb6afa3bbc0",
+  "captureHash": "a3f007f8f7ed3fd5a49f1853a021f5bc4602c78e32d6e7d7a29a9d13abe05e06",
+  "reviews": [
+    {
+      "packetHash": "0ed26adac8289c21d00b42afe0fb0772122c4031066d8bb098789fb6afa3bbc0",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "appropriate",
+            "rationale": "No hay pasajes sobre descuentos de cumpleaños; la respuesta reconoce falta de información sin prometer acciones."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Reconoce que no hay información suficiente; los pasajes están vacíos.",
+              "evidenceIds": []
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "appropriate",
+            "rationale": "No hay información sobre Islandia ni costos internacionales; no se inventa política ni acción."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Reconoce la ausencia de información específica; el pasaje disponible solo cubre plazo y seguimiento.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "0ed26adac8289c21d00b42afe0fb0772122c4031066d8bb098789fb6afa3bbc0",
+      "reviewer": {
+        "id": "final-semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "appropriate",
+            "rationale": "No hay pasajes sobre descuentos de cumpleaños; reconoce que falta información sin inferir una política."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Reconoce correctamente que el contexto no aporta información para responder.",
+              "evidenceIds": []
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "appropriate",
+            "rationale": "El único pasaje trata plazo y seguimiento domésticos, no destinos ni costos internacionales; la respuesta reconoce esa falta de información."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "No afirma que el servicio no exista; comunica que el contexto no proporciona esos datos.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "appropriate",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "supported",
+          "citations": "none"
+        }
+      ]
+    },
+    {
+      "responseId": "response-2-1",
+      "abstention": "appropriate",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "supported",
+          "citations": "none"
+        }
+      ]
+    }
+  ],
+  "excluded": [],
+  "disagreements": 0
+}

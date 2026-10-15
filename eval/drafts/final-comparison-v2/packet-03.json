@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "captureHash": "a3f007f8f7ed3fd5a49f1853a021f5bc4602c78e32d6e7d7a29a9d13abe05e06",
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "context": {
+        "customerMessage": "¿Ofrecen un descuento por mi cumpleaños aunque sea mi primera compra?",
+        "category": "other",
+        "summary": "Pregunta por un descuento de cumpleaños no documentado.",
+        "extracted": {},
+        "missingFields": [],
+        "passages": []
+      },
+      "sentences": [
+        {
+          "text": "Lo siento, no tengo información suficiente para responder a esa pregunta.",
+          "sourceIds": []
+        }
+      ]
+    },
+    {
+      "responseId": "response-2-1",
+      "context": {
+        "customerMessage": "Todavía no compré. ¿Hacen envíos a Islandia y cuánto cuestan la aduana y el envío internacional?",
+        "category": "shipping",
+        "summary": "Pregunta previa a compra sobre destino y costos internacionales no documentados.",
+        "extracted": {},
+        "missingFields": [
+          "order_number"
+        ],
+        "passages": [
+          {
+            "id": "shipping-times",
+            "title": "Plazos de envío",
+            "topics": [
+              "shipping"
+            ],
+            "text": "Los envíos a domicilio llegan entre 3 y 5 días hábiles después del despacho. El correo electrónico de despacho incluye el código de seguimiento."
+          }
+        ]
+      },
+      "sentences": [
+        {
+          "text": "Lo siento, pero no dispongo de información sobre envíos a Islandia ni costos de aduana y envío internacional.",
+          "sourceIds": []
+        }
+      ]
+    }
+  ],
+  "excluded": [],
+  "packetHash": "0ed26adac8289c21d00b42afe0fb0772122c4031066d8bb098789fb6afa3bbc0"
+}

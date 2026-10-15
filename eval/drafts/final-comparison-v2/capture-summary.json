@@ -1,0 +1,300 @@
+{
+  "version": 1,
+  "status": "mechanical_counts_not_quality",
+  "summaries": [
+    {
+      "variant": "baseline",
+      "model": "openai/gpt-oss-20b",
+      "runs": [
+        {
+          "batch": 1,
+          "file": "baseline-1.json",
+          "fileSha256": "a92717fdb15099e26a443fa7cdbb99ac76697ccb4a2ac11ae38a5a56d89ce164",
+          "counts": {
+            "attempts": 2,
+            "valid": 2,
+            "invalid": 0,
+            "errors": 0,
+            "usageMissing": 0
+          },
+          "instructionsSha256": "00c641dc3d65358153fabbde849d3ddd9059b6758c18ef78ad4113dbfa2c3313",
+          "cases": [
+            {
+              "id": "diag-01",
+              "contextHash": "71e19e28ba566b9aa9e1330dcc8afe1e25edec217b369a030ce52a4ec7dd5aa2",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 747,
+                "outputTokens": 472
+              }
+            },
+            {
+              "id": "diag-02",
+              "contextHash": "5e5cb0fe1c38b0c48b2c6028ee9f071863e784816e25f9b44867538ffd8c6756",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 825,
+                "outputTokens": 434
+              }
+            }
+          ],
+          "expectedReplayExitCode": 0
+        },
+        {
+          "batch": 2,
+          "file": "baseline-2.json",
+          "fileSha256": "5b645e74193dbef990c456d923716e4fe850c04c185232eb3f91c94857137430",
+          "counts": {
+            "attempts": 2,
+            "valid": 2,
+            "invalid": 0,
+            "errors": 0,
+            "usageMissing": 0
+          },
+          "instructionsSha256": "00c641dc3d65358153fabbde849d3ddd9059b6758c18ef78ad4113dbfa2c3313",
+          "cases": [
+            {
+              "id": "diag-03",
+              "contextHash": "66438d0a091ba4a6a0d1af410c36b7f5a9e176ad7b798eb5e23fdce2c3f97e18",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 691,
+                "outputTokens": 354
+              }
+            },
+            {
+              "id": "diag-04",
+              "contextHash": "b93466104e2256dfb33dc18200d9d46c6f898b6a68f18325b66533dbb624eb1f",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 755,
+                "outputTokens": 350
+              }
+            }
+          ],
+          "expectedReplayExitCode": 0
+        },
+        {
+          "batch": 3,
+          "file": "baseline-3.json",
+          "fileSha256": "72988893b904bc3f84e100d4dcf2ec6c417596590a4e5f567e33fb4a96d35c74",
+          "counts": {
+            "attempts": 2,
+            "valid": 1,
+            "invalid": 0,
+            "errors": 1,
+            "usageMissing": 1
+          },
+          "instructionsSha256": "00c641dc3d65358153fabbde849d3ddd9059b6758c18ef78ad4113dbfa2c3313",
+          "cases": [
+            {
+              "id": "diag-05",
+              "contextHash": "f1134ae49896b78d59ea8e4f5540c3baa08d5c9805c57d0ca490fa693110d518",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 854,
+                "outputTokens": 453
+              }
+            },
+            {
+              "id": "diag-06",
+              "contextHash": "98e856794153c3bda81e7b2f5b10fc7bd2db2aacdaac978211b2318a1f1342c0",
+              "outcome": "error",
+              "usage": null
+            }
+          ],
+          "expectedReplayExitCode": 1
+        },
+        {
+          "batch": 4,
+          "file": "baseline-4.json",
+          "fileSha256": "250f94ecd32026f99628390b94060a683d0ef055786ff94bb12de78c361ba700",
+          "counts": {
+            "attempts": 2,
+            "valid": 2,
+            "invalid": 0,
+            "errors": 0,
+            "usageMissing": 0
+          },
+          "instructionsSha256": "00c641dc3d65358153fabbde849d3ddd9059b6758c18ef78ad4113dbfa2c3313",
+          "cases": [
+            {
+              "id": "diag-07",
+              "contextHash": "2ab8adbd9a5350d495b2e51c57e3f732f16fd875579908113e40b29038d7d158",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 789,
+                "outputTokens": 276
+              }
+            },
+            {
+              "id": "diag-08",
+              "contextHash": "bbfb267839d576728b6a5aca4ab7fc997a8aee3d54cd26fdac9dcf15e177e6d4",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 826,
+                "outputTokens": 713
+              }
+            }
+          ],
+          "expectedReplayExitCode": 0
+        }
+      ],
+      "totals": {
+        "attempts": 8,
+        "structurallyValid": 7,
+        "errors": 1,
+        "usageUnknown": 1,
+        "knownInputTokens": 5487,
+        "knownOutputTokens": 3052
+      }
+    },
+    {
+      "variant": "candidate",
+      "model": "openai/gpt-oss-20b",
+      "runs": [
+        {
+          "batch": 1,
+          "file": "candidate-1.json",
+          "fileSha256": "418f31431198b941f59322ec04d40f4450795c7632a0711949406a9e35091edb",
+          "counts": {
+            "attempts": 2,
+            "valid": 2,
+            "invalid": 0,
+            "errors": 0,
+            "usageMissing": 0
+          },
+          "instructionsSha256": "c3168472ad3fdc48bd6370616e39cdf8939824aeea4ce9bc5b97af30120da649",
+          "cases": [
+            {
+              "id": "diag-01",
+              "contextHash": "71e19e28ba566b9aa9e1330dcc8afe1e25edec217b369a030ce52a4ec7dd5aa2",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 818,
+                "outputTokens": 339
+              }
+            },
+            {
+              "id": "diag-02",
+              "contextHash": "5e5cb0fe1c38b0c48b2c6028ee9f071863e784816e25f9b44867538ffd8c6756",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 896,
+                "outputTokens": 485
+              }
+            }
+          ],
+          "expectedReplayExitCode": 0
+        },
+        {
+          "batch": 2,
+          "file": "candidate-2.json",
+          "fileSha256": "ca393a6f7616640036f907f6200263a865e696316347de55a59cebb9651f8bdc",
+          "counts": {
+            "attempts": 2,
+            "valid": 2,
+            "invalid": 0,
+            "errors": 0,
+            "usageMissing": 0
+          },
+          "instructionsSha256": "c3168472ad3fdc48bd6370616e39cdf8939824aeea4ce9bc5b97af30120da649",
+          "cases": [
+            {
+              "id": "diag-03",
+              "contextHash": "66438d0a091ba4a6a0d1af410c36b7f5a9e176ad7b798eb5e23fdce2c3f97e18",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 762,
+                "outputTokens": 336
+              }
+            },
+            {
+              "id": "diag-04",
+              "contextHash": "b93466104e2256dfb33dc18200d9d46c6f898b6a68f18325b66533dbb624eb1f",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 826,
+                "outputTokens": 298
+              }
+            }
+          ],
+          "expectedReplayExitCode": 0
+        },
+        {
+          "batch": 3,
+          "file": "candidate-3.json",
+          "fileSha256": "72acd72295dfb8d0cf1cc7b76b07b84ef3c8ba21e8ffae79a435947aed76d15f",
+          "counts": {
+            "attempts": 2,
+            "valid": 1,
+            "invalid": 0,
+            "errors": 1,
+            "usageMissing": 1
+          },
+          "instructionsSha256": "c3168472ad3fdc48bd6370616e39cdf8939824aeea4ce9bc5b97af30120da649",
+          "cases": [
+            {
+              "id": "diag-05",
+              "contextHash": "f1134ae49896b78d59ea8e4f5540c3baa08d5c9805c57d0ca490fa693110d518",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 925,
+                "outputTokens": 737
+              }
+            },
+            {
+              "id": "diag-06",
+              "contextHash": "98e856794153c3bda81e7b2f5b10fc7bd2db2aacdaac978211b2318a1f1342c0",
+              "outcome": "error",
+              "usage": null
+            }
+          ],
+          "expectedReplayExitCode": 1
+        },
+        {
+          "batch": 4,
+          "file": "candidate-4.json",
+          "fileSha256": "2a9d1756ffabf0853ad544719bf902a09c411c4226d89bbf5fe5621e3e76101a",
+          "counts": {
+            "attempts": 2,
+            "valid": 2,
+            "invalid": 0,
+            "errors": 0,
+            "usageMissing": 0
+          },
+          "instructionsSha256": "c3168472ad3fdc48bd6370616e39cdf8939824aeea4ce9bc5b97af30120da649",
+          "cases": [
+            {
+              "id": "diag-07",
+              "contextHash": "2ab8adbd9a5350d495b2e51c57e3f732f16fd875579908113e40b29038d7d158",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 860,
+                "outputTokens": 823
+              }
+            },
+            {
+              "id": "diag-08",
+              "contextHash": "bbfb267839d576728b6a5aca4ab7fc997a8aee3d54cd26fdac9dcf15e177e6d4",
+              "outcome": "valid",
+              "usage": {
+                "inputTokens": 897,
+                "outputTokens": 852
+              }
+            }
+          ],
+          "expectedReplayExitCode": 0
+        }
+      ],
+      "totals": {
+        "attempts": 8,
+        "structurallyValid": 7,
+        "errors": 1,
+        "usageUnknown": 1,
+        "knownInputTokens": 5984,
+        "knownOutputTokens": 3870
+      }
+    }
+  ]
+}

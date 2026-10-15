@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "captureHash": "71b3d1d37f86dd0a2b6ac30e34fa76cd3258d4da539afbd098b7b4a40b4a6c2a",
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "context": {
+        "customerMessage": "Antes de comprar, ¿cuánto tarda el envío a domicilio después del despacho y dónde recibiré el seguimiento?",
+        "category": "shipping",
+        "summary": "Consulta general previa a compra sobre plazo y seguimiento.",
+        "extracted": {},
+        "missingFields": [
+          "order_number"
+        ],
+        "passages": [
+          {
+            "id": "shipping-times",
+            "title": "Plazos de envío",
+            "topics": [
+              "shipping"
+            ],
+            "text": "Los envíos a domicilio llegan entre 3 y 5 días hábiles después del despacho. El correo electrónico de despacho incluye el código de seguimiento."
+          }
+        ]
+      },
+      "sentences": [
+        {
+          "text": "Los envíos a domicilio llegan entre 3 y 5 días hábiles después del despacho.",
+          "sourceIds": [
+            "shipping-times"
+          ]
+        },
+        {
+          "text": "El correo electrónico de despacho incluye el código de seguimiento.",
+          "sourceIds": [
+            "shipping-times"
+          ]
+        }
+      ]
+    },
+    {
+      "responseId": "response-2-1",
+      "context": {
+        "customerMessage": "Quiero cambiar la talla del pedido 007101 porque me queda grande. Lo recibí hace 12 días, no lo usé y conserva las etiquetas. ¿Tiene costo y está garantizada la otra talla?",
+        "category": "returns",
+        "summary": "Solicita cambio de talla y consulta costo y disponibilidad.",
+        "extracted": {
+          "orderNumber": "007101",
+          "returnReason": "La talla queda grande"
+        },
+        "missingFields": [],
+        "passages": [
+          {
+            "id": "returns-window",
+            "title": "Devoluciones",
+            "topics": [
+              "returns"
+            ],
+            "text": "Aceptamos devoluciones dentro de los 30 días desde la entrega, con el producto sin uso y con sus etiquetas. Para iniciar una devolución necesitamos el número de pedido y el motivo de la devolución."
+          },
+          {
+            "id": "returns-exchange",
+            "title": "Cambios de talla o color",
+            "topics": [
+              "returns"
+            ],
+            "text": "Los cambios de talla o color no tienen costo una vez por pedido y están sujetos a stock. Si no hay stock, ofrecemos una devolución."
+          }
+        ]
+      },
+      "sentences": [
+        {
+          "text": "Puedes solicitar el cambio de talla de tu pedido 007101.",
+          "sourceIds": []
+        },
+        {
+          "text": "El proceso es gratuito, una sola vez por pedido.",
+          "sourceIds": [
+            "returns-exchange"
+          ]
+        },
+        {
+          "text": "El cambio está sujeto a disponibilidad de stock en la talla deseada.",
+          "sourceIds": [
+            "returns-exchange"
+          ]
+        },
+        {
+          "text": "Si la talla no está disponible, te ofreceremos un reembolso.",
+          "sourceIds": [
+            "returns-exchange"
+          ]
+        },
+        {
+          "text": "El pedido fue entregado hace 12 días, por lo que todavía está dentro de la ventana de 30 días.",
+          "sourceIds": [
+            "returns-window"
+          ]
+        },
+        {
+          "text": "Solo necesitamos que el producto esté sin usar y con las etiquetas para iniciar el cambio.",
+          "sourceIds": [
+            "returns-window"
+          ]
+        }
+      ]
+    }
+  ],
+  "excluded": [],
+  "packetHash": "1e8d7c475ce0c864e698faaf0ca6213ebecff34ade682264bb7d32bf24e45721"
+}

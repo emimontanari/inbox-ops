@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "3e9696740f8ab3ac88ace7d9a82243fcd610c0388a2fad661635533f6a7df4cf",
+  "captureHash": "aaabdcfd5102909e0ecfea56aeafe3d1161fad59cea68ac91e38ef16b18b2b5e",
+  "reviews": [
+    {
+      "packetHash": "3e9696740f8ab3ac88ace7d9a82243fcd610c0388a2fad661635533f6a7df4cf",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "Ante la falta de política, promete revisión y contacto futuro sin respaldo."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Asegura que un miembro del equipo revisará y contactará pronto; no hay evidencia de esas acciones o plazo.",
+              "evidenceIds": []
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "No hay información de envíos a Islandia ni costos, pero asegura revisión y respuesta futura."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Promete revisión y respuesta en breve no documentadas; el pasaje solo trata plazos y seguimiento.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "3e9696740f8ab3ac88ace7d9a82243fcd610c0388a2fad661635533f6a7df4cf",
+      "reviewer": {
+        "id": "final-semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "No hay información sobre el descuento, pero promete revisión y contacto futuro sin respaldo."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Promete que un miembro del equipo revisará y contactará; no hay evidencia de esas acciones.",
+              "evidenceIds": []
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "inappropriate",
+            "rationale": "El pasaje no responde sobre Islandia ni costos, pero la respuesta promete revisión y contestación sin respaldo."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "unsupported",
+              "citations": "none",
+              "rationale": "Asegura revisión y respuesta próxima, acciones no documentadas.",
+              "evidenceIds": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "inappropriate",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "unsupported",
+          "citations": "none"
+        }
+      ]
+    },
+    {
+      "responseId": "response-2-1",
+      "abstention": "inappropriate",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "unsupported",
+          "citations": "none"
+        }
+      ]
+    }
+  ],
+  "excluded": [],
+  "disagreements": 0
+}

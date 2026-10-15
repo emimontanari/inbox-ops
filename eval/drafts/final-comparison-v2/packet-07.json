@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "captureHash": "03f82d10f98ca4dd7f9b5e0e16d8acd3cbaec8aff2dad950a444041ad2e97ff5",
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "context": {
+        "customerMessage": "El seguimiento del pedido 00052 figura como entregado pero no lo recibí. No quiero un reembolso ni un reenvío todavía; solo saber cómo se revisa la entrega.",
+        "category": "shipping",
+        "summary": "Entrega no recibida; pide procedimiento sin reembolso ni reenvío por ahora.",
+        "extracted": {
+          "orderNumber": "00052"
+        },
+        "missingFields": [],
+        "passages": [
+          {
+            "id": "shipping-tracking",
+            "title": "Seguimiento sin novedades o entrega no recibida",
+            "topics": [
+              "shipping"
+            ],
+            "text": "Si el seguimiento no muestra novedades durante 48 horas hábiles, abrimos una consulta con el transportista y respondemos en hasta 2 días hábiles. Si figura como entregado y el cliente no lo recibió, investigamos la entrega durante hasta 5 días hábiles antes de ofrecer un reenvío o un reembolso."
+          },
+          {
+            "id": "account-order-privacy",
+            "title": "Datos del pedido y privacidad",
+            "topics": [
+              "shipping",
+              "billing",
+              "returns",
+              "other"
+            ],
+            "text": "Solo compartimos información de un pedido después de verificar el número de pedido y el correo electrónico usado en la compra."
+          }
+        ]
+      },
+      "sentences": [
+        {
+          "text": "Entendemos que el pedido 00052 aparece como entregado pero no lo recibió.",
+          "sourceIds": []
+        },
+        {
+          "text": "Para revisar la entrega abriremos una consulta con el transportista.",
+          "sourceIds": [
+            "shipping-tracking"
+          ]
+        },
+        {
+          "text": "Si el seguimiento no muestra novedades durante 48 horas hábiles, respondemos en hasta 2 días hábiles.",
+          "sourceIds": [
+            "shipping-tracking"
+          ]
+        },
+        {
+          "text": "Si figura como entregado y no lo recibió, investigaremos la entrega durante hasta 5 días hábiles.",
+          "sourceIds": [
+            "shipping-tracking"
+          ]
+        },
+        {
+          "text": "Una vez concluida la investigación, le comunicaremos los resultados y las opciones disponibles.",
+          "sourceIds": [
+            "shipping-tracking"
+          ]
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "responseId": "response-2-1",
+      "outcome": "error"
+    }
+  ],
+  "packetHash": "a2a170420ded307d32db3ab64d744825e50ac45ec84cc84f4e6d04025a461a0d"
+}

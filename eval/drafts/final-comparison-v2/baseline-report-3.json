@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "a2a170420ded307d32db3ab64d744825e50ac45ec84cc84f4e6d04025a461a0d",
+  "captureHash": "03f82d10f98ca4dd7f9b5e0e16d8acd3cbaec8aff2dad950a444041ad2e97ff5",
+  "reviews": [
+    {
+      "packetHash": "a2a170420ded307d32db3ab64d744825e50ac45ec84cc84f4e6d04025a461a0d",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "uncertain",
+            "rationale": "El pasaje sustenta parte de la respuesta, pero no el procedimiento completo ni la comunicación final."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Reitera lo informado por el cliente sobre pedido y entrega.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "Abrir consulta con transportista está previsto para seguimiento sin novedades, no para entrega marcada como entregada.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La condición de 48 horas sin novedades no aplica al caso descrito como entregado.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El caso coincide con la rama de entrega marcada como entregada; no añade resultado ni opción final.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 4,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje no garantiza comunicar resultados u opciones al concluir; solo indica investigar antes de ofrecer reenvío o reembolso.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "a2a170420ded307d32db3ab64d744825e50ac45ec84cc84f4e6d04025a461a0d",
+      "reviewer": {
+        "id": "final-semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "uncertain",
+            "rationale": "La política documenta una consulta solo si no hay novedades durante 48 horas; no consta que esa condición se cumpla en el caso."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "Repite lo que el cliente relata sobre el estado del pedido.",
+              "evidenceIds": []
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La consulta al transportista se abre solo si el seguimiento no muestra novedades durante 48 horas hábiles; el caso actual no establece esa condición.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "Expone la rama de falta de novedades aunque el caso es de seguimiento marcado como entregado.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "Coincide con el estado reportado y con el plazo de investigación documentado.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            },
+            {
+              "index": 4,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "El pasaje no garantiza comunicar resultados u opciones una vez concluida la investigación.",
+              "evidenceIds": [
+                "shipping-tracking"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "uncertain",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "supported",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "unsupported",
+          "citations": "misapplied"
+        },
+        {
+          "index": 2,
+          "support": "unsupported",
+          "citations": "misapplied"
+        },
+        {
+          "index": 3,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 4,
+          "support": "unsupported",
+          "citations": "misapplied"
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "responseId": "response-2-1",
+      "outcome": "error"
+    }
+  ],
+  "disagreements": 0
+}

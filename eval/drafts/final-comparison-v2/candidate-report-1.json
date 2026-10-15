@@ -1,0 +1,266 @@
+{
+  "version": 1,
+  "rubricVersion": "draft-semantic-v2",
+  "status": "reviewer_agreement_not_ground_truth",
+  "packetHash": "1e8d7c475ce0c864e698faaf0ca6213ebecff34ade682264bb7d32bf24e45721",
+  "captureHash": "71b3d1d37f86dd0a2b6ac30e34fa76cd3258d4da539afbd098b7b4a40b4a6c2a",
+  "reviews": [
+    {
+      "packetHash": "1e8d7c475ce0c864e698faaf0ca6213ebecff34ade682264bb7d32bf24e45721",
+      "reviewer": {
+        "id": "final-semantic-a",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje responde plazo y seguimiento para envíos a domicilio."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "Coincide con el plazo y condición de despacho del pasaje.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje especifica que el correo de despacho incluye el código.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "La política de cambios cubre la consulta y la entrega reciente satisface la ventana indicada."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "none",
+              "rationale": "El cliente solicita el cambio y la política contempla cambios de talla sujetos a stock.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "Omitir que es una vez por pedido amplía la gratuidad; no consta que el pedido no haya usado ya el cambio.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El cambio está sujeto a stock según el pasaje.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La fuente dice que se ofrece una devolución, no un reembolso.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 4,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "Los 12 días desde la entrega están dentro de los 30 días indicados.",
+              "evidenceIds": [
+                "returns-window"
+              ]
+            },
+            {
+              "index": 5,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La política también exige número de pedido y motivo para iniciar una devolución; la frase los presenta como únicos requisitos para el cambio.",
+              "evidenceIds": [
+                "returns-window",
+                "returns-exchange"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetHash": "1e8d7c475ce0c864e698faaf0ca6213ebecff34ade682264bb7d32bf24e45721",
+      "reviewer": {
+        "id": "final-semantic-b",
+        "kind": "ai",
+        "exposure": "blind"
+      },
+      "responses": [
+        {
+          "responseId": "response-1-1",
+          "abstention": {
+            "label": "not_needed",
+            "rationale": "El pasaje responde ambas preguntas generales de envío."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "Reproduce el plazo para envíos a domicilio posterior al despacho.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            },
+            {
+              "index": 1,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "El pasaje indica que el código va en el correo de despacho.",
+              "evidenceIds": [
+                "shipping-times"
+              ]
+            }
+          ]
+        },
+        {
+          "responseId": "response-2-1",
+          "abstention": {
+            "label": "uncertain",
+            "rationale": "La política permite cambios sujetos a stock, pero no verifica stock ni procesamiento para este pedido."
+          },
+          "sentences": [
+            {
+              "index": 0,
+              "support": "uncertain",
+              "citations": "none",
+              "rationale": "La política contempla cambios, pero no confirma disponibilidad ni elegibilidad concreta del pedido.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 1,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "Omitir que es gratis una vez por pedido amplía materialmente el beneficio.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 2,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "La disponibilidad de stock es la condición expresa de los cambios.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 3,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La política ofrece una devolución si no hay stock, no promete un reembolso.",
+              "evidenceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "index": 4,
+              "support": "supported",
+              "citations": "applicable",
+              "rationale": "Doce días desde la entrega está dentro de los 30 días indicados.",
+              "evidenceIds": [
+                "returns-window"
+              ]
+            },
+            {
+              "index": 5,
+              "support": "unsupported",
+              "citations": "misapplied",
+              "rationale": "La fuente exige número de pedido y motivo para iniciar una devolución; la frase reduce indebidamente los requisitos y los aplica al cambio.",
+              "evidenceIds": [
+                "returns-window"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "responseId": "response-1-1",
+      "abstention": "not_needed",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 1,
+          "support": "supported",
+          "citations": "applicable"
+        }
+      ]
+    },
+    {
+      "responseId": "response-2-1",
+      "abstention": "uncertain",
+      "sentences": [
+        {
+          "index": 0,
+          "support": "uncertain",
+          "citations": "none"
+        },
+        {
+          "index": 1,
+          "support": "unsupported",
+          "citations": "misapplied"
+        },
+        {
+          "index": 2,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 3,
+          "support": "unsupported",
+          "citations": "misapplied"
+        },
+        {
+          "index": 4,
+          "support": "supported",
+          "citations": "applicable"
+        },
+        {
+          "index": 5,
+          "support": "unsupported",
+          "citations": "misapplied"
+        }
+      ]
+    }
+  ],
+  "excluded": [],
+  "disagreements": 2
+}
