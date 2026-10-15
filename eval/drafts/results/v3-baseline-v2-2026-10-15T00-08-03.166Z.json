@@ -1,0 +1,361 @@
+{
+  "runAt": "2026-10-15T00:08:03.166Z",
+  "label": "v3-baseline-v2",
+  "commit": "942aaac",
+  "sourceDirty": false,
+  "version": "drafts-v3",
+  "provider": "groq (server default model)",
+  "mockedApi": false,
+  "completed": true,
+  "triage": {
+    "status": 200,
+    "body": {
+      "triaged": 8,
+      "failed": 0
+    }
+  },
+  "cases": [
+    {
+      "id": "dv3-01",
+      "body": "Me llegó el pedido 52604 pero falta el cargador que venía con la notebook.",
+      "triage": {
+        "requestId": "dv3-01",
+        "category": "shipping",
+        "summary": "El cliente indica que recibió el pedido 52604 pero falta el cargador que venía con la notebook.",
+        "extracted": {
+          "orderNumber": "52604"
+        },
+        "missingFields": []
+      },
+      "latencyMs": 1038,
+      "status": 502,
+      "response": {
+        "error": "drafter_invalid_output"
+      }
+    },
+    {
+      "id": "dv3-02",
+      "body": "La remera del pedido 52711 vino manchada y descosida.",
+      "triage": {
+        "requestId": "dv3-02",
+        "category": "returns",
+        "summary": "El cliente desea devolver la remera del pedido 52711 porque está manchada y descosida.",
+        "extracted": {
+          "orderNumber": "52711",
+          "returnReason": "Remera manchada y descosida"
+        },
+        "missingFields": []
+      },
+      "latencyMs": 825,
+      "status": 200,
+      "response": {
+        "draft": {
+          "sentences": [
+            {
+              "text": "Gracias por contactarnos, revisaremos su caso y nos comunicaremos con usted pronto.",
+              "sourceIds": []
+            }
+          ],
+          "sources": []
+        }
+      }
+    },
+    {
+      "id": "dv3-03",
+      "body": "¿Pueden hacer la factura a nombre de una empresa con CUIT?",
+      "triage": {
+        "requestId": "dv3-03",
+        "category": "billing",
+        "summary": "El cliente solicita que la factura sea emitida a nombre de una empresa con CUIT.",
+        "extracted": {},
+        "missingFields": [
+          "order_number"
+        ]
+      },
+      "latencyMs": 778,
+      "status": 502,
+      "response": {
+        "error": "drafter_invalid_output"
+      }
+    },
+    {
+      "id": "dv3-04",
+      "body": "¿Los auriculares tienen garantía si dejan de funcionar al mes de uso?",
+      "triage": {
+        "requestId": "dv3-04",
+        "category": "other",
+        "summary": "El cliente pregunta si los auriculares tienen garantía cuando dejan de funcionar tras un mes de uso.",
+        "extracted": {},
+        "missingFields": []
+      },
+      "latencyMs": 938,
+      "status": 502,
+      "response": {
+        "error": "drafter_invalid_output"
+      }
+    },
+    {
+      "id": "dv3-05",
+      "body": "Quiero cambiar el color de la mochila del pedido 52893: la pedí negra y la quiero azul.",
+      "triage": {
+        "requestId": "dv3-05",
+        "category": "other",
+        "summary": "El cliente solicita cambiar el color de la mochila del pedido 52893 de negro a azul.",
+        "extracted": {
+          "orderNumber": "52893"
+        },
+        "missingFields": []
+      },
+      "latencyMs": 4467,
+      "status": 503,
+      "response": {
+        "error": "drafter_unavailable"
+      }
+    },
+    {
+      "id": "dv3-06",
+      "body": "El paquete del pedido 53012 está parado hace cinco días en el centro de distribución.",
+      "triage": {
+        "requestId": "dv3-06",
+        "category": "shipping",
+        "summary": "El cliente informa que su paquete del pedido 53012 se ha detenido cinco días en el centro de distribución y necesita una actualización de estado.",
+        "extracted": {
+          "orderNumber": "53012"
+        },
+        "missingFields": []
+      },
+      "latencyMs": 6289,
+      "status": 503,
+      "response": {
+        "error": "drafter_unavailable"
+      }
+    },
+    {
+      "id": "dv3-07",
+      "body": "Me aprobaron el reembolso de la devolución del pedido 53140 hace una semana, pero todavía no lo veo en la tarjeta.",
+      "triage": {
+        "requestId": "dv3-07",
+        "category": "billing",
+        "summary": "El cliente informa que el reembolso de su pedido 53140 fue aprobado hace una semana, pero aún no aparece en su tarjeta.",
+        "extracted": {
+          "orderNumber": "53140"
+        },
+        "missingFields": []
+      },
+      "latencyMs": 3012,
+      "status": 200,
+      "response": {
+        "draft": {
+          "sentences": [
+            {
+              "text": "Gracias por contactarnos.",
+              "sourceIds": []
+            },
+            {
+              "text": "El reembolso aprobado puede tardar hasta dos resúmenes de tarjeta en verse.",
+              "sourceIds": [
+                "billing-refund-visibility"
+              ]
+            },
+            {
+              "text": "El reembolso se acredita en el medio de pago original dentro de los 10 días hábiles desde que recibimos el producto.",
+              "sourceIds": [
+                "returns-refund-timing"
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "id": "billing-refund-visibility",
+              "title": "Visibilidad de reembolsos",
+              "topics": [
+                "billing"
+              ],
+              "text": "Un reembolso aprobado puede tardar hasta dos resúmenes de tarjeta en verse, según el banco emisor."
+            },
+            {
+              "id": "returns-refund-timing",
+              "title": "Plazo de reembolso de devoluciones",
+              "topics": [
+                "returns",
+                "billing"
+              ],
+              "text": "El reembolso de una devolución se acredita en el medio de pago original dentro de los 10 días hábiles desde que recibimos el producto."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dv3-08",
+      "body": "¿Ya despacharon el pedido 53277? No quiero cancelarlo, solo que lo entreguen en mi trabajo, Av. Corrientes 2100.",
+      "triage": {
+        "requestId": "dv3-08",
+        "category": "shipping",
+        "summary": "El cliente pregunta si el pedido 53277 ya fue despachado y solicita que se entregue en su lugar de trabajo en Av. Corrientes 2100, sin cancelarlo.",
+        "extracted": {
+          "orderNumber": "53277"
+        },
+        "missingFields": []
+      },
+      "latencyMs": 3766,
+      "status": 200,
+      "response": {
+        "draft": {
+          "sentences": [
+            {
+              "text": "Hola, revisaremos el estado de su pedido 53277.",
+              "sourceIds": []
+            },
+            {
+              "text": "Si el pedido aún no ha sido despachado, podemos cambiar la dirección de entrega a Av. Corrientes 2100.",
+              "sourceIds": [
+                "shipping-address-change"
+              ]
+            },
+            {
+              "text": "Si ya fue despachado, solicitaremos el cambio al transportista, pero no podemos garantizar que se realice.",
+              "sourceIds": [
+                "shipping-address-change"
+              ]
+            },
+            {
+              "text": "Nos pondremos en contacto con usted una vez confirmemos el estado del envío.",
+              "sourceIds": []
+            }
+          ],
+          "sources": [
+            {
+              "id": "shipping-address-change",
+              "title": "Cambio de dirección o lugar de entrega",
+              "topics": [
+                "shipping"
+              ],
+              "text": "Podemos cambiar la dirección o el lugar de entrega mientras el pedido no haya sido despachado. Si ya fue despachado, solicitamos el cambio al transportista, pero no podemos garantizarlo."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "pauseMs": 6000,
+  "retries": [
+    {
+      "id": "dv3-01",
+      "policy": "one retry per non-200 first attempt, about 20 s later",
+      "ok": true,
+      "response": {
+        "draft": {
+          "sentences": [
+            {
+              "text": "Gracias por contactarnos.",
+              "sourceIds": []
+            },
+            {
+              "text": "Entendemos que el cargador no llegó con su notebook del pedido 52604.",
+              "sourceIds": []
+            },
+            {
+              "text": "Le pedimos que nos envíe una foto del contenido y del embalaje dentro de los 7 días posteriores a la entrega para verificar la situación.",
+              "sourceIds": [
+                "shipping-missing-items"
+              ]
+            },
+            {
+              "text": "Una vez verificado, enviaremos el cargador faltante sin necesidad de devolver el pedido.",
+              "sourceIds": [
+                "shipping-missing-items"
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "id": "shipping-missing-items",
+              "title": "Pedido incompleto",
+              "topics": [
+                "shipping",
+                "returns"
+              ],
+              "text": "Si falta un producto, el cliente debe avisar dentro de los 7 días de la entrega e indicar el número de pedido. Pedimos una foto del contenido y del embalaje. Una vez verificado, enviamos el producto faltante sin necesidad de devolver el pedido."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dv3-03",
+      "policy": "one retry per non-200 first attempt, about 20 s later",
+      "ok": false,
+      "response": {
+        "error": "drafter_invalid_output"
+      }
+    },
+    {
+      "id": "dv3-04",
+      "policy": "one retry per non-200 first attempt, about 20 s later",
+      "ok": true,
+      "response": {
+        "draft": {
+          "sentences": [
+            {
+              "text": "Hola.",
+              "sourceIds": []
+            },
+            {
+              "text": "Gracias por contactarnos sobre la garantía de los auriculares.",
+              "sourceIds": []
+            },
+            {
+              "text": "Un miembro de nuestro equipo revisará tu pregunta y te responderá lo antes posible.",
+              "sourceIds": []
+            }
+          ],
+          "sources": []
+        }
+      }
+    },
+    {
+      "id": "dv3-05",
+      "policy": "one retry per non-200 first attempt, about 20 s later",
+      "ok": true,
+      "response": {
+        "draft": {
+          "sentences": [
+            {
+              "text": "Entiendo que desea cambiar el color de su mochila.",
+              "sourceIds": []
+            },
+            {
+              "text": "Según nuestra política de cambios de talla o color, la solicitud de cambio no tendrá costo adicional siempre y cuando el color solicitado esté disponible en stock.",
+              "sourceIds": [
+                "returns-exchange"
+              ]
+            },
+            {
+              "text": "Le informaremos en cuanto verifiquemos la disponibilidad y procedamos con la modificación.",
+              "sourceIds": []
+            }
+          ],
+          "sources": [
+            {
+              "id": "returns-exchange",
+              "title": "Cambios de talla o color",
+              "topics": [
+                "returns"
+              ],
+              "text": "Los cambios de talla o color no tienen costo una vez por pedido y están sujetos a stock. Si no hay stock, ofrecemos una devolución."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dv3-06",
+      "policy": "one retry per non-200 first attempt, about 20 s later",
+      "ok": false,
+      "response": {
+        "error": "drafter_invalid_output"
+      }
+    }
+  ]
+}
