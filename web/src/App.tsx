@@ -3,6 +3,7 @@ import type { ReviewedTicket, Ticket } from "../../src/domain/ticket.js";
 import type { ApiClient } from "./api.js";
 import { AddRequests } from "./components/AddRequests.js";
 import { ReviewPanel } from "./components/ReviewPanel.js";
+import { RelatedTickets } from "./components/RelatedTickets.js";
 import { ReviewStats } from "./components/ReviewStats.js";
 import { TicketList } from "./components/TicketList.js";
 import { compareByDeadline } from "./sla-order.js";
@@ -15,6 +16,7 @@ export function App(props: { api: ApiClient }) {
   const [state, setState] = useState<LoadState>({ kind: "loading" });
   const [selectedId, setSelectedId] = useState<string | undefined>();
   const [reviewSaving, setReviewSaving] = useState(false);
+  const [previousId, setPreviousId] = useState<string | undefined>();
   const [reviewConfirmation, setReviewConfirmation] = useState<string | undefined>();
 
   // Reloads keep the current list on screen; only the first load shows "Loading".
@@ -42,7 +44,15 @@ export function App(props: { api: ApiClient }) {
     );
   }
 
+  function openRelated(id: string) {
+    if (reviewSaving || id === selectedId) return;
+    if (!window.confirm("Al cambiar de solicitud se descartan las ediciones sin guardar y el borrador de respuesta. ¿Continuar?")) return;
+    setPreviousId(selectedId);
+    setSelectedId(id);
+  }
+
   const tickets = state.kind === "ready" ? state.tickets : [];
+  const previous = tickets.find(ticket => ticket.id === previousId);
   const selected = tickets.find((t) => t.id === selectedId);
   const count = (status: Ticket["status"]) => tickets.filter((t) => t.status === status).length;
   const nextTicket = selected?.status === "reviewed"
@@ -93,13 +103,18 @@ export function App(props: { api: ApiClient }) {
 
           </section>
           <main id="workspace" tabIndex={-1} aria-label="Bandeja de soporte" className="workspace-grid">
-            <TicketList tickets={tickets} selectedId={selectedId} onSelect={(id) => { if (!reviewSaving) setSelectedId(id); }} />
+            <TicketList tickets={tickets} selectedId={selectedId} onSelect={(id) => { if (!reviewSaving) { setPreviousId(undefined); setSelectedId(id); } }} />
             <section aria-label="Revisión de solicitud" className="review-workspace">
               {selected ? (
-                // key: a different ticket starts with a fresh form, not the previous ticket's draft.
+                <>
+                {previous && <button type="button" className="action-secondary w-full break-all" disabled={reviewSaving}
+                  onClick={() => openRelated(previous.id)}>Volver a solicitud {previous.id}</button>}
+                {/* key: a different ticket starts with a fresh form, not the previous ticket's draft. */}
                 <ReviewPanel key={selected.id} ticket={selected} api={props.api} onReviewed={replaceTicket}
                   onSavingChange={setReviewSaving} nextTicket={nextTicket}
-                  onNext={() => { if (nextTicket && !reviewSaving) setSelectedId(nextTicket.id); }} />
+                  onNext={() => { if (nextTicket && !reviewSaving) { setPreviousId(undefined); setSelectedId(nextTicket.id); } }} />
+                <RelatedTickets selected={selected} tickets={tickets} onOpen={openRelated} disabled={reviewSaving} />
+                </>
               ) : (
                 <div className="empty-review">
                   <span className="empty-mark" aria-hidden="true">↗</span>

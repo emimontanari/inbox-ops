@@ -8,6 +8,53 @@ import { fakeApi } from "./fake-api.js";
 import { allTickets, awaitingTicket, failedTicket, newTicket } from "./fixtures.js";
 
 describe("App", () => {
+  it("opens related tickets outside filters, cancels safely, returns, and makes no extra API calls", async () => {
+    if (awaitingTicket.status !== "awaiting_review") throw new Error("fixture");
+    const other = { ...awaitingTicket, id: "related", body: "Segundo mensaje", suggestion: { ...awaitingTicket.suggestion, category: "shipping" as const, summary: "Seguimiento relacionado" } };
+    const listTickets = vi.fn(async () => [awaitingTicket, other]);
+    const confirm = vi.spyOn(window, "confirm").mockReturnValue(false);
+    try {
+      render(<App api={fakeApi({ listTickets })} />);
+      await userEvent.click(await screen.findByText("El cliente quiere devolver el pedido 4821."));
+      await userEvent.selectOptions(screen.getByLabelText("Filtrar por categoría"), "returns");
+      await userEvent.click(screen.getByRole("button", { name: "Corregir" }));
+      await userEvent.type(screen.getByLabelText("Motivo de devolución"), "Talle");
+      await userEvent.click(screen.getByRole("button", { name: "Abrir solicitud related" }));
+      expect(screen.getByLabelText("Motivo de devolución")).toHaveValue("Talle");
+      expect(confirm).toHaveBeenCalledWith(expect.stringContaining("descartan"));
+      confirm.mockReturnValue(true);
+      await userEvent.click(screen.getByRole("button", { name: "Abrir solicitud related" }));
+      const detail = screen.getByRole("region", { name: "Revisión de solicitud" });
+      expect(within(detail).getByText("Segundo mensaje")).toBeInTheDocument();
+      expect(screen.getByLabelText("Filtrar por categoría")).toHaveValue("returns");
+      await userEvent.click(screen.getByRole("button", { name: "Volver a solicitud t-await" }));
+      expect(within(detail).getByText("Quiero devolver el pedido 4821")).toBeInTheDocument();
+      expect(screen.queryByLabelText("Motivo de devolución")).not.toBeInTheDocument();
+      expect(listTickets).toHaveBeenCalledTimes(1);
+    } finally { confirm.mockRestore(); }
+  });
+
+  it("blocks related navigation while saving", async () => {
+    if (awaitingTicket.status !== "awaiting_review") throw new Error("fixture");
+    const other = { ...awaitingTicket, id: "related" };
+    let finish: (ticket: ReviewedTicket) => void = () => {};
+    const accept = () => new Promise<ReviewedTicket>(resolve => { finish = resolve; });
+    const confirm = vi.spyOn(window, "confirm").mockReturnValue(true);
+    try {
+      render(<App api={fakeApi({ listTickets: async () => [awaitingTicket, other], accept })} />);
+      const list = await screen.findByRole("region", { name: "Solicitudes" });
+      const source = within(list).getAllByRole("listitem").find(item => item.querySelector(".ticket-id")?.textContent === "t-await");
+      if (!source) throw new Error("source ticket missing");
+      await userEvent.click(within(source).getByRole("button"));
+      await userEvent.click(screen.getByRole("button", { name: "Aceptar sugerencia" }));
+      const link = screen.getByRole("button", { name: "Abrir solicitud related" });
+      expect(link).toBeDisabled();
+      await userEvent.click(link);
+      expect(confirm).not.toHaveBeenCalled();
+      finish({ ...awaitingTicket, status: "reviewed", review: { decision: "accepted", reviewedAt: "2026-10-13T11:00:00Z", final: awaitingTicket.suggestion } });
+      expect(await screen.findByRole("status")).toHaveTextContent("aceptada");
+    } finally { confirm.mockRestore(); }
+  });
   it("makes review the primary workspace and keeps intake after it", async () => {
     const triage = vi.fn();
     render(<App api={fakeApi({ listTickets: async () => allTickets, triage })} />);
