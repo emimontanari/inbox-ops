@@ -79,11 +79,24 @@ describe("draftReply", () => {
     expect(drafter.calls[0]).toMatchObject({ category: "billing", missingFields: ["order_number"] });
   });
 
-  it("retrieves passages from the customer message only, not from the model summary", async () => {
+  it("reaches a passage through the summary wording when the customer used other words", async () => {
+    const damaged: PolicyPassage = { id: "returns-damaged", title: "Productos dañados", topics: ["returns"], text: "Si un producto llega dañado, envía una foto dentro de los 7 días." };
+    const ticket: Ticket = { ...awaiting, body: "La lámpara vino rota.", suggestion: { ...awaiting.suggestion, summary: "Producto dañado al llegar.", missingFields: [] } };
+    const repository = new InMemoryTicketRepository();
+    await repository.save(ticket);
+    const drafter = FakeDrafter.returning({ ok: true, value: { sentences: [{ text: "Envía una foto dentro de los 7 días.", sourceIds: ["returns-damaged"] }] } });
+
+    const result = await createDraftReply({ repository, drafter, passages: [...passages, damaged] })("t-1");
+
+    expect(drafter.calls[0]?.passages).toEqual([damaged]);
+    expect(result).toEqual({ ok: true, value: { sentences: [{ text: "Envía una foto dentro de los 7 días.", sourceIds: ["returns-damaged"] }], sources: [damaged] } });
+  });
+
+  it("still sends no passage when message and summary together match too weakly", async () => {
     const ticket: Ticket = {
       ...awaiting,
       body: "¿Tienen local en Córdoba?",
-      suggestion: { ...awaiting.suggestion, category: "shipping", summary: "Consulta sobre el seguimiento de novedades del envío.", missingFields: [] },
+      suggestion: { ...awaiting.suggestion, category: "shipping", summary: "Consulta general antes de hacer un pedido.", missingFields: [] },
     };
     const { draftReply, drafter } = await setup([ticket], FakeDrafter.returning({ ok: true, value: { sentences: [{ text: "Una persona del equipo revisará tu consulta.", sourceIds: [] }] } }));
 

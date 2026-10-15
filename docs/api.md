@@ -18,7 +18,7 @@ All bodies are JSON. Input shapes are validated at the boundary (`400 invalid_bo
 - `sentences`: `[{ text, sourceIds }]` in reading order. `sourceIds` lists the policy passages the model says support the sentence; an empty list means the sentence states no policy or is unsupported.
 - `sources`: the cited passages `{ id, title, topics, text }` from `knowledge/store-policies.json`.
 
-The server retrieves up to three passages that share at least two words with the customer message (the ticket category only ranks them), sends only those to the model, and rejects a draft that cites any other id (`502 drafter_invalid_output`). A valid citation shows which passage the model points to; it does not prove the sentence is correct. When no passage matches, the model receives none and the draft cannot cite anything. A reviewed ticket is drafted from the final human triage.
+The server retrieves up to three passages that share at least two words with the customer message plus the model summary (the ticket category only ranks them), sends only those to the model, and rejects a draft that cites any other id (`502 drafter_invalid_output`). A valid citation shows which passage the model points to; it does not prove the sentence is correct. When no passage matches, the model receives none and the draft cannot cite anything. A reviewed ticket is drafted from the final human triage.
 
 `rejected` items look like `{ index, id, error }`, where `error` is `empty_id`, `empty_body`, `body_too_long` or `duplicate_id`.
 
