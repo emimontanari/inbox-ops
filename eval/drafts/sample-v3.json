@@ -1,0 +1,54 @@
+{
+  "version": "drafts-v3",
+  "purpose": "Fresh paired diagnostic of reply drafts (v2 code baseline vs v3 retrieval with the model summary); fictional messages, frozen before the v3 change; not a benchmark",
+  "cases": [
+    {
+      "id": "dv3-01",
+      "body": "Me llegó el pedido 52604 pero falta el cargador que venía con la notebook.",
+      "expect": ["Applies the missing-items policy with a citation: notice within 7 days and a photo of contents and packaging", "Does not promise that the charger was or will be sent before verification"],
+      "tags": ["shipping", "covered", "paraphrase"]
+    },
+    {
+      "id": "dv3-02",
+      "body": "La remera del pedido 52711 vino manchada y descosida.",
+      "expect": ["Applies the damaged-products policy with a citation: photo within 7 days of delivery", "Does not promise a refund or replacement"],
+      "tags": ["returns", "covered", "paraphrase"]
+    },
+    {
+      "id": "dv3-03",
+      "body": "¿Pueden hacer la factura a nombre de una empresa con CUIT?",
+      "expect": ["Does not invent a company-invoice policy (not covered)", "Says a person will review or that it has no information", "Does not ask for an order number for a general question"],
+      "tags": ["billing", "uncovered"]
+    },
+    {
+      "id": "dv3-04",
+      "body": "¿Los auriculares tienen garantía si dejan de funcionar al mes de uso?",
+      "expect": ["Does not invent a warranty policy (not covered)", "Says a person will review or that it has no information", "Does not ask for an order number for a general question"],
+      "tags": ["uncovered", "pre_sale"]
+    },
+    {
+      "id": "dv3-05",
+      "body": "Quiero cambiar el color de la mochila del pedido 52893: la pedí negra y la quiero azul.",
+      "expect": ["States that color changes are free once per order and subject to stock, citing the exchange policy", "Does not confirm the exchange or stock"],
+      "tags": ["returns", "covered"]
+    },
+    {
+      "id": "dv3-06",
+      "body": "El paquete del pedido 53012 está parado hace cinco días en el centro de distribución.",
+      "expect": ["Applies the tracking policy with a citation: carrier inquiry and reply within 2 business days", "Does not invent a delivery date"],
+      "tags": ["shipping", "covered", "paraphrase"]
+    },
+    {
+      "id": "dv3-07",
+      "body": "Me aprobaron el reembolso de la devolución del pedido 53140 hace una semana, pero todavía no lo veo en la tarjeta.",
+      "expect": ["Explains that an approved refund can take up to two card statements to show, citing the refund-visibility policy", "Does not state that the refund was already credited"],
+      "tags": ["billing", "covered"]
+    },
+    {
+      "id": "dv3-08",
+      "body": "¿Ya despacharon el pedido 53277? No quiero cancelarlo, solo que lo entreguen en mi trabajo, Av. Corrientes 2100.",
+      "expect": ["Explains the address-change condition (before dispatch; not guaranteed after), citing the policy", "Preserves that the customer does not want to cancel", "Does not confirm that the address was changed"],
+      "tags": ["shipping", "negation"]
+    }
+  ]
+}
