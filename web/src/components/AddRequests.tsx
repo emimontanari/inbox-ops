@@ -11,6 +11,8 @@ const REJECTION_LABEL: Record<AddRequestsResult["rejected"][number]["error"], st
   empty_body: "mensaje vacío",
   body_too_long: "mensaje demasiado largo",
   duplicate_id: "identificador duplicado",
+  invalid_received_at: "fecha de recepción inválida (usa ISO con zona horaria)",
+  future_received_at: "fecha de recepción en el futuro",
 };
 
 type Feedback = { kind: "status" | "error"; text: string };
@@ -85,7 +87,7 @@ export function AddRequests(props: { api: ApiClient; onAdded: () => void }) {
           Importar CSV
           <input type="file" accept=".csv,text/csv" disabled={busy} onChange={(e) => void importCsv(e)} className="sr-only" />
         </label>
-        <span className="text-xs text-slate-600">Columnas del CSV: body (obligatoria), id (opcional)</span>
+        <span className="text-xs text-slate-600">Columnas del CSV: body (obligatoria), id y receivedAt (opcionales). Fecha ISO con zona horaria; sin fecha, cuenta desde la importación.</span>
       </div>
       {feedback && (
         <p

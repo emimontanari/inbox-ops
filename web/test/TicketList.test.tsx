@@ -5,6 +5,24 @@ import { TicketList } from "../src/components/TicketList.js";
 import { allTickets, awaitingTicket, reviewedTicket } from "./fixtures.js";
 
 describe("TicketList", () => {
+  it("defaults to deadline order, excludes completed reviews from urgent filter and updates with time", async () => {
+    if (awaitingTicket.status !== "awaiting_review") throw new Error("fixture");
+    const billing = { ...awaitingTicket, id: "billing", suggestion: { ...awaitingTicket.suggestion, category: "billing" as const } };
+    const now = Date.parse("2026-10-13T13:30:00Z");
+    const tickets = [awaitingTicket, reviewedTicket, billing];
+    const { rerender } = render(<TicketList tickets={tickets} nowMs={now} onSelect={() => {}} />);
+    expect(screen.getByLabelText("Ordenar solicitudes")).toHaveValue("deadline");
+    expect(screen.getAllByRole("listitem").map(item => item.querySelector(".ticket-id")?.textContent)).toEqual(["billing", "t-await", "t-reviewed"]);
+    expect(screen.getByText(/Por vencer/)).toBeInTheDocument();
+    await userEvent.selectOptions(screen.getByLabelText("Filtrar por SLA"), "urgent");
+    expect(screen.getAllByRole("listitem")).toHaveLength(1);
+    rerender(<TicketList tickets={tickets} nowMs={now + 3600000} onSelect={() => {}} />);
+    expect(screen.getByText(/Vencido/)).toBeInTheDocument();
+    await userEvent.selectOptions(screen.getByLabelText("Filtrar por SLA"), "overdue");
+    expect(screen.getAllByRole("listitem")).toHaveLength(1);
+    await userEvent.click(screen.getByRole("button", { name: "Limpiar filtros" }));
+    expect(screen.getAllByRole("listitem")).toHaveLength(3);
+  });
   it("sorts chronologically in both directions without mutating input, with deterministic ties", async () => {
     const tickets = [
       { ...awaitingTicket, id: "z-tie", receivedAt: "2026-10-13T12:00:00+02:00" },
@@ -15,7 +33,7 @@ describe("TicketList", () => {
     const originalIds = tickets.map((t) => t.id);
     render(<TicketList tickets={tickets} onSelect={() => {}} />);
     const ids = () => screen.getAllByRole("listitem").map((item) => item.querySelector(".ticket-id")?.textContent);
-    expect(screen.getByLabelText("Ordenar solicitudes")).toHaveValue("oldest");
+    await userEvent.selectOptions(screen.getByLabelText("Ordenar solicitudes"), "oldest");
     expect(ids()).toEqual(["oldest", "a-tie", "z-tie", "latest"]);
     await userEvent.selectOptions(screen.getByLabelText("Ordenar solicitudes"), "newest");
     expect(ids()).toEqual(["latest", "a-tie", "z-tie", "oldest"]);

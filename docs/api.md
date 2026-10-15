@@ -5,7 +5,7 @@ All bodies are JSON. Input shapes are validated at the boundary (`400 invalid_bo
 | Method and path | Body | Success | Errors |
 |---|---|---|---|
 | `GET /api/tickets` | — | `200 { tickets }`, oldest first | — |
-| `POST /api/tickets` | `{ requests: [{ id?, body }] }`, 1 to 200 items | `201 { added, rejected }`; a missing `id` is generated | `400 invalid_body` |
+| `POST /api/tickets` | `{ requests: [{ id?, body, receivedAt? }] }`, 1 to 200 items | `201 { added, rejected }`; a missing `id` is generated | `400 invalid_body` |
 | `POST /api/triage` | optional `{ retryFailed: true }` | `200 { triaged, failed }` | `400 invalid_body` |
 | `POST /api/tickets/:id/accept` | — | `200 { ticket }` | `404 not_found`, `409 not_reviewable` |
 | `POST /api/tickets/:id/correct` | `{ category, extracted: { orderNumber?, returnReason? } }` | `200 { ticket }` | `400 invalid_body` or `invalid_category`, `404 not_found`, `409 not_reviewable` |
@@ -20,7 +20,9 @@ All bodies are JSON. Input shapes are validated at the boundary (`400 invalid_bo
 
 The server retrieves up to three passages that share at least two words with the customer message plus the model summary (the ticket category only ranks them), sends only those to the model, and rejects a draft that cites any other id (`502 drafter_invalid_output`). A valid citation shows which passage the model points to; it does not prove the sentence is correct. When no passage matches, the model receives none and the draft cannot cite anything. A reviewed ticket is drafted from the final human triage.
 
-`rejected` items look like `{ index, id, error }`, where `error` is `empty_id`, `empty_body`, `body_too_long` or `duplicate_id`.
+`rejected` items look like `{ index, id, error }`, where `error` is `empty_id`, `empty_body`, `body_too_long`, `duplicate_id`, `invalid_received_at` or `future_received_at`.
+
+`receivedAt` is an optional ISO timestamp with timezone (`Z` or an offset), normalized to UTC. Invalid calendar dates, dates without timezone and future dates are rejected per item, preserving valid rows. Omission uses one import-time snapshot per batch. A non-string value is a shape error (`400 invalid_body`). Existing stored tickets are unchanged. See [review SLA](sla.md) for derived deadlines.
 
 ## Example
 

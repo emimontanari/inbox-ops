@@ -1,4 +1,5 @@
 import { fail, type Result } from "../domain/result.js";
+import { parseReceivedAt, type ReceivedAtError } from "../domain/received-at.js";
 import type { SupportRequestError } from "../domain/support-request.js";
 import {
   acceptSuggestion,
@@ -15,7 +16,7 @@ import type { TriageRequest } from "./triage-request.js";
 
 export type AddRequestsResult = {
   added: string[];
-  rejected: Array<{ index: number; id: string; error: SupportRequestError | "duplicate_id" }>;
+  rejected: Array<{ index: number; id: string; error: SupportRequestError | ReceivedAtError | "duplicate_id" }>;
 };
 
 export type TriageOutcome = { triaged: number; failed: number };
@@ -43,11 +44,16 @@ export function createInbox(deps: {
   }
 
   return {
-    async addRequests(inputs: ReadonlyArray<{ id: string; body: string }>): Promise<AddRequestsResult> {
+    async addRequests(inputs: ReadonlyArray<{ id: string; body: string; receivedAt?: string }>): Promise<AddRequestsResult> {
       const result: AddRequestsResult = { added: [], rejected: [] };
-
+      const now = deps.now();
       for (const [index, input] of inputs.entries()) {
-        const ticket = createTicket({ ...input, receivedAt: deps.now() });
+        const received = parseReceivedAt(input.receivedAt ?? now, now);
+        if (!received.ok) {
+          result.rejected.push({ index, id: input.id, error: received.error });
+          continue;
+        }
+        const ticket = createTicket({ ...input, receivedAt: received.value });
         if (!ticket.ok) {
           result.rejected.push({ index, id: input.id, error: ticket.error });
         } else if (await repository.findById(ticket.value.id)) {

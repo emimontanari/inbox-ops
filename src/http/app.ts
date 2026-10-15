@@ -12,7 +12,7 @@ const MAX_REQUESTS_PER_BATCH = 200;
 // HTTP input is untrusted: shapes are validated here, business rules stay in the domain.
 const addRequestsSchema = z.object({
   requests: z
-    .array(z.object({ id: z.string().min(1).max(100).optional(), body: z.string() }))
+    .array(z.object({ id: z.string().min(1).max(100).optional(), body: z.string(), receivedAt: z.string().optional() }))
     .min(1)
     .max(MAX_REQUESTS_PER_BATCH),
 });
@@ -67,7 +67,7 @@ export function createApp(deps: {
     const body = await readBody(c, addRequestsSchema);
     if (!body.ok) return body.response;
 
-    const requests = body.value.requests.map((r) => ({ id: r.id ?? deps.generateId(), body: r.body }));
+    const requests = body.value.requests.map((r) => ({ id: r.id ?? deps.generateId(), body: r.body, ...(r.receivedAt !== undefined && { receivedAt: r.receivedAt }) }));
     return c.json(await inbox.addRequests(requests), 201);
   });
 

@@ -5,6 +5,7 @@ import { AddRequests } from "./components/AddRequests.js";
 import { ReviewPanel } from "./components/ReviewPanel.js";
 import { ReviewStats } from "./components/ReviewStats.js";
 import { TicketList } from "./components/TicketList.js";
+import { compareByDeadline } from "./sla-order.js";
 import { TriageControls } from "./components/TriageControls.js";
 
 type LoadState = { kind: "loading" } | { kind: "error" } | { kind: "ready"; tickets: Ticket[] };
@@ -45,7 +46,7 @@ export function App(props: { api: ApiClient }) {
   const selected = tickets.find((t) => t.id === selectedId);
   const count = (status: Ticket["status"]) => tickets.filter((t) => t.status === status).length;
   const nextTicket = selected?.status === "reviewed"
-    ? tickets.find((ticket) => ticket.id !== selected.id && ticket.status === "awaiting_review")
+    ? tickets.filter((ticket) => ticket.id !== selected.id && ticket.status === "awaiting_review").sort(compareByDeadline)[0]
     : undefined;
 
   return (

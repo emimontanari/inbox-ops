@@ -82,7 +82,8 @@ describe("App", () => {
     if (awaitingTicket.status !== "awaiting_review") throw new Error("fixture must await review");
     const reviewed: ReviewedTicket = { ...awaitingTicket, status: "reviewed", review: { decision: "accepted", reviewedAt: "2026-10-13T10:10:00.000Z", final: { category: awaitingTicket.suggestion.category, extracted: awaitingTicket.suggestion.extracted, missingFields: awaitingTicket.suggestion.missingFields } } };
     const next = { ...awaitingTicket, id: "next", body: "Otra consulta", suggestion: { ...awaitingTicket.suggestion, requestId: "next", summary: "Segunda pendiente", category: "shipping" as const } };
-    render(<App api={fakeApi({ listTickets: async () => [...allTickets, next], accept: async () => reviewed })} />);
+    const lessUrgent = { ...awaitingTicket, id: "less-urgent", body: "Después", suggestion: { ...awaitingTicket.suggestion, requestId: "less-urgent", summary: "Pendiente menos urgente" } };
+    render(<App api={fakeApi({ listTickets: async () => [...allTickets, lessUrgent, next], accept: async () => reviewed })} />);
     await userEvent.click(await screen.findByText("El cliente quiere devolver el pedido 4821."));
     await userEvent.selectOptions(screen.getByLabelText("Filtrar por categoría"), "returns");
     await userEvent.click(screen.getByRole("button", { name: "Aceptar sugerencia" }));

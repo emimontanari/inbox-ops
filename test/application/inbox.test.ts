@@ -23,6 +23,25 @@ function setup(classifier = FakeClassifier.returning(shippingAnswer)) {
 }
 
 describe("inbox", () => {
+  it("preserves explicit received time, normalizes offsets and rejects bad/future dates per row", async () => {
+    const { inbox } = setup();
+    const result = await inbox.addRequests([
+      { id: "past", body: "Hola", receivedAt: "2026-10-13T05:00:00-03:00" },
+      { id: "fallback", body: "Hola" },
+      { id: "bad", body: "Hola", receivedAt: "2026-02-30T10:00:00Z" },
+      { id: "local", body: "Hola", receivedAt: "2026-10-13T09:00:00" },
+      { id: "future", body: "Hola", receivedAt: "2026-10-13T10:00:00.001Z" },
+    ]);
+    expect(result).toEqual({ added: ["past", "fallback"], rejected: [
+      { index: 2, id: "bad", error: "invalid_received_at" },
+      { index: 3, id: "local", error: "invalid_received_at" },
+      { index: 4, id: "future", error: "future_received_at" },
+    ] });
+    expect(await inbox.list()).toEqual([
+      expect.objectContaining({ id: "past", receivedAt: "2026-10-13T08:00:00.000Z" }),
+      expect.objectContaining({ id: "fallback", receivedAt: NOW }),
+    ]);
+  });
   it("adds valid requests as new tickets and reports the rejected ones", async () => {
     const { inbox } = setup();
 

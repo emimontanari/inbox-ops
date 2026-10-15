@@ -2,6 +2,13 @@ import { describe, expect, it } from "vitest";
 import { parseRequestsCsv } from "../src/csv.js";
 
 describe("parseRequestsCsv", () => {
+  it("passes optional receivedAt through and omits blank dates (server validates per row)", () => {
+    expect(parseRequestsCsv("body,receivedAt,id\nHola,2026-10-13T08:00:00Z,t-1\nOtra, ,t-2\nMala,tomorrow,t-3")).toEqual({ ok: true, value: [
+      { body: "Hola", id: "t-1", receivedAt: "2026-10-13T08:00:00Z" },
+      { body: "Otra", id: "t-2" },
+      { body: "Mala", id: "t-3", receivedAt: "tomorrow" },
+    ] });
+  });
   it("reads id and body columns in any order and case", () => {
     expect(parseRequestsCsv("Body,ID\nWhere is my order?,t-1\nMe cobraron dos veces,t-2\n")).toEqual({
       ok: true,

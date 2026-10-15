@@ -42,6 +42,20 @@ async function addAndTriage(app: ReturnType<typeof setup>["app"], body = "¿Dón
 }
 
 describe("HTTP API", () => {
+  it("forwards receivedAt and rejects invalid/future dates without losing valid rows", async () => {
+    const { app, repository } = setup();
+    const response = await post(app, "/api/tickets", { requests: [
+      { id: "past", body: "Hola", receivedAt: "2026-10-13T05:00:00-03:00" },
+      { id: "bad", body: "Hola", receivedAt: "tomorrow" },
+      { id: "future", body: "Hola", receivedAt: "2027-01-01T00:00:00Z" },
+    ] });
+    expect(response.status).toBe(201);
+    expect(await response.json()).toEqual({ added: ["past"], rejected: [
+      { index: 1, id: "bad", error: "invalid_received_at" },
+      { index: 2, id: "future", error: "future_received_at" },
+    ] });
+    expect(await repository.findById("past")).toMatchObject({ receivedAt: "2026-10-13T08:00:00.000Z" });
+  });
   it("adds requests and generates an id when none is given", async () => {
     const { app } = setup();
 

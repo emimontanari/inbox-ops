@@ -1,6 +1,6 @@
 import { fail, ok, type Result } from "../../src/domain/result.js";
 
-export type CsvRequest = { id?: string; body: string };
+export type CsvRequest = { id?: string; body: string; receivedAt?: string };
 
 // Minimal RFC 4180 reader: customer messages contain commas, quotes and line breaks,
 // so splitting on "," or "\n" would corrupt them.
@@ -12,6 +12,7 @@ export function parseRequestsCsv(text: string): Result<CsvRequest[], string> {
   const columns = (header ?? []).map((name) => name.trim().toLowerCase());
   const bodyIndex = columns.indexOf("body");
   const idIndex = columns.indexOf("id");
+  const receivedAtIndex = columns.indexOf("receivedat");
   if (bodyIndex === -1) return fail('El CSV necesita una fila de encabezado con una columna "body".');
   if (data.length === 0) return fail("El CSV no contiene solicitudes.");
 
@@ -19,7 +20,8 @@ export function parseRequestsCsv(text: string): Result<CsvRequest[], string> {
     data.map((row) => {
       const body = row[bodyIndex] ?? "";
       const id = idIndex === -1 ? "" : (row[idIndex] ?? "").trim();
-      return id ? { id, body } : { body };
+      const receivedAt = receivedAtIndex === -1 ? "" : (row[receivedAtIndex] ?? "").trim();
+      return { body, ...(id && { id }), ...(receivedAt && { receivedAt }) };
     }),
   );
 }

@@ -41,7 +41,7 @@ export function createApiClient(fetchFn: FetchFn = (input, init) => fetch(input,
     async listTickets(): Promise<Ticket[]> {
       return (await request<{ tickets: Ticket[] }>("/api/tickets")).tickets;
     },
-    addRequests(requests: Array<{ id?: string; body: string }>): Promise<AddRequestsResult> {
+    addRequests(requests: Array<{ id?: string; body: string; receivedAt?: string }>): Promise<AddRequestsResult> {
       return request("/api/tickets", { method: "POST", body: { requests } });
     },
     triage(options: { retryFailed?: boolean } = {}): Promise<TriageOutcome> {

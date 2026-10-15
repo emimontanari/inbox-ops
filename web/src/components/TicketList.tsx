@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { assessSla } from "../../../src/domain/sla.js";
+import { compareByDeadline } from "../sla-order.js";
+import { useClock } from "../use-clock.js";
+import { SlaBadge } from "./SlaBadge.js";
 import type { Ticket, TicketStatus } from "../../../src/domain/ticket.js";
 import { CATEGORIES, type Category } from "../../../src/domain/category.js";
 import { CATEGORY_LABEL, MISSING_FIELD_LABEL, STATUS_LABEL, currentTriage, headline } from "../labels.js";
@@ -27,35 +31,43 @@ const STATUS_STYLE: Record<TicketStatus, string> = {
 
 export function TicketList(props: {
   tickets: readonly Ticket[];
+  nowMs?: number;
   selectedId?: string | undefined;
   onSelect: (id: string) => void;
 }) {
+  const clock = useClock();
+  const nowMs = props.nowMs ?? clock;
+  const [slaFilter, setSlaFilter] = useState("all");
   const [filter, setFilter] = useState<Filter>("all");
   const count = (value: Filter) =>
     value === "all" ? props.tickets.length : props.tickets.filter((t) => t.status === value).length;
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<Category | "all" | "unclassified">("all");
-  const [order, setOrder] = useState<"oldest" | "newest">("oldest");
+  const [order, setOrder] = useState<"deadline" | "oldest" | "newest">("deadline");
   const [onlyMissing, setOnlyMissing] = useState(false);
   const normalizedQuery = normalize(query.trim());
   const visible = props.tickets.filter((ticket) => {
     const triage = currentTriage(ticket);
     const matchesCategory = category === "all" || (category === "unclassified" ? !triage : triage?.category === category);
     const searchable = [ticket.id, ticket.body, headline(ticket), triage?.extracted.orderNumber, triage?.extracted.returnReason];
-    return (filter === "all" || ticket.status === filter) && matchesCategory
+    const sla = assessSla(ticket, nowMs);
+    const matchesSla = slaFilter === "all" || (!sla.completed && (slaFilter === "urgent" ? sla.status !== "on_time" : sla.status === slaFilter));
+    return matchesSla && (filter === "all" || ticket.status === filter) && matchesCategory
       && (!onlyMissing || (triage?.missingFields.length ?? 0) > 0)
       && searchable.some((text) => normalize(text ?? "").includes(normalizedQuery));
   }).sort((a, b) => {
+    if (order === "deadline") return compareByDeadline(a, b);
     const byReceived = Date.parse(a.receivedAt) - Date.parse(b.receivedAt);
     return (order === "oldest" ? byReceived : -byReceived) || a.id.localeCompare(b.id);
   });
-  const hasFilters = query !== "" || category !== "all" || filter !== "all" || onlyMissing;
+  const hasFilters = query !== "" || category !== "all" || filter !== "all" || onlyMissing || slaFilter !== "all";
 
   function clearFilters() {
     setQuery("");
     setCategory("all");
     setFilter("all");
     setOnlyMissing(false);
+    setSlaFilter("all");
   }
 
   return (
@@ -83,8 +95,19 @@ export function TicketList(props: {
           Ordenar solicitudes
           <select value={order} onChange={(event) => setOrder(event.target.value as typeof order)}
             className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm">
+            <option value="deadline">Vencimiento más cercano</option>
             <option value="oldest">Más antiguas primero</option>
             <option value="newest">Más recientes primero</option>
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-xs font-medium text-slate-600">
+          Filtrar por SLA
+          <select value={slaFilter} onChange={event => setSlaFilter(event.target.value)} className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm">
+            <option value="all">Todos los plazos</option>
+            <option value="urgent">Pendientes urgentes</option>
+            <option value="due_soon">Pendientes por vencer</option>
+            <option value="overdue">Pendientes vencidos</option>
+            <option value="on_time">Pendientes a tiempo</option>
           </select>
         </label>
         <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-slate-700">
@@ -95,6 +118,7 @@ export function TicketList(props: {
         <p id="missing-data-scope" className="text-xs text-slate-600">Incluye datos faltantes detectados en la clasificación actual; excluye solicitudes nuevas o fallidas sin clasificar.</p>
         <button type="button" className="action-secondary self-start" disabled={!hasFilters} onClick={clearFilters}>Limpiar filtros</button>
       </div>
+      <p className="text-xs text-slate-600">SLA interno hasta revisión humana, en horas corridas; no mide envío de respuesta. Se actualiza cada 30 s. Sin clasificación: 24 h provisionales.</p>
       <p className="text-xs text-slate-600">Los conteos por estado corresponden a toda la bandeja.</p>
       <div role="group" aria-label="Filtrar solicitudes por estado" className="status-filters">
         {FILTERS.map(({ value, label }) => (
@@ -135,6 +159,7 @@ export function TicketList(props: {
                     {triage && <span className="font-medium text-slate-700">{CATEGORY_LABEL[triage.category]}</span>}
                     <span className="ticket-id" title={ticket.id}>{ticket.id}</span>
                   </div>
+                  <SlaBadge ticket={ticket} nowMs={nowMs} />
                   <p className="ticket-headline">{headline(ticket)}</p>
                   {missing.length > 0 && (
                     <p className="mt-1 text-xs text-amber-700">
