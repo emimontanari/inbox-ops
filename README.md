@@ -1,11 +1,19 @@
 # InboxOps
 
-AI-assisted support inbox for an online store. For each customer request it suggests a category, a short summary and the data that is missing; a person accepts or corrects the suggestion. It never sends emails or changes orders.
+A fullstack / AI engineering portfolio project: an online-store support inbox where AI proposes and a person decides. Operators review classifications, prioritize review deadlines, inspect related requests and edit reply drafts grounded in fictional store policies. **It never sends replies or changes orders.**
 
-> Status: all seven MVP steps implemented. Local demo only, not production-ready. The holdout found a planted order number and an unfaithful summary; human review remains required.
+**Stack:** TypeScript · React · Vite · Tailwind · Hono · SQLite · AI SDK · Groq · Vitest.
+
+> Local demo, not production-ready: no authentication. Keep the server on localhost. Real evaluations found invented identifiers and unfaithful summaries; human review remains required.
+
+![Support inbox with SLA ordering, human review and related requests; fictional simulated scenario](docs/images/inbox-review.png)
+
+*Screenshots use authored fictional API responses, not model generations. [Provenance and reproduction](docs/images/README.md).*
 
 ## Review this project
 
+- [Technical case study](docs/case-study.md): problem, architecture, trade-offs and evidence.
+- [3-minute demo script](docs/demo-script.md): a prepared presentation, with an offline screenshot fallback.
 - [Demo walkthrough](docs/demo.md): import sample requests, classify and review them.
 - [Architecture](docs/architecture.md) and [decision records](docs/decisions/README.md): boundaries and trade-offs.
 - [Evaluation and known failures](docs/evaluation.md): recorded dev and holdout results, not a claim of production quality.
@@ -13,22 +21,37 @@ AI-assisted support inbox for an online store. For each customer request it sugg
 
 ## Quick start
 
-Requires Node.js 22 or later.
+Requires **Node.js 22+** and npm. Run these commands from this repository's root.
+
+### Verify without an API key
 
 ```bash
-npm install
-npm run check   # typecheck + tests, no API key needed
-npm run triage -- "I want to return order 4821, wrong size"
-npm run eval    # scores the real model on the dev split
-npm run serve   # HTTP API on http://127.0.0.1:3000
+npm ci
+npm --prefix web ci
+npm run check
+npm --prefix web run check
 ```
 
-Full app (API and web inbox on one port):
+Tests use fakes, not Groq. The verified snapshot has **187 backend + 108 web tests**; passing tests do not measure model faithfulness.
 
-```bash
-npm --prefix web install
-npm run demo    # builds web/ and serves everything on http://127.0.0.1:3000
-```
+### Try the inbox in about 5 minutes
+
+Once dependencies and a Groq account/key are ready (installation, account setup and provider waits are not included):
+
+1. Create a local `.env` with `GROQ_API_KEY=<your-key>`. Never commit it.
+2. Start an isolated inbox (POSIX shell):
+
+   ```bash
+   INBOX_DB_PATH=data/try-$(date +%s).db npm run demo
+   ```
+
+3. Open <http://127.0.0.1:3000>. In **Agregar solicitudes**, add: `Quiero devolver el pedido 64132.`
+4. Choose **Clasificar** once, open the request and compare the suggestion with the message. Inspect the missing return reason and provisional/category-based SLA.
+5. Choose **Generar borrador** once, review every cited passage, edit the text and copy it. Accept or correct the classification separately. Nothing is sent automatically.
+
+**Cost:** classification and each draft send text to Groq and consume provider tokens. Never use real customer data for this demo. Rate limits and invalid outputs are possible; manually classify a failed ticket or consult the [labelled screenshots](docs/images/README.md), without pretending they are live results. Evaluations are optional, not part of this quick start.
+
+For a longer session, import [the fictional CSV](examples/requests.csv) and follow the [full walkthrough](docs/demo.md). For a no-key overview, open the screenshots and [technical case](docs/case-study.md); there is no offline model mode in the product.
 
 For frontend work with hot reload, run `npm run serve` and, in a second terminal, `npm --prefix web run dev` (http://localhost:5173, proxies `/api` to the API).
 
@@ -165,7 +188,7 @@ All bodies are JSON. Input shapes are validated at the boundary (`400 invalid_bo
 | Method and path | Body | Success | Errors |
 |---|---|---|---|
 | `GET /api/tickets` | — | `200 { tickets }`, oldest first | — |
-| `POST /api/tickets` | `{ requests: [{ id?, body }] }`, 1 to 200 items | `201 { added, rejected }`; a missing `id` is generated | `400 invalid_body` |
+| `POST /api/tickets` | `{ requests: [{ id?, body, receivedAt? }] }`, 1 to 200 items | `201 { added, rejected }`; a missing `id` is generated | `400 invalid_body` |
 | `POST /api/triage` | optional `{ retryFailed: true }` | `200 { triaged, failed }` | `400 invalid_body` |
 | `POST /api/tickets/:id/accept` | — | `200 { ticket }` | `404 not_found`, `409 not_reviewable` |
 | `POST /api/tickets/:id/correct` | `{ category, extracted: { orderNumber?, returnReason? } }` | `200 { ticket }` | `400 invalid_body` or `invalid_category`, `404 not_found`, `409 not_reviewable` |
@@ -205,7 +228,7 @@ The run is sequential and paced by a one-minute sliding token window (`EVAL_TOKE
 
 The saved run of 10 holdout cases returned **9/10 correct categories**, with one provider-side invalid output. It also extracted an order number planted by prompt injection. All nine successful summaries were labeled Spanish by the heuristic, but one reversed who issued a refund. Language detection does not measure faithfulness.
 
-Latency: p50 0.99 s, p95 1.46 s. Usage: 3,800 input and 2,619 output tokens; no monetary cost was calculated. See the [full report and limitations](docs/evaluation.md) and [raw saved run](eval/results/holdout-2026-10-13T19-30-40.756Z.json). The holdout was not rerun or used to tune the prompt after these findings.
+Latency: p50 0.99 s, p95 1.46 s. Usage: 3,800 input and 2,619 output tokens; no monetary cost was calculated. See the [full report and limitations](docs/evaluation.md) and [raw saved run](eval/results/holdout-2026-10-13T19-30-40.756Z.json). This historical holdout was not rerun. Later prompt changes were developed on separate samples; these numbers do not confirm the current prompt. Any new confirmation needs a fresh independent sample.
 
 ### Dev results
 

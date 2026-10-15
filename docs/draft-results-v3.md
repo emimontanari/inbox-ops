@@ -7,9 +7,9 @@ A third paired diagnostic, on a fresh sample. It covers two changes:
 
 It follows the [v2 report](draft-results-v2.md). It is a diagnostic, not a benchmark: eight fictional messages, one run per version, and two blind AI-assisted reviewers.
 
-## Finding 1: most invalid outputs were one malformed key
+## Finding 1: two reproduced invalid outputs had one malformed key
 
-On [`sample-v3.json`](../eval/drafts/sample-v3.json) (frozen in `942aaac`), the v2 code produced only 3/8 drafts on the first attempt and 6/8 after one retry. Five first-attempt failures were `502 drafter_invalid_output`.
+On [`sample-v3.json`](../eval/drafts/sample-v3.json) (frozen in `942aaac`), the v2 code produced only 3/8 drafts on the first attempt and 6/8 after one retry. The first attempt had three `502 drafter_invalid_output` and two `503` failures; two retries also returned `502`.
 
 Two failing cases were reproduced directly against the provider. In both, `openai/gpt-oss-20b` wrote the key of the last sentence as `"sourceIds:"`, with the colon inside the key. Groq validates the schema server-side and rejected the whole answer with `json_validate_failed`.
 
@@ -29,11 +29,11 @@ A missing field, an unknown key or broken JSON still fails as invalid output. To
 
 Both runs with the repair were paced 6 s between drafts, like the v2 baseline. One run per version cannot give a failure rate, but no answer was rejected after the repair. The same defect probably explains part of the `502`s in the [v1](draft-results-v1.md) and v2 reports. Those runs did not keep the rejected text, so this is not confirmed.
 
-## Finding 2: v3 retrieval reaches paraphrased requests
+## Finding 2: v3 drafts cite relevant policies for paraphrased requests
 
-v3 (`2dd5b75`) searches with the customer message plus the model summary and keeps the threshold of two shared words. The baseline is v2 + repair, so the only difference between the runs is retrieval.
+v3 (`2dd5b75`) searches with the customer message plus the model summary and keeps the threshold of two shared words. Retrieval is the only intended code change versus v2 + repair, but each run generated its triage separately: the recorded triage differs in every case. The capture stores cited sources, not the full retrieved context.
 
-| Case | What it tests | Passages, baseline | Passages, v3 |
+| Case | What it tests | Cited sources, baseline | Cited sources, v3 |
 | --- | --- | --- | --- |
 | `dv3-01` | Missing charger | missing items | missing items |
 | `dv3-02` | "Vino manchada y descosida" | none | damaged products |
@@ -44,7 +44,7 @@ v3 (`2dd5b75`) searches with the customer message plus the model summary and kee
 | `dv3-07` | Approved refund not visible | refund visibility, refund timing | same |
 | `dv3-08` | Address change, "no quiero cancelarlo" | address change | address change |
 
-v3 found the right policy in both paraphrased cases. It sent nothing for either uncovered question.
+v3 cited the relevant policy in both paraphrased cases. Neither version cited a policy for the uncovered questions. An empty citation list does not establish that the model received no passages.
 
 ## Quality (blind consensus)
 
@@ -62,14 +62,16 @@ Each case's two drafts were shuffled into A/B with a fixed hash, in [`blind-v3.j
 
 Totals: v3 better 3, baseline better 2, tie 2, uncertain 1. Harmful if sent: baseline 1, v3 0.
 
-**Attribution matters here.** Retrieval differed only in `dv3-02` and `dv3-06`, and v3 won both. The other six cases sent identical passages in both runs. Their differences, including the harmful baseline answer in `dv3-03` and both baseline wins, come from run-to-run model variance, not from the code. A single run per version does not separate the two any further.
+**Attribution matters here.** The cited-source lists differed in `dv3-02` and `dv3-06`, and reviewers preferred v3 in both. Identical cited sources in the other cases do not prove identical retrieved context. Separately generated triage, retrieval changes and model variance are confounded; these captures cannot assign the improvements or regressions to one cause.
 
 ## Conclusion
 
-- The JSON repair removes the main source of failed drafts seen on this sample.
-- Searching with the summary fixes the two v2 regressions in kind: paraphrased requests reach their policy again. The threshold still kept both uncovered questions without passages.
-- Model variance is as large as the retrieval effect on the other cases. One draft can invent a policy that the next draft on the same input does not. Human review stays mandatory.
+- Both runs with the JSON repair produced 8/8 drafts, versus 3/8 on the earlier first attempt. Without a recovered-answer counter or repeated runs, the improvement cannot be attributed entirely to the repair.
+- v3 cited relevant policies for two paraphrased requests and did not cite policies for the two uncovered questions. This is promising evidence, not an isolated causal measurement of retrieval.
+- One recorded draft invented a company-invoice policy while another for the same customer message did not. Human review stays mandatory.
 
 ## Limits
 
 Eight messages, one model, one run per version, two AI-assisted reviewers and no human adjudication. The repaired-answer count is not logged, so the share of recovered drafts is unknown. This sample is now development evidence.
+
+Documentation audit correction: first-attempt status counts and causal claims above were corrected against the archived captures during portfolio preparation. No generations, reviewer verdicts or raw capture files were changed. A future controlled comparison should freeze triage and record every retrieved passage as well as cited sources.

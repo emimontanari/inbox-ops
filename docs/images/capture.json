@@ -1,0 +1,20 @@
+{
+  "schema": "inboxops-portfolio-capture/v1",
+  "sourceCommit": "47698d3bc6260f690cd9281138a80c437dbd0ce2",
+  "fixedNow": "2026-10-15T12:00:00.000Z",
+  "timezone": "UTC",
+  "scenario": "Authored fictional ticket, triage, review and reply fixtures; all API calls intercepted",
+  "providerCalls": 0,
+  "requests": [
+    "GET /api/tickets",
+    "POST /api/tickets/demo-return/draft"
+  ],
+  "pageErrors": [],
+  "mobileNoOverflow": true,
+  "screenshots": [
+    "inbox-review.png",
+    "reply-sources.png",
+    "related-request.png",
+    "mobile-review.png"
+  ]
+}
