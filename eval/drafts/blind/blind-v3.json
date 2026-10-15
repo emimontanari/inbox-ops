@@ -1,0 +1,473 @@
+{
+  "cases": [
+    {
+      "id": "dv3-01",
+      "customerMessage": "Me llegó el pedido 52604 pero falta el cargador que venía con la notebook.",
+      "expect": [
+        "Applies the missing-items policy with a citation: notice within 7 days and a photo of contents and packaging",
+        "Does not promise that the charger was or will be sent before verification"
+      ],
+      "A": {
+        "sentences": [
+          {
+            "text": "Entendemos que el pedido 52604 llegó incompleto.",
+            "sourceIds": []
+          },
+          {
+            "text": "Por favor envíenos una foto del contenido y del embalaje.",
+            "sourceIds": []
+          },
+          {
+            "text": "Cuando recibamos las imágenes, verificaremos la ausencia del cargador.",
+            "sourceIds": []
+          },
+          {
+            "text": "Si se confirma el error, le enviaremos el cargador sin que tenga que devolver el pedido.",
+            "sourceIds": [
+              "shipping-missing-items"
+            ]
+          },
+          {
+            "text": "Recuerde que debe notificar la falta dentro de los 7 días posteriores a la entrega.",
+            "sourceIds": [
+              "shipping-missing-items"
+            ]
+          },
+          {
+            "text": "Quedamos a la espera de las fotos para proceder.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": [
+          {
+            "id": "shipping-missing-items",
+            "text": "Si falta un producto, el cliente debe avisar dentro de los 7 días de la entrega e indicar el número de pedido. Pedimos una foto del contenido y del embalaje. Una vez verificado, enviamos el producto faltante sin necesidad de devolver el pedido."
+          }
+        ]
+      },
+      "B": {
+        "sentences": [
+          {
+            "text": "He recibido su mensaje sobre que el cargador de la notebook falta en el pedido 52604.",
+            "sourceIds": []
+          },
+          {
+            "text": "Para poder enviarle el cargador, por favor envíenos una foto del contenido y del embalaje dentro de los próximos 7 días.",
+            "sourceIds": [
+              "shipping-missing-items"
+            ]
+          },
+          {
+            "text": "Una vez verificado, le enviaremos el cargador sin que tenga que devolver el pedido.",
+            "sourceIds": [
+              "shipping-missing-items"
+            ]
+          }
+        ],
+        "citedPassages": [
+          {
+            "id": "shipping-missing-items",
+            "text": "Si falta un producto, el cliente debe avisar dentro de los 7 días de la entrega e indicar el número de pedido. Pedimos una foto del contenido y del embalaje. Una vez verificado, enviamos el producto faltante sin necesidad de devolver el pedido."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dv3-02",
+      "customerMessage": "La remera del pedido 52711 vino manchada y descosida.",
+      "expect": [
+        "Applies the damaged-products policy with a citation: photo within 7 days of delivery",
+        "Does not promise a refund or replacement"
+      ],
+      "A": {
+        "sentences": [
+          {
+            "text": "Entendemos que la remera del pedido 52711 llegó manchada y descosida.",
+            "sourceIds": []
+          },
+          {
+            "text": "Para iniciar la devolución, por favor envíe una foto del defecto dentro de los 7 días posteriores a la entrega.",
+            "sourceIds": [
+              "returns-damaged"
+            ]
+          },
+          {
+            "text": "Si se confirma el daño, cubriremos el costo del envío de la devolución.",
+            "sourceIds": [
+              "returns-damaged"
+            ]
+          }
+        ],
+        "citedPassages": [
+          {
+            "id": "returns-damaged",
+            "text": "Si un producto llega dañado, el cliente debe enviar una foto dentro de los 7 días de la entrega. En ese caso, la tienda cubre el costo del envío de la devolución."
+          }
+        ]
+      },
+      "B": {
+        "sentences": [
+          {
+            "text": "Entendemos su preocupación por la remera defectuosa del pedido 52711.",
+            "sourceIds": []
+          },
+          {
+            "text": "Nuestro equipo revisará su caso y le notificará los próximos pasos.",
+            "sourceIds": []
+          },
+          {
+            "text": "Le rogamos que revise su correo electrónico en las próximas 24 horas para recibir instrucciones.",
+            "sourceIds": []
+          },
+          {
+            "text": "Si necesita asistencia adicional, no dude en contactarnos.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": []
+      }
+    },
+    {
+      "id": "dv3-03",
+      "customerMessage": "¿Pueden hacer la factura a nombre de una empresa con CUIT?",
+      "expect": [
+        "Does not invent a company-invoice policy (not covered)",
+        "Says a person will review or that it has no information",
+        "Does not ask for an order number for a general question"
+      ],
+      "A": {
+        "sentences": [
+          {
+            "text": "Sí, podemos emitir la factura a nombre de su empresa.",
+            "sourceIds": []
+          },
+          {
+            "text": "Para hacerlo, necesitamos el nombre completo de la empresa y el CUIT.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": []
+      },
+      "B": {
+        "sentences": [
+          {
+            "text": "Hola,",
+            "sourceIds": []
+          },
+          {
+            "text": "Entiendo que deseas que la factura sea emitida a nombre de una empresa con CUIT.",
+            "sourceIds": []
+          },
+          {
+            "text": "Nuestro equipo revisará tu solicitud y te responderá en breve.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": []
+      }
+    },
+    {
+      "id": "dv3-04",
+      "customerMessage": "¿Los auriculares tienen garantía si dejan de funcionar al mes de uso?",
+      "expect": [
+        "Does not invent a warranty policy (not covered)",
+        "Says a person will review or that it has no information",
+        "Does not ask for an order number for a general question"
+      ],
+      "A": {
+        "sentences": [
+          {
+            "text": "Gracias por contactarnos.",
+            "sourceIds": []
+          },
+          {
+            "text": "Un miembro de nuestro equipo revisará su consulta y le responderá pronto.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": []
+      },
+      "B": {
+        "sentences": [
+          {
+            "text": "Un miembro del equipo revisará su pregunta y le responderá pronto.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": []
+      }
+    },
+    {
+      "id": "dv3-05",
+      "customerMessage": "Quiero cambiar el color de la mochila del pedido 52893: la pedí negra y la quiero azul.",
+      "expect": [
+        "States that color changes are free once per order and subject to stock, citing the exchange policy",
+        "Does not confirm the exchange or stock"
+      ],
+      "A": {
+        "sentences": [
+          {
+            "text": "Entendemos que desea cambiar el color de la mochila del pedido 52893 a azul.",
+            "sourceIds": []
+          },
+          {
+            "text": "Podemos realizar el cambio de color sin costo una vez por pedido si hay stock disponible.",
+            "sourceIds": [
+              "returns-exchange"
+            ]
+          },
+          {
+            "text": "Si el color azul no está disponible, le ofreceremos una devolución.",
+            "sourceIds": [
+              "returns-exchange"
+            ]
+          },
+          {
+            "text": "Por favor, confírmenos si desea continuar con el cambio.",
+            "sourceIds": []
+          },
+          {
+            "text": "Mientras tanto, nuestro equipo revisará la disponibilidad.",
+            "sourceIds": []
+          },
+          {
+            "text": "Si necesita más ayuda, avísenos.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": [
+          {
+            "id": "returns-exchange",
+            "text": "Los cambios de talla o color no tienen costo una vez por pedido y están sujetos a stock. Si no hay stock, ofrecemos una devolución."
+          }
+        ]
+      },
+      "B": {
+        "sentences": [
+          {
+            "text": "Entiendo que desea cambiar el color de la mochila del pedido 52893 a azul.",
+            "sourceIds": []
+          },
+          {
+            "text": "Los cambios de talla o color no tienen costo una vez por pedido y están sujetos a stock.",
+            "sourceIds": [
+              "returns-exchange"
+            ]
+          },
+          {
+            "text": "Verificaremos la disponibilidad del color azul y, en caso de que exista, procederemos con el cambio.",
+            "sourceIds": []
+          },
+          {
+            "text": "Si el color azul no estuviera disponible, le ofreceríamos una devolución.",
+            "sourceIds": [
+              "returns-exchange"
+            ]
+          }
+        ],
+        "citedPassages": [
+          {
+            "id": "returns-exchange",
+            "text": "Los cambios de talla o color no tienen costo una vez por pedido y están sujetos a stock. Si no hay stock, ofrecemos una devolución."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dv3-06",
+      "customerMessage": "El paquete del pedido 53012 está parado hace cinco días en el centro de distribución.",
+      "expect": [
+        "Applies the tracking policy with a citation: carrier inquiry and reply within 2 business days",
+        "Does not invent a delivery date"
+      ],
+      "A": {
+        "sentences": [
+          {
+            "text": "Hola, he recibido su mensaje.",
+            "sourceIds": []
+          },
+          {
+            "text": "Entiendo que su paquete está detenido en el centro de distribución.",
+            "sourceIds": []
+          },
+          {
+            "text": "Nuestro equipo revisará su caso y le dará una respuesta lo antes posible.",
+            "sourceIds": []
+          },
+          {
+            "text": "Gracias por su paciencia.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": []
+      },
+      "B": {
+        "sentences": [
+          {
+            "text": "Entendemos que su paquete está detenido.",
+            "sourceIds": []
+          },
+          {
+            "text": "Abriremos una consulta con el transportista y le responderemos en un plazo máximo de 2 días hábiles.",
+            "sourceIds": [
+              "shipping-tracking"
+            ]
+          }
+        ],
+        "citedPassages": [
+          {
+            "id": "shipping-tracking",
+            "text": "Si el seguimiento no muestra novedades durante 48 horas hábiles, abrimos una consulta con el transportista y respondemos en hasta 2 días hábiles. Si figura como entregado y el cliente no lo recibió, investigamos la entrega durante hasta 5 días hábiles antes de ofrecer un reenvío o un reembolso."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dv3-07",
+      "customerMessage": "Me aprobaron el reembolso de la devolución del pedido 53140 hace una semana, pero todavía no lo veo en la tarjeta.",
+      "expect": [
+        "Explains that an approved refund can take up to two card statements to show, citing the refund-visibility policy",
+        "Does not state that the refund was already credited"
+      ],
+      "A": {
+        "sentences": [
+          {
+            "text": "Hola,",
+            "sourceIds": []
+          },
+          {
+            "text": "El reembolso aprobado puede tardar hasta dos resúmenes de tarjeta en verse, según el banco emisor.",
+            "sourceIds": [
+              "billing-refund-visibility"
+            ]
+          },
+          {
+            "text": "El reembolso se acreditará en su medio de pago original dentro de los 10 días hábiles desde que recibimos el producto.",
+            "sourceIds": [
+              "returns-refund-timing"
+            ]
+          },
+          {
+            "text": "Le recomendamos verificar su estado de cuenta en la próxima revisión de su tarjeta.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": [
+          {
+            "id": "billing-refund-visibility",
+            "text": "Un reembolso aprobado puede tardar hasta dos resúmenes de tarjeta en verse, según el banco emisor."
+          },
+          {
+            "id": "returns-refund-timing",
+            "text": "El reembolso de una devolución se acredita en el medio de pago original dentro de los 10 días hábiles desde que recibimos el producto."
+          }
+        ]
+      },
+      "B": {
+        "sentences": [
+          {
+            "text": "Gracias por contactarnos.",
+            "sourceIds": []
+          },
+          {
+            "text": "Según nuestra política, un reembolso aprobado puede tardar hasta dos resúmenes de tarjeta en verse, según el banco emisor.",
+            "sourceIds": [
+              "billing-refund-visibility"
+            ]
+          },
+          {
+            "text": "El reembolso será acreditado en su método de pago original dentro de los 10 días hábiles desde que recibimos el producto.",
+            "sourceIds": [
+              "returns-refund-timing"
+            ]
+          },
+          {
+            "text": "Le recomendamos revisar los próximos estados de cuenta para ver si el importe aparece.",
+            "sourceIds": []
+          },
+          {
+            "text": "Si después de 10 días hábiles no ve el reembolso, póngase en contacto con nosotros.",
+            "sourceIds": []
+          },
+          {
+            "text": "Quedamos a su disposición para cualquier otra consulta.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": [
+          {
+            "id": "billing-refund-visibility",
+            "text": "Un reembolso aprobado puede tardar hasta dos resúmenes de tarjeta en verse, según el banco emisor."
+          },
+          {
+            "id": "returns-refund-timing",
+            "text": "El reembolso de una devolución se acredita en el medio de pago original dentro de los 10 días hábiles desde que recibimos el producto."
+          }
+        ]
+      }
+    },
+    {
+      "id": "dv3-08",
+      "customerMessage": "¿Ya despacharon el pedido 53277? No quiero cancelarlo, solo que lo entreguen en mi trabajo, Av. Corrientes 2100.",
+      "expect": [
+        "Explains the address-change condition (before dispatch; not guaranteed after), citing the policy",
+        "Preserves that the customer does not want to cancel",
+        "Does not confirm that the address was changed"
+      ],
+      "A": {
+        "sentences": [
+          {
+            "text": "Gracias por su mensaje.",
+            "sourceIds": []
+          },
+          {
+            "text": "No tenemos disponible en este momento el estado exacto del despacho.",
+            "sourceIds": []
+          },
+          {
+            "text": "Si el pedido todavía no ha sido despachado, podemos cambiar la dirección de entrega a Av. Corrientes 2100.",
+            "sourceIds": [
+              "shipping-address-change"
+            ]
+          },
+          {
+            "text": "Si el pedido ya fue despachado, podemos solicitar el cambio al transportista, pero no podemos garantizarlo.",
+            "sourceIds": [
+              "shipping-address-change"
+            ]
+          }
+        ],
+        "citedPassages": [
+          {
+            "id": "shipping-address-change",
+            "text": "Podemos cambiar la dirección o el lugar de entrega mientras el pedido no haya sido despachado. Si ya fue despachado, solicitamos el cambio al transportista, pero no podemos garantizarlo."
+          }
+        ]
+      },
+      "B": {
+        "sentences": [
+          {
+            "text": "Hola, entiendo su solicitud.",
+            "sourceIds": []
+          },
+          {
+            "text": "Podemos cambiar la dirección de entrega mientras el pedido no haya sido despachado. Si ya fue despachado, solicitaremos al transportista la entrega en su lugar de trabajo, aunque no podemos garantizarlo.",
+            "sourceIds": [
+              "shipping-address-change"
+            ]
+          },
+          {
+            "text": "Para confirmar el estado actual del despacho, puede consultar la sección de seguimiento en su cuenta.",
+            "sourceIds": []
+          }
+        ],
+        "citedPassages": [
+          {
+            "id": "shipping-address-change",
+            "text": "Podemos cambiar la dirección o el lugar de entrega mientras el pedido no haya sido despachado. Si ya fue despachado, solicitamos el cambio al transportista, pero no podemos garantizarlo."
+          }
+        ]
+      }
+    }
+  ]
+}

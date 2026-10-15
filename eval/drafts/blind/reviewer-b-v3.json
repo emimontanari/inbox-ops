@@ -1,0 +1,10 @@
+{"cases":[
+{"id":"dv3-01","A":{"overall":"light_edit"},"B":{"overall":"substantial_edit"},"better":"A","reason":"B reframes the 7 days as 'the next 7 days' from now; the policy counts from delivery. A states it correctly."},
+{"id":"dv3-02","A":{"overall":"light_edit"},"B":{"overall":"substantial_edit"},"better":"A","reason":"A applies the damaged-products policy with the 7-day photo; B has no policy and invents a 24-hour email promise."},
+{"id":"dv3-03","A":{"overall":"harmful_if_sent"},"B":{"overall":"light_edit"},"better":"B","reason":"A confirms a company-invoice capability no policy covers; B defers to a person."},
+{"id":"dv3-04","A":{"overall":"light_edit"},"B":{"overall":"light_edit"},"better":"tie","reason":"Both are safe human-review deferrals with no invented warranty."},
+{"id":"dv3-05","A":{"overall":"light_edit"},"B":{"overall":"light_edit"},"better":"tie","reason":"Both cite the exchange policy, conditional on stock; neither confirms the exchange."},
+{"id":"dv3-06","A":{"overall":"substantial_edit"},"B":{"overall":"light_edit"},"better":"B","reason":"B cites the tracking policy (carrier inquiry, reply within 2 business days); A is generic and cites nothing."},
+{"id":"dv3-07","A":{"overall":"light_edit"},"B":{"overall":"light_edit"},"better":"A","reason":"Similar; B adds an uncited 'contact us after 10 business days' instruction at odds with the two-statement visibility rule."},
+{"id":"dv3-08","A":{"overall":"light_edit"},"B":{"overall":"light_edit"},"better":"tie","reason":"Both explain the before-dispatch condition without confirming; A has an unverifiable status claim, B points to a tracking section no policy mentions."}
+],"notes":"Condensed record (sentence labels omitted). Uncited sentences restating policy counted as supported. Blind, AI-assisted, not ground truth."}

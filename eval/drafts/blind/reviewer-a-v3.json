@@ -1,0 +1,10 @@
+{"cases":[
+{"id":"dv3-01","A":{"overall":"light_edit"},"B":{"overall":"substantial_edit"},"better":"A","reason":"B turns 7 days from delivery into 7 days from now; A states the delivery-based window."},
+{"id":"dv3-02","A":{"overall":"light_edit"},"B":{"overall":"substantial_edit"},"better":"A","reason":"A cites photo and 7-day rule (frames it as a return, not requested); B cites nothing and promises instructions within 24 hours."},
+{"id":"dv3-03","A":{"overall":"harmful_if_sent"},"B":{"overall":"light_edit"},"better":"B","reason":"A invents and confirms a company-invoice policy; B defers to a person."},
+{"id":"dv3-04","A":{"overall":"light_edit"},"B":{"overall":"light_edit"},"better":"tie","reason":"Both safe hand-offs, no invented warranty."},
+{"id":"dv3-05","A":{"overall":"light_edit"},"B":{"overall":"light_edit"},"better":"tie","reason":"Both cite the exchange policy, conditional on stock."},
+{"id":"dv3-06","A":{"overall":"substantial_edit"},"B":{"overall":"light_edit"},"better":"B","reason":"B applies the tracking policy; A is generic."},
+{"id":"dv3-07","A":{"overall":"light_edit"},"B":{"overall":"light_edit"},"better":"A","reason":"B adds an uncited 'contact us after 10 business days' instruction; slim margin."},
+{"id":"dv3-08","A":{"overall":"light_edit"},"B":{"overall":"light_edit"},"better":"uncertain","reason":"Both correct on the dispatch condition; A has an uncited status claim, B points to a tracking section no policy mentions."}
+],"notes":"Condensed record (sentence labels omitted). Blind, AI-assisted, not ground truth."}
