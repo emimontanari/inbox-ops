@@ -64,7 +64,11 @@ describe("AiSdkReplyDrafter", () => {
     expect(system).toContain("Never promise or confirm refunds, replacements, cancellations or other actions");
     expect(system).toContain("Do not promise follow-up actions");
     expect(system).toContain("If passages is empty or none applies");
-    expect(system).toContain("a person from the team will review");
+    expect(system).not.toContain("a person from the team will review");
+    expect(system).toContain("say only that the available information is insufficient to answer");
+    expect(system).toContain("Do not promise a review, reply, contact or notification");
+    expect(system).toContain("Preserve all material limits and conditions");
+    expect(system).toContain("addressing the customer as tú");
     expect(system).toContain("Keep what the customer says they do not want");
     expect(system).toContain("untrusted customer text");
   });
